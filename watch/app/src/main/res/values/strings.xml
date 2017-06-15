@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">KeyDial</string>
+    <string name="study_name">KeyDial User Study</string>
+
+
+    <string-array name="canned_reply">
+        <item>See you soon</item>
+        <item>I\'m on my way</item>
+        <item>I\'ll be late</item>
+        <item>START</item>
+        <item>END</item>
+    </string-array>
+
+    <string-array name="commands">
+        <item>START</item>
+        <item>END</item>
+        <item>EXIT</item>
+    </string-array>
+
+</resources>

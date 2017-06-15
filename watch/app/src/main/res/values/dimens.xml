@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="keydial_alpha_button_size">27.5dp</dimen>
+    <dimen name="keydial_alpha_margin">35dp</dimen>
+
+
+    <dimen name="keydial_button_radius">25dp</dimen>
+    <dimen name="keydial_button_size">27.5dp</dimen>
+    <dimen name="keydial_button_padding">0dp</dimen>
+
+    <dimen name="keydial_modifier_button_size">30dp</dimen>
+    <dimen name="keydial_submit_button_size">40dp</dimen>
+    <dimen name="keydial_submit_button_text_size">22dp</dimen>
+
+    <dimen name="keydial_margin">29dp</dimen>
+    <dimen name="keydial_zigzag">14dp</dimen>
+
+
+    <dimen name="qwerty_button_height">33dp</dimen>
+    <dimen name="qwerty_button_width">22dp</dimen>
+    <dimen name="qwerty_button_margin">0dp</dimen>
+    <dimen name="qwerty_button_padding">0dp</dimen>
+
+    <dimen name="qwerty_control_button_height">24dp</dimen>
+    <dimen name="qwerty_control_button_width">100dp</dimen>
+    <dimen name="qwerty_control_button_padding">2dp</dimen>
+
+
+    <dimen name="swipekey_group_width">60dp</dimen>
+    <dimen name="swipekey_group_height">48dp</dimen>
+    <dimen name="swipekey_group_button_size">16dp</dimen>
+    <dimen name="swipekey_group_button_padding">0dp</dimen>
+    <dimen name="swipekey_group_button_text_size">11dp</dimen>
+
+    <dimen name="swipekey_group_margin">22dp</dimen>
+
+
+</resources>

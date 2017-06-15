@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/text"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/keydial_button_size"
+    android:gravity="left|center"
+    android:maxLines="1"
+    android:minWidth="100dp"
+    android:paddingLeft="18dp"
+    android:paddingRight="16dp"
+    android:text="@string/app_name"
+    android:textAllCaps="false"
+    android:textColor="@color/suggestion_fg" />

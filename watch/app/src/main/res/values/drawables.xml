@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <drawable name="swipekey_group_background">@drawable/qwerty_button_bg</drawable>
+    <drawable name="swipekey_button_background">@drawable/keydial_button_alt_bg</drawable>
+
+</resources>
