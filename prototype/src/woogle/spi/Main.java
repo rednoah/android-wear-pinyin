@@ -73,6 +73,7 @@ public class Main {
 
 		System.out.println("\n\n--------------- INTERACTIVE --------------------\n\n");
 
+
 		p.clear();
 		"wo'ming'tian'yao'xie'zuo'ye'le".chars().forEach(c -> p.lowerLetterAction((char) c));
 
