@@ -11,7 +11,7 @@ public class SwipeKey extends AbstractPredictiveKeyboardLayout {
 
 
     public SwipeKey(Context context) {
-        super(context, R.layout.swipekey_qwerty);
+        super(context, R.layout.keyboard_common);
 
         // use horizontal suggestion recycler
         this.suggestionView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
@@ -33,20 +33,6 @@ public class SwipeKey extends AbstractPredictiveKeyboardLayout {
     @Override
     protected int[] getButtonGroups() {
         return new int[]{
-                R.id.swipekey1,
-                R.id.swipekey2,
-                R.id.swipekey3,
-                R.id.swipekey4,
-                R.id.swipekey5,
-                R.id.swipekey6,
-                R.id.swipekey7,
-                R.id.swipekey1_2,
-                R.id.swipekey2_2,
-                R.id.swipekey3_2,
-                R.id.swipekey4_2,
-                R.id.swipekey5_2,
-                R.id.swipekey6_2,
-                R.id.swipekey7_2,
                 R.id.controls,
                 R.id.submit};
     }

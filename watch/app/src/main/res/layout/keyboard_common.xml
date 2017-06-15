@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.wearable.view.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/watch_bg"
+    android:orientation="vertical">
+
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="match_parent"
+        android:layout_height="26dp"
+        android:layout_gravity="top|center"
+        android:background="@drawable/qwerty_button_alt_bg"
+        android:gravity="center"
+        android:padding="@dimen/qwerty_button_padding"
+        android:text="⏎"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/key_fg"
+        android:textStyle="bold" />
+
+
+    <android.support.wearable.view.WearableRecyclerView
+        android:id="@+id/suggestion_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/qwerty_button_height"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="71dp" />
+
+
+    <TextView
+        android:id="@+id/text_editor"
+        android:layout_width="170dp"
+        android:layout_height="32dp"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="34dp"
+        android:background="@drawable/editor_bg"
+        android:ellipsize="start"
+        android:gravity="left|center"
+        android:singleLine="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text=""
+        android:textColor="@color/editor_fg" />
+
+
+    <TableLayout
+        android:id="@+id/keyboard_content_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="24dp">
+
+    </TableLayout>
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/qwerty_control_button_height"
+        android:layout_gravity="bottom|center">
+
+        <TableRow
+            android:id="@+id/controls"
+            android:gravity="center">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/qwerty_control_button_height"
+                android:layout_margin="@dimen/qwerty_button_margin"
+                android:background="@drawable/qwerty_button_alt_bg"
+                android:gravity="right"
+                android:paddingRight="10dp"
+                android:text="⌥"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/key_fg" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/qwerty_control_button_height"
+                android:layout_margin="@dimen/qwerty_button_margin"
+                android:background="@drawable/qwerty_button_alt_bg"
+                android:gravity="left"
+                android:paddingLeft="10dp"
+                android:text="⌨"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/key_fg" />
+
+        </TableRow>
+
+    </TableLayout>
+
+
+</android.support.wearable.view.BoxInsetLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/swipekey_group_button_size"
+    android:layout_height="@dimen/swipekey_group_button_size"
+    android:background="@drawable/swipekey_button_background"
+    android:gravity="center"
+    android:padding="@dimen/swipekey_group_button_padding"
+    android:textAlignment="center"
+    android:textAllCaps="false"
+    android:textColor="@color/key_fg"
+    android:textSize="@dimen/swipekey_group_button_text_size" />

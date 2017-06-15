@@ -11,7 +11,7 @@ public class StandardQwerty extends AbstractPredictiveKeyboardLayout {
 
 
     public StandardQwerty(Context context) {
-        super(context, R.layout.standard_qwerty);
+        super(context, R.layout.keyboard_qwerty);
 
         this.suggestionView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
     }

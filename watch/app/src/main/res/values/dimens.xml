@@ -30,6 +30,7 @@
     <dimen name="swipekey_group_width">60dp</dimen>
     <dimen name="swipekey_group_height">48dp</dimen>
     <dimen name="swipekey_group_button_size">16dp</dimen>
+    <dimen name="swipekey_group_button_wide_size">26dp</dimen>
     <dimen name="swipekey_group_button_padding">0dp</dimen>
     <dimen name="swipekey_group_button_text_size">11dp</dimen>
 
