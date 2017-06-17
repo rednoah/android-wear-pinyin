@@ -71,7 +71,6 @@ public class SwipeKeyGroup extends CircleLayout {
         float bearing = bearing(a.getX(), -a.getY(), b.getX(), -b.getY());
         float anglePerChild = DEFAULT_ANGLE_RANGE / getChildCount();
 
-        Log.d("ANGLE", String.valueOf(bearing));
 
         View child = getChildAt(Math.round(bearing / anglePerChild) % getChildCount());
         onSwipe(child);

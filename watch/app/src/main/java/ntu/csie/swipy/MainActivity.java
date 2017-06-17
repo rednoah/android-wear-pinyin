@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import static java.util.Arrays.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -61,7 +62,7 @@ public class MainActivity extends WearableActivity {
     }
 
 
-    public static final int MAX_COLUMNS = 3;
+    public static final int MAX_COLUMNS = 4;
     public static final int MAX_KEYS = 4;
 
 
@@ -69,7 +70,7 @@ public class MainActivity extends WearableActivity {
         table.removeAllViews();
 
 
-        for (List<Initial[]> groups : partition(newArrayList(PhoneticGroup.getZhuyinGroups()), MAX_COLUMNS + 1)) {
+        for (List<Initial[]> groups : partition(newArrayList(PhoneticGroup.getZhuyinGroups()), MAX_COLUMNS)) {
             TableRow row = new TableRow(table.getContext());
             row.setGravity(Gravity.CENTER);
             table.addView(row);
@@ -95,7 +96,10 @@ public class MainActivity extends WearableActivity {
     public void setFinal(ViewGroup table, Initial initial) {
         table.removeAllViews();
 
-        partition(partition(newArrayList(PhoneticGroup.getFinalGroups(initial)), MAX_KEYS), MAX_COLUMNS).forEach(groups -> {
+        Final[] finals = PhoneticGroup.getFinalGroups(initial);
+        int cols = finals.length <= 6 * 4 ? 3 : 4;
+
+        partition(partition(newArrayList(finals), MAX_KEYS), cols).forEach(groups -> {
             TableRow row = new TableRow(table.getContext());
             row.setGravity(Gravity.CENTER);
             table.addView(row);

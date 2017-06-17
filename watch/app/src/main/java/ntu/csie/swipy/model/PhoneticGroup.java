@@ -31,13 +31,120 @@ public class PhoneticGroup {
     public static Final[] getFinalGroups(Initial initial) {
         switch (initial) {
             case B:
-                return new Final[]{a, ai, an, ang, u, ei, en, eng, i, ie, in, ing, o, ian, iao, ao};
+                return new Final[]{
+                        a, ai, an, ang,
+                        u, ei, en, eng,
+                        i, ie, in, ing,
+                        o, ian, iao, ao
+                };
+
             case P:
-                return new Final[]{a, ai, an, ang, u, ei, en, eng, i, ie, in, ing, o, ian, iao, ao, null, ou};
+                return new Final[]{
+                        a, ai, an, ang,
+                        u, ei, en, eng,
+                        i, ie, in, ing,
+                        o, ian, iao, ao,
+                        null, ou, null, null
+                };
+
             case M:
-                return new Final[]{a, ai, an, ang, u, ei, en, eng, i, ie, in, ing, o, ian, iao, ao, e, ou, iu};
+                return new Final[]{
+                        a, ai, an, ang,
+                        u, ei, en, eng,
+                        i, ie, in, ing,
+                        o, ian, iao, ao,
+                        e, ou, iu, null
+                };
+
             case F:
-                return new Final[]{a, null, an, ang, u, ei, en, eng, o, ou};
+                return new Final[]{
+                        a, null, an, ang,
+                        u, ei, en, eng,
+                        o, ou, null, null
+                };
+
+            case D:
+                return new Final[]{
+                        a, ai, an, ang,
+                        u, ei, en, eng,
+                        i, ie, iu, ing,
+                        null, ian, iao, ao,
+                        e, null, ou, ong,
+                        uo, ui, un, uan
+                };
+
+            case T:
+                return new Final[]{
+                        a, ai, an, ang,
+                        u, ei, null, eng,
+                        i, ie, null, ing,
+                        null, ian, iao, ao,
+                        e, null, ou, ong,
+                        uo, ui, un, uan
+                };
+
+            case N:
+                return new Final[]{
+                        a, ai, an, ang,
+                        u, ei, en, eng,
+                        i, ie, iu, ing,
+                        in, ian, iao, ao,
+                        e, iang, ou, ong,
+                        uo, ü, üe, uan
+                };
+
+            case L:
+                return new Final[]{
+                        a, ai, an, ang,
+                        u, ei, un, eng,
+                        i, ie, iu, ing,
+                        in, ian, iao, ao,
+                        e, iang, ou, ong,
+                        uo, ü, üe, uan
+                };
+
+            case G:
+            case K:
+            case H:
+                return new Final[]{
+                        a, ai, an, ang,
+                        u, ei, en, eng,
+                        ua, uai, null, uang,
+                        null, null, null, ao,
+                        e, null, ou, ong,
+                        uo, ui, un, uan,
+                };
+
+
+            case Z:
+                return new Final[]{
+                        a, ai, an, ang,
+                        u, ei, en, eng,
+                        i, null, null, null,
+                        e, ao, ou, ong,
+                        uo, ui, un, uan,
+                };
+
+            case C:
+            case S:
+                return new Final[]{
+                        a, ai, an, ang,
+                        u, null, en, eng,
+                        i, null, null, null,
+                        e, ao, ou, ong,
+                        uo, ui, un, uan,
+                };
+
+
+            case J:
+            case Q:
+            case X:
+                return new Final[]{
+                        u, ue, un, uan,
+                        i, ie, iu, ing,
+                        in, ian, iao, ia,
+                        null, iang, iong, null,
+                };
         }
 
         Final[] finals = initial.getFinals();
