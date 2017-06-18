@@ -115,7 +115,6 @@ public class PhoneticGroup {
                         uo, ui, un, uan,
                 };
 
-
             case Z:
                 return new Final[]{
                         a, ai, an, ang,
@@ -135,7 +134,6 @@ public class PhoneticGroup {
                         uo, ui, un, uan,
                 };
 
-
             case J:
             case Q:
             case X:
@@ -145,18 +143,80 @@ public class PhoneticGroup {
                         in, ian, iao, ia,
                         null, iang, iong, null,
                 };
+
+            case ZH:
+                return new Final[]{
+                        a, ai, an, ang,
+                        u, ei, en, eng,
+                        ua, uai, null, uang,
+                        i, null, null, ao,
+                        e, null, ou, ong,
+                        uo, ui, un, uan,
+                };
+
+            case CH:
+                return new Final[]{
+                        a, ai, an, ang,
+                        u, null, en, eng,
+                        ua, uai, null, uang,
+                        i, null, null, ao,
+                        e, null, ou, ong,
+                        uo, ui, un, uan,
+                };
+
+            case SH:
+                return new Final[]{
+                        a, ai, an, ang,
+                        u, ei, en, eng,
+                        ua, uai, null, uang,
+                        i, null, null, ao,
+                        e, null, ou, null,
+                        uo, ui, un, uan,
+                };
+
+            case R:
+                return new Final[]{
+                        null, null, an, ang,
+                        u, null, en, eng,
+                        i, null, null, ao,
+                        e, null, ou, ong,
+                        uo, ui, un, uan,
+                };
+
+            case Y:
+                return new Final[]{
+                        a, ao, an, ang,
+                        u, ue, null, uan,
+                        i, null, in, ing,
+                        e, null, ou, ong,
+                };
+
+            case A:
+                return new Final[]{
+                        a, null, n, ng,
+                        i, null, o, null
+                };
+
+            case E:
+                return new Final[]{
+                        e, r, n, ng,
+                };
+
+            case O:
+                return new Final[]{
+                        u, null, o, null,
+                };
+
+            case W:
+                return new Final[]{
+                        a, ai, an, ang,
+                        u, ei, en, eng,
+                        o, null, null, null,
+                };
         }
 
-        Final[] finals = initial.getFinals();
-
-        // TODO: sort by zhuyin components???
-
-        Comparator<Final> order = comparingInt(f -> f.name().length());
-        Comparator<Final> alpha = comparing(f -> f.name());
-
-        sort(finals, alpha);
-
-        return finals;
+        // can't happen
+        throw new IllegalArgumentException("Initial: " + initial);
     }
 
 }

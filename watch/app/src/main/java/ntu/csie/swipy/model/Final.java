@@ -55,10 +55,10 @@ public enum Final {
     }
 
 
-//    @Override
-//    public String toString() {
-//        return getZhuyin();
-//    }
+    @Override
+    public String toString() {
+        return getZhuyin();
+    }
 
 
 }

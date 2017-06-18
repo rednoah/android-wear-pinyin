@@ -27,7 +27,7 @@ public enum Initial {
     ZH("ㄓ", a, e, i, ai, ei, ao, ou, an, en, ang, eng, ong, u, ua, uo, uai, ui, uan, un, uang),
     CH("ㄔ", a, e, i, ai, ao, ou, an, en, ang, eng, ong, u, ua, uo, uai, ui, uan, un, uang),
     SH("ㄕ", a, e, i, ai, ei, ao, ou, an, en, ang, eng, u, ua, uo, uai, ui, uan, un, uang),
-    R("ㄖ", e, i, ao, ou, an, en, ang, eng, ong, u, ua, uo, ui, uan, un),
+    R("ㄖ", e, i, ao, ou, an, en, ang, eng, ong, u, uo, ui, uan, un),
     J("ㄐ", i, ia, iao, ie, iu, ian, in, iang, ing, iong, u, ue, uan, un),
     Q("ㄑ", i, ia, iao, ie, iu, ian, in, iang, ing, iong, u, ue, uan, un),
     X("ㄒ", i, ia, iao, ie, iu, ian, in, iang, ing, iong, u, ue, uan, un);
@@ -55,10 +55,10 @@ public enum Initial {
     }
 
 
-//    @Override
-//    public String toString() {
-//        return getZhuyin();
-//    }
+    @Override
+    public String toString() {
+        return getZhuyin();
+    }
 
 
 }
