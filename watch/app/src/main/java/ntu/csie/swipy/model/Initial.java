@@ -8,7 +8,7 @@ public enum Initial {
     A("ㄚ", a, i, o, n, ng),
     O("ㄛ", o, u),
     E("ㄜ", e, r, n, ng),
-    Y("ㄧ", i, a, ao, e, ou, an, in, ang, ing, ong, u, ue, uan),
+    Y("ㄧ", i, a, ao, e, ou, an, in, ang, ing, ong, u, ue, uan, un),
     W("ㄨ", u, a, o, ai, ei, an, en, ang, eng),
     B("ㄅ", a, o, ai, ei, ao, an, en, ang, eng, i, iao, ie, ian, in, ing, u),
     P("ㄆ", a, o, ai, ei, ao, ou, an, en, ang, eng, i, iao, ie, ian, in, ing, u),
