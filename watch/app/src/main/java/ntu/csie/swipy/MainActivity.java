@@ -2,6 +2,9 @@ package ntu.csie.swipy;
 
 import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,18 +113,28 @@ public class MainActivity extends WearableActivity {
 
             groups.forEach(group -> {
                 ViewGroup keyGroup = (ViewGroup) getLayoutInflater().inflate(R.layout.group_swipekey, row, false);
+                // keyGroup.setLayoutParams(new TableRow.LayoutParams((int) (keyGroup.getLayoutParams().width * 1.3), keyGroup.getLayoutParams().height));
                 row.addView(keyGroup);
 
 
                 for (Object key : reorder(group.toArray())) {
                     Button keyButton = (Button) getLayoutInflater().inflate(R.layout.button_swipekey, keyGroup, false);
-                    keyButton.setLayoutParams(new SwipeKeyGroup.LayoutParams(keyButton.getLayoutParams().width * 2, keyButton.getLayoutParams().height));
+                    keyButton.setLayoutParams(new SwipeKeyGroup.LayoutParams(keyButton.getLayoutParams().width * 3, keyButton.getLayoutParams().height));
                     keyButton.setBackground(null);
                     if (key != null) {
+                        Final f = (Final) key;
+                        String label = f.getZhuyin(initial);
                         // keyButton.setText(key.toString().toLowerCase());
 
-                        Final f = (Final) key;
-                        keyButton.setText(f.getZhuyin(initial));
+
+                        if (label.startsWith("'")) {
+                            Spannable span = new SpannableString(label.substring(1));
+                            span.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.editor_highlight_fg, getTheme())), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            keyButton.setText(span);
+                        } else {
+                            keyButton.setText(label);
+                        }
+
 
                         keyButton.setTag(new Pinyin(initial, f));
                         keyButton.setOnClickListener(this::keyPressed);

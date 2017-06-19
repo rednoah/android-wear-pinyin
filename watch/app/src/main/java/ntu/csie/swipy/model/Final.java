@@ -5,42 +5,43 @@ import java.util.function.Function;
 
 import static ntu.csie.swipy.model.Initial.*;
 
+
 public enum Final {
 
 
-    a(i -> "ㄚ"),
-    o(i -> i == A ? "'ㄠ" : "ㄛ"),
-    e(i -> i == Y ? "'ㄧㄝ" : "ㄜ"),
+    a(i -> newZhuyinSyllable(i, "ㄚ", A, "'ㄚ")),
+    o(i -> newZhuyinSyllable(i, "ㄛ", O, "'ㄛ", A, "'ㄠ")),
+    e(i -> newZhuyinSyllable(i, "ㄜ", E, "'ㄜ", Y, "'ㄧㄝ")),
     r(i -> "ㄦ"),
     ai(i -> "ㄞ"),
     ei(i -> "ㄟ"),
     ao(i -> "ㄠ"),
     ou(i -> "ㄡ"),
-    n(i -> i == A ? "'ㄢ" : "ㄋ"),
-    ng(i -> i == A ? "'ㄤ" : "ㄫ"),
+    n(i -> newZhuyinSyllable(i, "ㄋ", A, "'ㄢ")),
+    ng(i -> newZhuyinSyllable(i, "ㄫ", A, "'ㄤ")),
     an(i -> "ㄢ"),
     en(i -> "ㄣ"),
     ang(i -> "ㄤ"),
     eng(i -> "ㄥ"),
-    ong(i -> i == Y ? "'ㄩㄥ" : "ㄨㄥ"),
-    i(i -> i == A ? "'ㄞ" : i == R ? "'ㄖ" : i == S ? "'ㄙ" : i == Z ? "'ㄗ" : i == C ? "'ㄘ" : i == SH ? "'ㄕ" : i == ZH ? "'ㄓ" : i == CH ? "'ㄔ" : "ㄧ"),
+    ong(i -> newZhuyinSyllable(i, "ㄨㄥ", Y, "'ㄩㄥ")),
+    i(i -> newZhuyinSyllable(i, "ㄧ", Y, "'ㄧ", A, "'ㄞ", R, "'ㄖ", S, "'ㄙ", Z, "'ㄗ", C, "'ㄘ", SH, "'ㄕ", ZH, "'ㄓ", CH, "'ㄔ")),
     ia(i -> "ㄧㄚ"),
     iao(i -> "ㄧㄠ"),
     ie(i -> "ㄧㄝ"),
     iu(i -> "ㄧㄡ"),
     ian(i -> "ㄧㄢ"),
-    in(i -> "ㄧㄣ"),
+    in(i -> newZhuyinSyllable(i, "ㄧㄣ", Y, "'ㄧㄣ")),
     iang(i -> "ㄧㄤ"),
-    ing(i -> "ㄧㄥ"),
+    ing(i -> newZhuyinSyllable(i, "ㄧㄥ", Y, "'ㄧㄥ")),
     iong(i -> "ㄩㄥ"),
-    u(i -> i == Y ? "'ㄩ" : i == J ? "'ㄐㄩ" : i == X ? "'ㄒㄩ" : i == Q ? "'ㄑㄩ" : "ㄨ"),
+    u(i -> newZhuyinSyllable(i, "ㄨ", Y, "'ㄩ", J, "ㄩ", X, "ㄩ", Q, "ㄩ")),
     ua(i -> "ㄨㄚ"),
     uo(i -> "ㄨㄛ"),
-    ue(i -> i == Y ? "'ㄩㄝ" : "ㄩㄝ"),
+    ue(i -> newZhuyinSyllable(i, "ㄩㄝ", Y, "'ㄩㄝ")),
     uai(i -> "ㄨㄞ"),
     ui(i -> "ㄨㄟ"),
-    un(i -> "ㄨㄣ"),      // yun  ... ㄩㄣ
-    uan(i -> "ㄨㄢ"),     // yuan ... ㄩㄢ
+    un(i -> newZhuyinSyllable(i, "ㄨㄣ", Y, "'ㄩㄣ", J, "ㄩㄣ", X, "ㄩㄣ", Q, "ㄩㄣ")),
+    uan(i -> newZhuyinSyllable(i, "ㄨㄢ", Y, "'ㄩㄢ", J, "ㄩㄢ", X, "ㄩㄢ", Q, "ㄩㄢ")),
     uang(i -> "ㄨㄤ"),
     ü(i -> "ㄩ"),
     üe(i -> "ㄩㄝ");
@@ -56,6 +57,16 @@ public enum Final {
 
     public String getZhuyin(Initial i) {
         return zhuyin.apply(i);
+    }
+
+
+    private static String newZhuyinSyllable(Initial i, String yin, Object... syllables) {
+        for (int n = 0; n < syllables.length; n += 2) {
+            if (i == syllables[n]) {
+                return syllables[n + 1].toString();
+            }
+        }
+        return yin;
     }
 
 
