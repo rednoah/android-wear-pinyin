@@ -1,15 +1,8 @@
 package ntu.csie.swipy.model;
 
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.stream.Stream;
-
-import static java.util.Arrays.sort;
-import static java.util.Comparator.comparing;
-import static java.util.Comparator.comparingInt;
-import static ntu.csie.swipy.model.Initial.*;
 import static ntu.csie.swipy.model.Final.*;
+import static ntu.csie.swipy.model.Initial.*;
 
 
 public class PhoneticGroup {
@@ -103,8 +96,17 @@ public class PhoneticGroup {
                         uo, ü, üe, uan
                 };
 
-            case G:
             case K:
+                return new Final[]{
+                        a, ai, an, ang,
+                        u, null, en, eng,
+                        ua, uai, null, uang,
+                        null, null, null, ao,
+                        e, null, ou, ong,
+                        uo, ui, un, uan,
+                };
+
+            case G:
             case H:
                 return new Final[]{
                         a, ai, an, ang,

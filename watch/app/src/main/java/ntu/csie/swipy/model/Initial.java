@@ -19,7 +19,7 @@ public enum Initial {
     N("ㄋ", a, e, ai, ei, ao, an, en, ang, eng, ong, i, iao, ie, iu, ian, in, iang, ing, u, uo, uan, ü, üe),
     L("ㄌ", a, e, ai, ei, ao, ou, an, ang, eng, ong, i, iao, ie, iu, ian, in, iang, ing, u, uo, uan, un, ü, üe), // ignore 倆 lia
     G("ㄍ", a, e, ai, ei, ao, ou, an, en, ang, eng, ong, u, ua, uo, uai, ui, uan, un, uang),
-    K("ㄎ", a, e, ai, ei, ao, ou, an, en, ang, eng, ong, u, ua, uo, uai, ui, uan, un, uang),
+    K("ㄎ", a, e, ai, ao, ou, an, en, ang, eng, ong, u, ua, uo, uai, ui, uan, un, uang),
     H("ㄏ", a, e, ai, ei, ao, ou, an, en, ang, eng, ong, u, ua, uo, uai, ui, uan, un, uang),
     Z("ㄗ", a, e, i, ai, ei, ao, ou, an, en, ang, eng, ong, u, uo, ui, uan, un),
     C("ㄘ", a, e, i, ai, ao, ou, an, en, ang, eng, ong, u, uo, ui, uan, un),
