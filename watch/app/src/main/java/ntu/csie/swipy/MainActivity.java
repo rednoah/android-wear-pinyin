@@ -82,8 +82,12 @@ public class MainActivity extends WearableActivity {
                 for (Object key : reorder(group)) {
                     Button keyButton = (Button) getLayoutInflater().inflate(R.layout.button_swipekey, keyGroup, false);
                     if (key != null) {
-                        keyButton.setText(key.toString().toLowerCase());
-                        keyButton.setTag(key);
+                        Initial i = (Initial) key;
+                        keyButton.setText(i.toString().toLowerCase());
+                        keyButton.setText(i.getZhuyin());
+
+                        keyButton.setTag(i);
+
                         keyButton.setOnClickListener(this::keyPressed);
                     }
                     keyGroup.addView(keyButton);
@@ -114,8 +118,12 @@ public class MainActivity extends WearableActivity {
                     keyButton.setLayoutParams(new SwipeKeyGroup.LayoutParams(keyButton.getLayoutParams().width * 2, keyButton.getLayoutParams().height));
                     keyButton.setBackground(null);
                     if (key != null) {
-                        keyButton.setText(key.toString().toLowerCase());
-                        keyButton.setTag(new Pinyin(initial, (Final) key));
+                        // keyButton.setText(key.toString().toLowerCase());
+
+                        Final f = (Final) key;
+                        keyButton.setText(f.getZhuyin(initial));
+
+                        keyButton.setTag(new Pinyin(initial, f));
                         keyButton.setOnClickListener(this::keyPressed);
                     }
                     keyGroup.addView(keyButton);
@@ -153,7 +161,9 @@ public class MainActivity extends WearableActivity {
         Object t = view.getTag();
 
         if (t instanceof Initial) {
-            appendStart(t.toString().toLowerCase());
+            // appendStart(t.toString().toLowerCase());
+            appendStart(((Initial) t).getZhuyin());
+
             setFinal(getTable(), (Initial) t);
             return;
         }

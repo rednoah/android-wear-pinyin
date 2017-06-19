@@ -89,7 +89,7 @@ public class PhoneticGroup {
                         u, ei, en, eng,
                         i, ie, iu, ing,
                         in, ian, iao, ao,
-                        e, iang, ou, ong,
+                        e, iang, null, ong,
                         uo, ü, üe, uan
                 };
 

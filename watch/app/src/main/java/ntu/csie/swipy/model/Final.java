@@ -1,63 +1,61 @@
 package ntu.csie.swipy.model;
 
 
+import java.util.function.Function;
+
+import static ntu.csie.swipy.model.Initial.*;
+
 public enum Final {
 
 
-    a("ㄚ"),
-    o("ㄛ"),
-    e("ㄜ"),
-    r("ㄦ"),
-    ai("ㄞ"),
-    ei("ㄟ"),
-    ao("ㄠ"),
-    ou("ㄡ"),
-    n("ㄋ"),        // en  ... ㄣ, an  ... ㄢ
-    ng("ㄫ"),       // eng ... ㄣ, ang ... ㄤ
-    an("ㄢ"),
-    en("ㄣ"),
-    ang("ㄤ"),
-    eng("ㄥ"),
-    ong("ㄨㄥ"),
-    i("ㄧ"),
-    ia("ㄧㄚ"),
-    iao("ㄧㄠ"),
-    ie("ㄧㄝ"),
-    iu("ㄧㄡ"),
-    ian("ㄧㄢ"),
-    in("ㄧㄣ"),
-    iang("ㄧㄤ"),
-    ing("ㄧㄥ"),
-    iong("ㄩㄥ"),
-    u("ㄨ"),
-    ua("ㄨㄚ"),
-    uo("ㄨㄛ"),
-    ue("ㄩㄝ"),
-    uai("ㄨㄞ"),
-    ui("ㄨㄟ"),
-    un("ㄨㄣ"),      // yun  ... ㄩㄣ
-    uan("ㄨㄢ"),     // yuan ... ㄩㄢ
-    uang("ㄨㄤ"),
-    ü("ㄩ"),
-    üe("ㄩㄝ");
+    a(i -> "ㄚ"),
+    o(i -> i == A ? "'ㄠ" : "ㄛ"),
+    e(i -> i == Y ? "'ㄧㄝ" : "ㄜ"),
+    r(i -> "ㄦ"),
+    ai(i -> "ㄞ"),
+    ei(i -> "ㄟ"),
+    ao(i -> "ㄠ"),
+    ou(i -> "ㄡ"),
+    n(i -> i == A ? "'ㄢ" : "ㄋ"),
+    ng(i -> i == A ? "'ㄤ" : "ㄫ"),
+    an(i -> "ㄢ"),
+    en(i -> "ㄣ"),
+    ang(i -> "ㄤ"),
+    eng(i -> "ㄥ"),
+    ong(i -> i == Y ? "'ㄩㄥ" : "ㄨㄥ"),
+    i(i -> i == A ? "'ㄞ" : i == Z ? "'ㄗ" : i == S ? "'ㄙ" : i == Z ? "'ㄗ" : i == C ? "'ㄘ" : i == SH ? "'ㄕ" : i == ZH ? "'ㄓ" : i == CH ? "'ㄔ" : "ㄧ"),
+    ia(i -> "ㄧㄚ"),
+    iao(i -> "ㄧㄠ"),
+    ie(i -> "ㄧㄝ"),
+    iu(i -> "ㄧㄡ"),
+    ian(i -> "ㄧㄢ"),
+    in(i -> "ㄧㄣ"),
+    iang(i -> "ㄧㄤ"),
+    ing(i -> "ㄧㄥ"),
+    iong(i -> "ㄩㄥ"),
+    u(i -> i == Y ? "'ㄩ" : "ㄨ"),
+    ua(i -> "ㄨㄚ"),
+    uo(i -> "ㄨㄛ"),
+    ue(i -> i == Y ? "'ㄩㄝ" : "ㄩㄝ"),
+    uai(i -> "ㄨㄞ"),
+    ui(i -> "ㄨㄟ"),
+    un(i -> "ㄨㄣ"),      // yun  ... ㄩㄣ
+    uan(i -> "ㄨㄢ"),     // yuan ... ㄩㄢ
+    uang(i -> "ㄨㄤ"),
+    ü(i -> "ㄩ"),
+    üe(i -> "ㄩㄝ");
 
 
-    private String zhuyin;
+    private Function<Initial, String> zhuyin;
 
 
-    Final(String zhuyin) {
+    Final(Function<Initial, String> zhuyin) {
         this.zhuyin = zhuyin;
     }
 
 
-    public String getZhuyin() {
-        return zhuyin;
-    }
-
-
-    @Override
-    public String toString() {
-        return getZhuyin();
+    public String getZhuyin(Initial i) {
+        return zhuyin.apply(i);
     }
 
 
