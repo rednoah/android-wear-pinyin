@@ -188,7 +188,7 @@ public class PhoneticGroup {
             case Y:
                 return new Final[]{
                         a, ao, an, ang,
-                        u, ue, null, uan,
+                        u, ue, un, uan,
                         i, null, in, ing,
                         e, null, ou, ong,
                 };
@@ -196,7 +196,7 @@ public class PhoneticGroup {
             case A:
                 return new Final[]{
                         a, null, n, ng,
-                        i, null, o, null
+                        i, null, null, o
                 };
 
             case E:
@@ -206,14 +206,14 @@ public class PhoneticGroup {
 
             case O:
                 return new Final[]{
-                        u, null, o, null,
+                        u, null, null, o,
                 };
 
             case W:
                 return new Final[]{
                         a, ai, an, ang,
                         u, ei, en, eng,
-                        o, null, null, null,
+                        null, null, null, o,
                 };
         }
 
