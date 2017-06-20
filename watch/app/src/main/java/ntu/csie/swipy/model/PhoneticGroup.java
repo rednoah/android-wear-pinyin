@@ -69,7 +69,7 @@ public class PhoneticGroup {
             case T:
                 return new Final[]{
                         a, ai, an, ang,
-                        u, ei, null, eng,
+                        u, null, null, eng,
                         i, ie, null, ing,
                         null, ian, iao, ao,
                         e, null, ou, ong,
@@ -149,7 +149,7 @@ public class PhoneticGroup {
             case ZH:
                 return new Final[]{
                         a, ai, an, ang,
-                        u, ei, en, eng,
+                        u, null, en, eng,
                         ua, uai, null, uang,
                         i, null, null, ao,
                         e, null, ou, ong,
@@ -160,7 +160,7 @@ public class PhoneticGroup {
                 return new Final[]{
                         a, ai, an, ang,
                         u, null, en, eng,
-                        ua, uai, null, uang,
+                        null, uai, null, uang,
                         i, null, null, ao,
                         e, null, ou, ong,
                         uo, ui, un, uan,
@@ -201,7 +201,7 @@ public class PhoneticGroup {
 
             case E:
                 return new Final[]{
-                        e, r, n, ng,
+                        e, r, n, null,
                 };
 
             case O:
