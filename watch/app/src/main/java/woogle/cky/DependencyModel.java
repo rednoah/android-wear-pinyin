@@ -30,7 +30,7 @@ public class DependencyModel {
 		return i == null ? 0 : i;
 	}
 
-	// 假设Path的历史已经有了得分。
+
 	public int computeSentenceScore(Path path) {
 		String curWord = path.word;
 		String preWord = null;

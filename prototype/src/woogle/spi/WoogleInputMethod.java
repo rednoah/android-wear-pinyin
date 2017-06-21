@@ -24,6 +24,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import org.mapdb.DB;
+import org.mapdb.DBMaker;
+
 import woogle.cky.DependencyModel;
 import woogle.cky.DependencyModelReader;
 import woogle.cky.Dictory;
@@ -68,16 +71,43 @@ public class WoogleInputMethod implements InputMethod {
 	static {
 		File file;
 		try {
-			file = Utils.getInstalledFile("Æ´Òô×Öµä.txt");
-			Dic.readHanziDic(file);
-			file = Utils.getInstalledFile("Æ´Òô´Êµä.txt");
-			Dic.readWordDic(file);
-			file = Utils.getInstalledFile("syllable.txt");
-			Dic.readSyllable(file);
-			file = Utils.getInstalledFile("lm.arpa");
-			Lm = LanguageModelReader.readLanguageModel(file);
-			file = Utils.getInstalledFile("SogouR.mini.txt");
-			Dm = DependencyModelReader.readDependencyModel(file);
+			// boolean readModel = true;
+			// DB db = DBMaker.newFileDB(new File("model.db")).make();
+
+			boolean readModel = false;
+			DB db = DBMaker.newFileDB(new File("model.db")).readOnly().make();
+
+			if (readModel) {
+				file = Utils.getInstalledFile("Æ´Òô×Öµä.txt");
+				Dic.readHanziDic(file, db);
+				file = Utils.getInstalledFile("Æ´Òô´Êµä.txt");
+				Dic.readWordDic(file, db);
+				file = Utils.getInstalledFile("syllable.txt");
+				Dic.readSyllable(file, db);
+			} else {
+				Dic.readHanziDic(db);
+				Dic.readWordDic(db);
+				Dic.readSyllable(db);
+			}
+
+			if (readModel) {
+				file = Utils.getInstalledFile("lm.arpa");
+				Lm = LanguageModelReader.readLanguageModel(file, db);
+			} else {
+				Lm = new LanguageModel(db);
+			}
+
+			if (readModel) {
+				file = Utils.getInstalledFile("SogouR.mini.txt");
+				Dm = DependencyModelReader.readDependencyModel(file, db);
+			} else {
+				Dm = new DependencyModel(db);
+			}
+
+			if (readModel) {
+				db.commit();
+				db.compact();
+			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

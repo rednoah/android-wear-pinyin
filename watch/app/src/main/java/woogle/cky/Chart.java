@@ -97,7 +97,7 @@ public class Chart {
 		this.CKYParse(lm, dm, dic, 1, 0);
 	}
 	
-	// ÔÚ[startRow, startColumn]ÉÏÓÐ¸Ä±ä£¬²»´¦Àí[startRow, startColumn]
+
 	public void CKYParse(LanguageModel lm, DependencyModel dm, Dictory dic, 
 			int startRow, int startColumn) {
 		// clear since table[startRow-1, startColumn]
@@ -129,7 +129,7 @@ public class Chart {
 		}
 	}
 	
-	// ÐÞ¸Ätable[i, i]Ëùº¬Æ´Òô
+	// ï¿½Þ¸ï¿½table[i, i]ï¿½ï¿½ï¿½ï¿½Æ´ï¿½ï¿½
 	public void CKYParse(String[] pinyin, 
 			LanguageModel lm, DependencyModel dm, Dictory dic) {
 		int r = this.row+1;
@@ -138,7 +138,7 @@ public class Chart {
 			this.enlarge();
 		}
 		for(int i=0; i<pinyin.length; i++) {
-			// ²»´æÔÚ¡¢²»·ûºÏ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ú¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if (table[i][i] == null 
 					|| !table[i][i].pinyin.get(0).equals(pinyin[i])) {
 				table[i][i] = new ChartCell(i, i);
@@ -153,15 +153,15 @@ public class Chart {
 		}
 		this.column = this.row = pinyin.length - 1;
 		if (r != this.row+1) {
-			// ÍùÏÂÒ»¸ö£¬ÒòÎªÐèÒªCKYParse´¦Àí(r,c)
+			// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ÒªCKYParseï¿½ï¿½ï¿½ï¿½(r,c)
 			this.CKYParse(lm, dm, dic, r+1, c);
 		}
 	}
 	
-	// ÔÚ[startRow, startColumn]ÉÏÓÐÔ¼Êø
+	// ï¿½ï¿½[startRow, startColumn]ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½
 	public void CKYParseWithSelect(LanguageModel lm, DependencyModel dm, Dictory dic, 
 			int startRow, int startColumn) {
-		// Èç¹û²»ÊÇ[0, startColumn]£¬ÖØÐÂ´¦Àí[0, startColumn]
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[0, startColumn]ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½ï¿½ï¿½[0, startColumn]
 		if (startRow != 0) {
 			table[0][startColumn] = new ChartCell(0, startColumn);
 			for(int k=0; k<=startColumn; k++) {
@@ -171,7 +171,7 @@ public class Chart {
 				union(table[0][startColumn], table[0][k], table[k+1][startColumn], lm, dm, dic);
 			}
 		}
-		// ´ÓµÚstartColumn+1ÁÐ¿ªÊ¼£¬Ã¿ÁÐ´ÓÏÂ´¦Àíµ½µÚstartColumnÐÐ
+		// ï¿½Óµï¿½startColumn+1ï¿½Ð¿ï¿½Ê¼ï¿½ï¿½Ã¿ï¿½Ð´ï¿½ï¿½Â´ï¿½ï¿½ï¿½ï¿½ï¿½startColumnï¿½ï¿½
 		// clear since table[startRow-1, startColumn]
 		for(int j=startColumn+1; j<=this.column; j++) {
 			for(int i=j; i>=startColumn; i--) {
@@ -210,7 +210,7 @@ public class Chart {
 		if (cell.row != 0)
 			return;
 		
-		// Èç¹ûÓÐÔ¼Êø£¬ÔòÖ»Ñ¡ÔñÔ¼Êø
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö»Ñ¡ï¿½ï¿½Ô¼ï¿½ï¿½
 		List<Path> pathList1 = new ArrayList<Path>();
 		if (cell1.selectedIndex != -1)
 			pathList1.add(cell1.pathList.get(cell1.selectedIndex));

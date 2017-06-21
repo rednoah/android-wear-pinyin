@@ -1,11 +1,18 @@
 package ntu.csie.swipy;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.wearable.activity.WearableActivity;
+import android.support.wearable.view.WearableRecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -15,22 +22,30 @@ import android.widget.TextView;
 
 import static java.util.Arrays.*;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.Set;
+import java.util.function.Consumer;
 
+import ntu.csie.keydial.AbstractPredictiveKeyboardLayout;
 import ntu.csie.keydial.SwipeKeyGroup;
 import ntu.csie.swipy.model.Final;
 import ntu.csie.swipy.model.Initial;
 import ntu.csie.swipy.model.PhoneticGroup;
 import ntu.csie.swipy.model.Pinyin;
+import woogle.spi.WoogleContext;
 
 import static com.google.common.collect.Lists.*;
+import static java.util.Collections.emptyList;
 import static ntu.csie.swipy.model.Punctuation.*;
 
 
 public class MainActivity extends WearableActivity {
 
+    boolean zhuyin = false;
+
+    WoogleContext woogle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +58,41 @@ public class MainActivity extends WearableActivity {
         setContentView(R.layout.keyboard_common);
 
 
+        submit();
+        getSuggestionView().setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+
+
+        // CHECK MEMORY
+        {
+            byte[] bytes = new byte[100 * 1000 * 1000];
+            Arrays.fill(bytes, (byte) 42);
+            Log.d("MEM", "B: " + bytes.length);
+        }
+
+
+        woogle = new WoogleContext(getApplicationContext());
+
+
+        Button submitButton = (Button) findViewById(R.id.submit);
+        submitButton.setOnClickListener(c -> submit());
+    }
+
+
+    public void submit() {
+        buffer = "";
+        getText().setText(buffer);
         setInitial(getTable());
+        setSuggestions(emptyList());
     }
 
 
     public ViewGroup getTable() {
         return (ViewGroup) findViewById(R.id.keyboard_content_view);
+    }
+
+
+    public WearableRecyclerView getSuggestionView() {
+        return (WearableRecyclerView) findViewById(R.id.suggestion_recycler);
     }
 
 
@@ -86,8 +130,12 @@ public class MainActivity extends WearableActivity {
                     Button keyButton = (Button) getLayoutInflater().inflate(R.layout.button_swipekey, keyGroup, false);
                     if (key != null) {
                         Initial i = (Initial) key;
-                        keyButton.setText(i.toString().toLowerCase());
                         keyButton.setText(i.getZhuyin());
+
+                        if (!zhuyin) {
+                            keyButton.setText(i.toString().toLowerCase());
+                        }
+
 
                         keyButton.setTag(i);
 
@@ -101,6 +149,8 @@ public class MainActivity extends WearableActivity {
 
 
     public void setFinal(ViewGroup table, Initial initial) {
+
+
         table.removeAllViews();
 
         Final[] finals = PhoneticGroup.getFinalGroups(initial);
@@ -124,7 +174,6 @@ public class MainActivity extends WearableActivity {
                     if (key != null) {
                         Final f = (Final) key;
                         String label = f.getZhuyin(initial);
-                        // keyButton.setText(key.toString().toLowerCase());
 
 
                         if (label.startsWith("'")) {
@@ -133,6 +182,10 @@ public class MainActivity extends WearableActivity {
                             keyButton.setText(span);
                         } else {
                             keyButton.setText(label);
+                        }
+
+                        if (!zhuyin) {
+                            keyButton.setText(key.toString().toLowerCase());
                         }
 
 
@@ -174,8 +227,11 @@ public class MainActivity extends WearableActivity {
         Object t = view.getTag();
 
         if (t instanceof Initial) {
-            // appendStart(t.toString().toLowerCase());
-            appendStart(((Initial) t).getZhuyin());
+            if (!zhuyin) {
+                appendStart(t.toString().toLowerCase());
+            } else {
+                appendStart(((Initial) t).getZhuyin());
+            }
 
             setFinal(getTable(), (Initial) t);
             return;
@@ -184,8 +240,94 @@ public class MainActivity extends WearableActivity {
         if (t instanceof Pinyin) {
             appendCommit(t.toString().toLowerCase());
             setInitial(getTable());
+
+
+            woogle.clear();
+            getText().getText().chars().forEach(c -> woogle.lowerLetterAction((char) c));
+            List<String> chars = asList(woogle.getCandString());
+
+            Log.d("WOOGLE", woogle.getCompString());
+            Log.d("WOOGLE", "" + chars);
+
+            setSuggestions(chars);
+
+
             return;
         }
+    }
+
+
+    protected int getSuggestionItemLayout() {
+        return R.layout.item_suggestion_horizontal;
+    }
+
+
+    public void setSuggestions(List<String> suggestions) {
+        // update suggestions
+        getSuggestionView().setAdapter(new SuggestionViewAdapter(getSuggestionItemLayout(), suggestions, s -> getText().setText(s), "", Color.RED));
+
+
+    }
+
+
+    public static class SuggestionViewHolder extends RecyclerView.ViewHolder {
+
+        public String value;
+        public TextView view;
+
+        public SuggestionViewHolder(View view, Consumer<String> handler) {
+            super(view);
+            this.view = (TextView) view.findViewById(R.id.text);
+
+            // enter suggestion on click
+            this.view.setOnClickListener(v -> handler.accept(this.value));
+        }
+    }
+
+
+    public static class SuggestionViewAdapter extends RecyclerView.Adapter<AbstractPredictiveKeyboardLayout.SuggestionViewHolder> {
+
+        private final List<String> suggestions;
+        private final Consumer<String> handler;
+
+        private final String lead;
+        private final int leadColor;
+
+        private final int layout;
+
+
+        public SuggestionViewAdapter(int layout, List<String> suggestions, Consumer<String> handler, String lead, int leadColor) {
+            this.layout = layout;
+            this.suggestions = suggestions;
+            this.handler = handler;
+            this.lead = lead;
+            this.leadColor = leadColor;
+        }
+
+        @Override
+        public AbstractPredictiveKeyboardLayout.SuggestionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
+            return new AbstractPredictiveKeyboardLayout.SuggestionViewHolder(view, handler);
+        }
+
+        @Override
+        public void onBindViewHolder(AbstractPredictiveKeyboardLayout.SuggestionViewHolder holder, int position) {
+            holder.value = suggestions.get(position);
+            holder.view.setText(holder.value);
+        }
+
+        protected Spanned highlightLead(String word, int to) {
+            SpannableString span = new SpannableString(word);
+            span.setSpan(new ForegroundColorSpan(leadColor), 0, to, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            return span;
+        }
+
+        @Override
+        public int getItemCount() {
+            return suggestions.size();
+        }
+
     }
 
 

@@ -25,6 +25,8 @@ public class Main {
 		Main p = new Main();
 		p.clear();
 
+		System.out.println(Runtime.getRuntime().totalMemory());
+
 		p.lowerLetterAction('b');
 		p.lowerLetterAction('e');
 		p.lowerLetterAction('i');

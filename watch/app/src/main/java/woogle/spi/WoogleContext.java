@@ -15,10 +15,10 @@ import woogle.cky.PinyinSyllable;
 
 import static java.util.Arrays.asList;
 
-public class Main {
+public class WoogleContext {
 
     public static void test(Context context) {
-        Main p = new Main(context);
+        WoogleContext p = new WoogleContext(context);
         p.clear();
 
         System.out.println(Runtime.getRuntime().totalMemory());
@@ -119,7 +119,7 @@ public class Main {
     // int currentResultIndex;
     int currentCandPage;
 
-    public Main(Context context) {
+    public WoogleContext(Context context) {
         w = new WoogleInputMethod(context);
         w.setLocale(Locale.SIMPLIFIED_CHINESE);
 
@@ -207,10 +207,10 @@ public class Main {
         int index = 5 * this.currentCandPage;
         int i = 0;
         for (i = 0; i < 5 && i + index < this.cands.size(); i++) {
-            can[i] = (i + 1) + "." + this.cands.get(i + index).getPathWords();
+            can[i] = this.cands.get(i + index).getPathWords();
         }
         for (; i < 5; i++)
-            can[i] = (i + 1) + ".  ";
+            can[i] = "";
         return can;
     }
 

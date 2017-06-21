@@ -1,19 +1,31 @@
 package woogle.cky;
 
+import java.util.NavigableSet;
 import java.util.SortedSet;
-import java.util.TreeSet;
+
+import org.mapdb.DB;
 
 @SuppressWarnings("serial")
-public class LanguageModel extends TreeSet<XGram>{
-	
-	public LanguageModel() {
-		super();
+public class LanguageModel {
+
+	private NavigableSet<XGram> set;
+
+	public LanguageModel(DB db) {
+		set = db.createTreeSet("LanguageModel").makeOrGet();
+	}
+
+	public SortedSet<XGram> tailSet(XGram gram) {
+		return set.tailSet(gram);
+	}
+
+	public void add(XGram g) {
+		set.add(g);
 	}
 
 	public XGram find(String w1, String w2, String w3) {
-//		System.out.println("find: " + w1 + " " + w2 + " " + w3);
+		// System.out.println("find: " + w1 + " " + w2 + " " + w3);
 		XGram gram = new XGram(w1, w2, w3);
-		SortedSet<XGram> s = super.tailSet(gram);
+		SortedSet<XGram> s = tailSet(gram);
 		if (!s.isEmpty()) {
 			XGram g = s.first();
 			if (g.equals(gram))
@@ -21,27 +33,26 @@ public class LanguageModel extends TreeSet<XGram>{
 		}
 		return null;
 	}
-	
-	public float queryBackoff(String w1, String w2, String w3){
+
+	public float queryBackoff(String w1, String w2, String w3) {
 		XGram gram = this.find(w1, w2, w3);
-		return (gram != null) ? gram.backoff : 0;		
+		return (gram != null) ? gram.backoff : 0;
 	}
-	
-	// p(w1, w2, w3) = 
+
+	// p(w1, w2, w3) =
 	// 1. p(w1, w2, w3)
 	// 2. b(w1, w2) + p(w2, w3)
 	//
-	// p(w2, w3) = 
+	// p(w2, w3) =
 	// 1. p(w2, w3)
 	// 2. b(w2) + p(w3)
-	public float queryProb(String w1, String w2, String w3){
+	public float queryProb(String w1, String w2, String w3) {
 		if (w1 == null && w2 == null && w3 == null)
 			return Float.NEGATIVE_INFINITY;
 		XGram gram = this.find(w1, w2, w3);
 		if (gram != null) {
 			return gram.prob;
-		}
-		else {
+		} else {
 			float backoff = this.queryBackoff(null, w1, w2);
 			if (w2 == null)
 				w3 = null;
@@ -54,6 +65,7 @@ public class LanguageModel extends TreeSet<XGram>{
 
 	/**
 	 * 只计算三元
+	 * 
 	 * @param path
 	 * @return
 	 */
@@ -62,7 +74,7 @@ public class LanguageModel extends TreeSet<XGram>{
 		String w1 = null;
 		String w2 = null;
 		String w3 = null;
-		
+
 		w3 = path.word;
 		if (path.history != null) {
 			w2 = path.history.word;
@@ -76,4 +88,5 @@ public class LanguageModel extends TreeSet<XGram>{
 			path.score = score;
 		return path.score;
 	}
+
 }

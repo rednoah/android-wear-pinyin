@@ -63,12 +63,7 @@ public class LanguageModel {
 		}
 	}
 
-	/**
-	 * 只计算三元
-	 * 
-	 * @param path
-	 * @return
-	 */
+
 	public float computeSentenceScore(Path path) {
 
 		String w1 = null;

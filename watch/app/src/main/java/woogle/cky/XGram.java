@@ -43,7 +43,7 @@ public class XGram implements Comparable<XGram>, Serializable {
 		return sb.toString();
 	}
 
-	// p( </s> | ¡£ ...) = [2gram] 0.973809 [ -0.0115263 ]
+
 	public String toProbFormString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("log10 p( ");

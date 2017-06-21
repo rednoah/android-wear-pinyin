@@ -41,7 +41,7 @@ public class ChartCell {
 		return sb.toString();
 	}
 	
-	// 增加只含有一个word的路径
+
 	public void addPath(String word, LanguageModel lm) {
 		Path path = new Path();
 		pathList.add(path);
