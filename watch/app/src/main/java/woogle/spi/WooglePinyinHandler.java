@@ -1,210 +1,154 @@
 package woogle.spi;
 
-import java.util.ArrayList;
+import java.awt.AWTEvent;
+import java.awt.Component;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Locale;
 import java.util.Stack;
 
-import woogle.cky.Chart;
-import woogle.cky.ChartCell;
-import woogle.cky.Path;
+import woogle.chart.CKYDecoder;
+import woogle.chart.Chart;
+import woogle.chart.ChartCell;
+import woogle.chart.Path;
+import woogle.cmd.Command;
+import woogle.cmd.DigitLetterCommand;
+import woogle.cmd.LowerLetterCommand;
+import woogle.cmd.UpperLetterCommand;
+import woogle.ds.PathNode;
+import woogle.util.PinyinSyllable;
+import woogle.util.Score;
+import woogle.util.WoogleDatabase;
 
 public class WooglePinyinHandler {
-	
-	boolean isFuntionDn;
-	boolean isKeyPressedConsumed;
-	
-	WoogleInputMethod w;
-	
-	StringBuffer compStr;
-	Display display;
-//	String []result;
-	List<Cand> cands;
-	Chart chart;
-//	int currentResultIndex;
-	int currentCandPage;
-	
-	WooglePinyinHandler(WoogleInputMethod w) {
-		this.w = w;
-		
-		this.isFuntionDn = false;
-		this.isKeyPressedConsumed = false;
 
-		this.compStr = new StringBuffer();
-		this.display = new Display();
-		this.chart = new Chart();
-//		this.currentResultIndex = 0;
-		this.currentCandPage = 0;
-		this.cands = new ArrayList<Cand>();
-	}
+    public boolean isShiftDn;
 
-	public void clear() {
-		this.isFuntionDn = false;
-//		this.isKeyPressedConsumed = false;
-		
-		this.compStr = new StringBuffer();
-//		this.result = null;
-		this.cands.clear();
-//		this.currentResultIndex = 0;
-		this.currentCandPage = 0;
-		this.cands.clear();
-		this.display.clearAll();
-	}
-	
-	public String getCompString() {
-		return display.toString();
-	}
-	
-	public String[] getCandString() {
-		String []can = new String[5];
-		int index = 5 * this.currentCandPage;
-		int i = 0;
-		for(i=0; i<5 && i+index<this.cands.size(); i++) {
-			can[i] = (i+1) + "." + this.cands.get(i+index).getPathWords();
-		}
-		for(; i<5; i++)
-			can[i] = (i+1) + ".  ";
-		return can;
-	}
-	
-	private void setCand() {
-		this.cands.clear();
-		this.currentCandPage = 0;
-		HashSet<String> list = new HashSet<String>();
-		ChartCell cell = this.chart.getOneBestCell();
-		if (cell != null) {
-			for(int i=0; list.size() <= 3 && i<cell.pathList.size(); i++) {
-				Path p = cell.pathList.get(i);
-				String s = p.toStringWords();
-				if (!list.contains(s)) {
-					this.cands.add(new Cand(i, cell));
-					list.add(s);
-				}
-			}
-		}
-		// ��[currentResultIndex, currentResultIndex]����
-		for(int j=this.chart.column;
-			j>=this.display.currentResultIndex; 
-			j--) 
-		{
-			cell = chart.getCell(this.display.currentResultIndex, j);
-			if (cell != null) {
-				for(int k=0; k<cell.pathList.size(); k++){
-					Path p = cell.pathList.get(k);
-					if (p.getWordsLength()==1) {
-						String s = p.toStringWords();
-						if (!list.contains(s)) {
-							this.cands.add(new Cand(k, cell));
-							list.add(s);
-						}
-					}
-				}
-			}
-		}
-	}
-	
-	class Cand {
-		int pathIndex;
-		ChartCell c;
-		
-		Cand(int pathIndex, ChartCell c) {
-			this.pathIndex = pathIndex;
-			this.c = c;
-		}
-		
-		String getPathWords() {
-			if (c != null) {
-				return c.pathList.get(this.pathIndex).toStringWords();
-			}
-			else {
-				return null;
-			}
-		}
-	}
-	
-	class Display {
-		List<String> pinyin;
-		Stack<ChartCell> result;
-		int currentResultIndex;
-		
-		Display() {
-			pinyin = new ArrayList<String>();
-			result = new Stack<ChartCell>();
-			currentResultIndex = 0;
-		}
-		
-		public void clearAll() {
-			pinyin.clear();
-			result.clear();
-			currentResultIndex = 0;
-		}
-		
-		public void clearResult() {
-			result.clear();
-			currentResultIndex = 0;
-		}
-		
-		public void pushChartCell(ChartCell c) {
-			result.push(c);
-			currentResultIndex += c.pathList.get(c.selectedIndex)
-				.toStringWords().length();
-		}
-		
-		public boolean isFinished() {
-			return (currentResultIndex == pinyin.size());
-		}
-		
-		public boolean isEmpty() {
-			return result.isEmpty();
-		}
-		
-		public ChartCell popChartCell() {
-			if (result.isEmpty()) {
-				currentResultIndex = 0;
-				return null;
-			}
-			else {
-				ChartCell c = result.pop();
-				currentResultIndex -= c.pathList.get(c.selectedIndex)
-					.toStringWords().length();
-				return c;
-			}
-		}
-		
-		public String[] getPinyin() {
-			return pinyin.toArray(new String[0]);
-		}
-		
-		@Override
-		public String toString() {
-			StringBuffer sb = new StringBuffer();
-			int pyIndex = 0;
-			for(ChartCell c: result) {
-				String word = c.pathList.get(c.selectedIndex).toStringWords();
-				pyIndex += word.length();
-				sb.append(word);
-				sb.append('\'');
-			}
-			while (pyIndex < pinyin.size()) {
-				sb.append(pinyin.get(pyIndex));
-				if (pyIndex == pinyin.size()-1)
-					sb.append('\'');
-				else
-					sb.append('\'');
-				pyIndex ++;
-			}
-			return sb.toString();
-		}
-		
-		public String toDisplayString() {
-			StringBuffer sb = new StringBuffer();
-			for(ChartCell c: result) {
-				sb.append(c.pathList.get(c.selectedIndex).toStringWords());
-			}
-			for(int i=sb.length(); i<pinyin.size(); i++) {
-				sb.append(pinyin.get(i));
-			}
-			return sb.toString();
-		}
-	}
+    public boolean consumeKeyTypedAndPressed;
+
+    public WoogleInputMethod woogleInputMethod;
+
+    public Chart chart;
+
+    public Score score;
+
+    public PinyinSyllable pinyinSyllable;
+
+    public WoogleState state;
+
+    public CKYDecoder decoder;
+
+    public Stack<Command> cmdManager;
+
+    WooglePinyinHandler(WoogleInputMethod w) {
+        this.woogleInputMethod = w;
+        this.score = new Score(WoogleDatabase.nGramLanguageModel, WoogleDatabase.dependencyLanguageModel);
+        this.pinyinSyllable = new PinyinSyllable();
+        this.state = w.state;
+        this.cmdManager = new Stack<Command>();
+        this.isShiftDn = false;
+        this.consumeKeyTypedAndPressed = false;
+        this.chart = new Chart();
+        this.decoder = new CKYDecoder(score);
+    }
+
+
+    public void keyPressed(char c) {
+        Command cmd = new LowerLetterCommand(this, c);
+        cmd.execute();
+        cmdManager.push(cmd);
+        this.consumeKeyTypedAndPressed = true;
+    }
+
+    public void downAction() {
+        if (state.isSimplefiedChinese() && !state.isInputStringEmpty()) {
+            if (!state.isLastPage())
+                state.pageDown();
+            this.consumeKeyTypedAndPressed = true;
+        }
+    }
+
+    public void upAction() {
+        if (state.isSimplefiedChinese() && !state.isInputStringEmpty()) {
+            if (!state.isFirstPage())
+                state.pageUp();
+            this.consumeKeyTypedAndPressed = true;
+        }
+    }
+
+
+    public void enterAction() {
+        if (state.isSimplefiedChinese() && !state.isInputStringEmpty()) {
+            WoogleLookupCandidate c = state.getCand(0);
+            c.c.selectedIndex = c.pathIndex;
+
+            if (state.isFirstPage())
+                state.result.clearResult();
+
+            state.result.pushChartCell(c.c);
+            woogleInputMethod.sendText(state.result.toSendText());
+            this.clear();
+            this.consumeKeyTypedAndPressed = true;
+        }
+    }
+
+    public void backspaceAction() {
+        if (state.isSimplefiedChinese() && !state.isInputStringEmpty()) {
+            Command cmd = cmdManager.pop();
+            cmd.undo();
+            this.consumeKeyTypedAndPressed = true;
+        }
+    }
+
+
+    public void clear() {
+        this.isShiftDn = false;
+        this.consumeKeyTypedAndPressed = false;
+        state.inputString = new StringBuilder();
+        state.cands.clear();
+        state.currentCandPage = 0;
+        state.result.clearAll();
+    }
+
+    public void setCand() {
+        state.cands.clear();
+        state.currentCandPage = 0;
+        HashSet<String> list = new HashSet<String>();
+        ChartCell cell = decoder.getOneBestCell(chart);
+        // System.out.println("--------------------");
+        // System.out.println(cell);
+        // System.out.println("--------------------");
+        if (cell != null) {
+            for (int i = 0; list.size() <= 3 && i < cell.sentences.size(); i++) {
+                PathNode p = cell.getPath(i);
+                String s = Path.getSentenceString(p);
+                if (!list.contains(s)) {
+                    state.cands.add(new WoogleLookupCandidate(i, cell));
+                    list.add(s);
+                }
+            }
+        }
+        int row = state.result.selectedCell.size();
+        for (int j = row; j < chart.num; j++) {
+            cell = chart.getCell(row, j);
+            if (cell == null)
+                continue;
+            for (int k = 0; k < cell.sentences.size(); k++) {
+                PathNode p = cell.getPath(k);
+                String s = Path.getSentenceString(p);
+                if (s.length() == 1 && !list.contains(s)) {
+                    state.cands.add(new WoogleLookupCandidate(k, cell));
+                    list.add(s);
+                }
+            }
+        }
+    }
+
+
+    public void sendText(String text) {
+        woogleInputMethod.sendText(text);
+    }
+
 }

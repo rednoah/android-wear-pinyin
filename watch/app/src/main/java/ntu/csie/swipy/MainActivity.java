@@ -20,12 +20,7 @@ import android.widget.Button;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import static java.util.Arrays.*;
-
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Consumer;
 
 import ntu.csie.keydial.AbstractPredictiveKeyboardLayout;
@@ -34,18 +29,21 @@ import ntu.csie.swipy.model.Final;
 import ntu.csie.swipy.model.Initial;
 import ntu.csie.swipy.model.PhoneticGroup;
 import ntu.csie.swipy.model.Pinyin;
-import woogle.spi.WoogleContext;
+import woogle.spi.WoogleInputMethod;
+import woogle.util.WoogleDatabase;
 
-import static com.google.common.collect.Lists.*;
+import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Lists.partition;
+import static java.util.Arrays.copyOf;
 import static java.util.Collections.emptyList;
-import static ntu.csie.swipy.model.Punctuation.*;
+import static ntu.csie.swipy.model.Punctuation.APOSTROPHE;
 
 
 public class MainActivity extends WearableActivity {
 
     boolean zhuyin = false;
 
-    WoogleContext woogle;
+    WoogleInputMethod woogle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,15 +60,8 @@ public class MainActivity extends WearableActivity {
         getSuggestionView().setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
 
 
-        // CHECK MEMORY
-        {
-            byte[] bytes = new byte[100 * 1000 * 1000];
-            Arrays.fill(bytes, (byte) 42);
-            Log.d("MEM", "B: " + bytes.length);
-        }
-
-
-        woogle = new WoogleContext(getApplicationContext());
+        WoogleDatabase.load(getApplicationContext());
+        woogle = new WoogleInputMethod();
 
 
         Button submitButton = (Button) findViewById(R.id.submit);
@@ -243,12 +234,11 @@ public class MainActivity extends WearableActivity {
 
 
             woogle.clear();
-            getText().getText().chars().forEach(c -> woogle.lowerLetterAction((char) c));
-            List<String> chars = asList(woogle.getCandString());
+            getText().getText().chars().forEach(c -> woogle.keyPressed((char) c));
+            List<String> chars = woogle.getCandString();
 
             Log.d("WOOGLE", woogle.getCompString());
             Log.d("WOOGLE", "" + chars);
-
             setSuggestions(chars);
 
 
