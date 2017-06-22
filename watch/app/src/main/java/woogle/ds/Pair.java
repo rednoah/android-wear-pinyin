@@ -1,6 +1,8 @@
 package woogle.ds;
 
-public class Pair<T, U> {
+import java.io.Serializable;
+
+public class Pair<T, U> implements Serializable {
     public T first;
 
     public U second;

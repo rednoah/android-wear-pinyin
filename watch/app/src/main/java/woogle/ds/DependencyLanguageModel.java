@@ -1,4 +1,6 @@
 package woogle.ds;
 
-public class DependencyLanguageModel extends NGramLanguageModel {
+import java.io.Serializable;
+
+public class DependencyLanguageModel extends NGramLanguageModel implements Serializable {
 }

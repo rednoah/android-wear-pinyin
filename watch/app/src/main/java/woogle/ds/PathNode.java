@@ -1,19 +1,21 @@
 package woogle.ds;
 
+import java.io.Serializable;
+
 import woogle.chart.Path;
 import woogle.util.Utils;
 
-public class PathNode {
+public class PathNode implements Serializable {
 
-    public Word     word;
+    public Word word;
 
     public PathNode ngramHistory;
 
     public PathNode depHistory;
 
-    public double   ngramScore;
+    public double ngramScore;
 
-    public double   depScore;
+    public double depScore;
 
     public PathNode(Word word) {
         this.word = word;
@@ -45,8 +47,7 @@ public class PathNode {
             // return tStr.equals(pStr);
             // }
             return isEqual;
-        }
-        else {
+        } else {
             return isEqual;
         }
     }

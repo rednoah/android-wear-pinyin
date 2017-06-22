@@ -1,19 +1,22 @@
 package woogle.ds;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-public class NGramLanguageModel {
-    Node                       root;
+public class NGramLanguageModel implements Serializable {
 
-    HashSet<String>            vocab;
+
+    Node root;
+
+    HashSet<String> vocab;
 
     public static final double NOT_FOUND = -1000;
 
-    private String             unk;
+    private String unk;
 
-    private double             oovProb;
+    private double oovProb;
 
     public NGramLanguageModel() {
         root = new Node();
@@ -91,10 +94,11 @@ public class NGramLanguageModel {
     // }
 }
 
-class Node {
-    double            prob;
 
-    double            back;
+class Node implements Serializable {
+    double prob;
+
+    double back;
 
     Map<String, Node> child;
 
