@@ -11,7 +11,7 @@ public class WoogleCompLabel extends JLabel{
 	
 	public WoogleCompLabel() {
 		super.setFont(WoogleLookupPanel.SERIF);
-//		super.setBorder(BorderFactory.createEtchedBorder(1));
+		super.setBorder(BorderFactory.createEtchedBorder(1));
 	}
 	
 	@Override

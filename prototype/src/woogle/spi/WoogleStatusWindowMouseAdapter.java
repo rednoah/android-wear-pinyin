@@ -22,7 +22,7 @@ public class WoogleStatusWindowMouseAdapter extends MouseAdapter {
 	
 	// 双击后让status window与应用程序底部相接……
 	private void toggleStatusWindowStyle() {
-		w.log("toggleStatusWindowStyle");
+		WoogleLog.log("toggleStatusWindowStyle");
 		synchronized (WoogleInputMethod.StatusWindow) {
 			if (WoogleInputMethod.isAttachedStatusWindow) {
 				WoogleInputMethod.isAttachedStatusWindow = false;

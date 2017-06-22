@@ -66,8 +66,8 @@ public class WoogleLookupPanel extends JPanel {
 			
 		candLabel = new WoogleLookupLabel[5];
 		for(int i=0; i<5; i++) {
-			candLabel[i] = new WoogleLookupLabel((i+1) + ".  ", w);
-			candLabel[i].setName(Integer.toString(i+1));
+			candLabel[i] = new WoogleLookupLabel(i+1, w);
+			candLabel[i].setText((i+1) + ".  ");
 			c.fill = GridBagConstraints.BOTH;
 			c.weightx = 0;
 			c.gridx = i;
@@ -77,7 +77,7 @@ public class WoogleLookupPanel extends JPanel {
 			super.add(candLabel[i], c);
 		}
 		// 吸收compLabe带来的额外空间
-		glueLabel = new WoogleLookupLabel("", w);
+		glueLabel = new WoogleLookupLabel(-1, w);
 		glueLabel.removeMouseListener(glueLabel);
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1;

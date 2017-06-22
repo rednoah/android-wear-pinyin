@@ -14,16 +14,18 @@ public class WoogleLookupLabel extends JLabel implements MouseListener{
 	public static final Color GOOGLE_BLUE = new Color(224, 236, 255);
 	
 	WoogleInputMethod w;
+	int index;
 	
-	WoogleLookupLabel(String s, WoogleInputMethod w) {
-		super(s);
-//		super.setBorder(BorderFactory.createEtchedBorder(1));
+	WoogleLookupLabel(int index, WoogleInputMethod w) {
+		super();
+		super.setBorder(BorderFactory.createEtchedBorder(1));
 		super.setFont(WoogleLookupPanel.SONGTI);
 		super.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		super.setBackground(Color.WHITE);
 		super.addMouseListener(this);
 		super.setOpaque(true);
 		this.w = w;
+		this.index = index;
 	}
 
 	@Override

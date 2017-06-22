@@ -14,6 +14,7 @@ import java.awt.font.TextHitInfo;
 import java.awt.im.spi.InputMethod;
 import java.awt.im.spi.InputMethodContext;
 import java.io.File;
+import java.io.IOException;
 import java.lang.Character.Subset;
 import java.text.AttributedString;
 import java.util.HashSet;
@@ -23,474 +24,442 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
-import org.mapdb.DB;
-import org.mapdb.DBMaker;
-
-import woogle.cky.DependencyModel;
-import woogle.cky.DependencyModelReader;
-import woogle.cky.Dictory;
-import woogle.cky.LanguageModel;
-import woogle.cky.LanguageModelReader;
-import woogle.cky.Utils;
+import woogle.util.WoogleDatabase;
+import woogle.util.WoogleUtils;
 
 public class WoogleInputMethod implements InputMethod {
 
-	static final Locale[] SUPPORTED_LOCALES = { Locale.US, Locale.SIMPLIFIED_CHINESE };
+    static final Locale[]             SUPPORTED_LOCALES          = { Locale.US,
+            Locale.SIMPLIFIED_CHINESE                           };
 
-	// windows - shared by all instances of this input method
-	static JFrame StatusWindow;
+    // windows - shared by all instances of this input method
+    static JFrame                     StatusWindow;
 
-	// current or last statusWindow owner instance
-	static WoogleInputMethod StatusWindowOwner;
+    // current or last statusWindow owner instance
+    static WoogleInputMethod          StatusWindowOwner;
 
-	// input method window titles
-	static final String STATUS_WINDOW_TITLE = "Woogle输入法状态栏";
-	static final String LOOKUP_WINDOW_TITLE = "Woogle输入法编辑栏";
-	static final String STATUS_WINDOW_ICON = "shrc_logo_16_4.GIF";
-	static final int SPACING = 2;
+    // input method window titles
+    static final String               STATUS_WINDOW_TITLE        = "Woogle输入法状态栏";
 
-	// true if Solaris style; false if PC style
-	static boolean isAttachedStatusWindow = true;
+    static final String               LOOKUP_WINDOW_TITLE        = "Woogle输入法编辑栏";
 
-	// status window location in PC style
-	static Point GlobalStatusWindowLocation;
+    static final String               STATUS_WINDOW_ICON         = "shrc_logo_16_4.GIF";
 
-	// keep live input method instances (synchronized using statusWindow)
-	static HashSet<WoogleInputMethod> WoogleInputMethodInstances = new HashSet<WoogleInputMethod>(5);
+    static final int                  SPACING                    = 2;
 
-	// status label
-	static JLabel StatusWindowLabel = null;
+    // true if Solaris style; false if PC style
+    static boolean                    isAttachedStatusWindow     = true;
 
-	static Dictory Dic = new Dictory();
+    // status window location in PC style
+    static Point                      GlobalStatusWindowLocation;
 
-	static LanguageModel Lm;
+    // keep live input method instances (synchronized using statusWindow)
+    static HashSet<WoogleInputMethod> WoogleInputMethodInstances = new HashSet<WoogleInputMethod>(
+                                                                         5);
 
-	static DependencyModel Dm;
+    // status label
+    static JLabel                     StatusWindowLabel          = null;
 
-	static {
-		File file;
-		try {
-			// boolean readModel = true;
-			// DB db = DBMaker.newFileDB(new File("model.db")).make();
+    // --------------------------------------------------------
+    // per-instance state
+    InputMethodContext                context;
 
-			boolean readModel = false;
-			DB db = DBMaker.newFileDB(new File("model.db")).readOnly().make();
+    // remember the statusWindow location per instance
+    Rectangle                         statusWindowLocation;
 
-			if (readModel) {
-				file = Utils.getInstalledFile("拼音字典.txt");
-				Dic.readHanziDic(file, db);
-				file = Utils.getInstalledFile("拼音词典.txt");
-				Dic.readWordDic(file, db);
-				file = Utils.getInstalledFile("syllable.txt");
-				Dic.readSyllable(file, db);
-			} else {
-				Dic.readHanziDic(db);
-				Dic.readWordDic(db);
-				Dic.readSyllable(db);
-			}
+    // boolean isDisposed;
 
-			if (readModel) {
-				file = Utils.getInstalledFile("lm.arpa");
-				Lm = LanguageModelReader.readLanguageModel(file, db);
-			} else {
-				Lm = new LanguageModel(db);
-			}
+    JFrame                            lookupWindow;
 
-			if (readModel) {
-				file = Utils.getInstalledFile("SogouR.mini.txt");
-				Dm = DependencyModelReader.readDependencyModel(file, db);
-			} else {
-				Dm = new DependencyModel(db);
-			}
+    WoogleLookupPanel                 lookupPanel;
 
-			if (readModel) {
-				db.commit();
-				db.compact();
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
+    WooglePinyinHandler               pinyinHandler;
 
-	// --------------------------------------------------------
-	// per-instance state
-	InputMethodContext context;
-	Locale locale;
-	boolean isActive;
+    WoogleState                       state;
 
-	// remember the statusWindow location per instance
-	Rectangle statusWindowLocation;
+    public WoogleInputMethod() {
+        WoogleLog.init();
+        if (!WoogleDatabase.isInit()) {
+            try {
+                File file1 = WoogleUtils.getInstalledFile("data/syllable.txt");
+                File file2 = WoogleUtils.getInstalledFile("data/syllable_chars.txt");
+                File file3 = WoogleUtils.getInstalledFile("data/syllable_words.txt");
+                File file4 = WoogleUtils
+                        .getInstalledFile("data/2000-2007_wordsegment.rmrb.small.arpa");
+                File file5 = WoogleUtils
+                        .getInstalledFile("data/2000-2007_wordsegment.xgram.small.arpa");
+                WoogleDatabase.load(file1, file2, file3, file4, file5);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        WoogleLog.log(this, "WoogleInputMethod");
+        this.state = new WoogleState();
+        this.pinyinHandler = new WooglePinyinHandler(this);
+    }
 
-	// boolean isDisposed;
+    @Override
+    public void activate() {
+        WoogleLog.log(this, "activate");
+        state.isActive = true;
+        synchronized (StatusWindow) {
+            StatusWindowOwner = this;
+            this.updateStatusWindow(state.locale);
+            if (!StatusWindow.isVisible()) {
+                StatusWindow.setVisible(true);
+                WoogleLog.log(this, "StatusWindow.getLocation:"
+                        + StatusWindow.getLocation());
+            }
+            this.setStatusWindowForeground(Color.black);
+        }
+        if (state.isSimplefiedChinese()) {
+            openLookupWindow();
+            updateCompAndCand();
+        }
+    }
 
-	JFrame lookupWindow;
+    @Override
+    public void deactivate(boolean arg0) {
+        WoogleLog.log(this, "deactivate");
+        closeLookupWindow();
+        setStatusWindowForeground(Color.lightGray);
+        state.isActive = false;
+    }
 
-	WoogleLookupPanel lookupPanel;
+    @Override
+    public void dispatchEvent(AWTEvent event) {
+        int id = event.getID();
+        switch (id) {
+        case KeyEvent.KEY_TYPED:
+        case KeyEvent.KEY_PRESSED:
+        case KeyEvent.KEY_RELEASED:
+        case MouseEvent.MOUSE_CLICKED:
+            this.pinyinHandler.dispatchEvent(event);
+            if (state.isActive) {
+                updateCompAndCand();
+            }
+            break;
+        }
+    }
 
-	WooglePinyinHandler pinyinHandler;
+    @Override
+    public void dispose() {
+        WoogleLog.log(this, "dispose");
+        synchronized (StatusWindow) {
+            WoogleInputMethodInstances.remove(this);
+            if (WoogleInputMethodInstances.isEmpty()) {
+                StatusWindow.dispose();
+            }
+        }
+        // this.isDisposed = true;
+    }
 
-	public WoogleInputMethod() {
-		WoogleLog.init();
-		this.log("WoogleInputMethod");
-		this.pinyinHandler = new WooglePinyinHandler(this);
-	}
+    @Override
+    public void endComposition() {
+        // TODO Auto-generated method stub
 
-	public void log(String s) {
-		WoogleLog.log(this, s);
-	}
+    }
 
-	@Override
-	public void activate() {
-		this.log("activate");
-		this.isActive = true;
-		synchronized (StatusWindow) {
-			StatusWindowOwner = this;
-			this.updateStatusWindow(locale);
-			if (!StatusWindow.isVisible()) {
-				StatusWindow.setVisible(true);
-				this.log("StatusWindow.getLocation:" + StatusWindow.getLocation());
-			}
-			this.setStatusWindowForeground(Color.black);
-		}
-		if (this.locale.equals(Locale.SIMPLIFIED_CHINESE)) {
-			openLookupWindow();
-			String comp = this.pinyinHandler.getCompString();
-			this.log("comp: " + comp);
-			this.lookupPanel.compLabel.setText(comp);
-			String[] cands = this.pinyinHandler.getCandString();
-			this.log("cands: " + cands);
-			for (int i = 0; i < 5; i++) {
-				this.lookupPanel.candLabel[i].setText(cands[i]);
-			}
-			this.updateLookupWindowLocation();
-		}
-	}
+    @Override
+    public Object getControlObject() {
+        WoogleLog.log(this, "getControlObject");
+        return null;
+    }
 
-	@Override
-	public void deactivate(boolean arg0) {
-		this.log("deactivate");
-		closeLookupWindow();
-		setStatusWindowForeground(Color.lightGray);
-		this.isActive = false;
-	}
+    @Override
+    public Locale getLocale() {
+        WoogleLog.log(this, "getLocale");
+        return state.locale;
+    }
 
-	@Override
-	public void dispatchEvent(AWTEvent event) {
-		int id = event.getID();
-		switch (id) {
-		case KeyEvent.KEY_TYPED:
-		case KeyEvent.KEY_PRESSED:
-		case KeyEvent.KEY_RELEASED:
-		case MouseEvent.MOUSE_CLICKED:
-			this.pinyinHandler.dispatchEvent(event);
-			if (this.isActive) {
-				String comp = this.pinyinHandler.getCompString();
-				this.log("comp: " + comp);
-				this.lookupPanel.compLabel.setText(comp);
-				String[] cands = this.pinyinHandler.getCandString();
-				this.log("cands: " + cands);
-				for (int i = 0; i < 5; i++) {
-					this.lookupPanel.candLabel[i].setText(cands[i]);
-				}
-				this.updateLookupWindowLocation();
-			}
-			break;
-		}
-	}
+    @Override
+    public void hideWindows() {
+        WoogleLog.log(this, "hideWindows");
+        synchronized (StatusWindow) {
+            if (StatusWindowOwner == this) {
+                StatusWindow.setVisible(false);
+            }
+        }
+        closeLookupWindow();
+    }
 
-	@Override
-	public void dispose() {
-		this.log("dispose");
-		synchronized (StatusWindow) {
-			WoogleInputMethodInstances.remove(this);
-			if (WoogleInputMethodInstances.isEmpty()) {
-				StatusWindow.dispose();
-			}
-		}
-		// this.isDisposed = true;
-	}
+    @Override
+    public boolean isCompositionEnabled() {
+        // always enabled
+        WoogleLog.log(this, "isCompositionEnabled");
+        return true;
+    }
 
-	@Override
-	public void endComposition() {
-		// TODO Auto-generated method stub
+    @Override
+    public void notifyClientWindowChange(Rectangle location) {
+        WoogleLog.log(this, "notifyClientWindowChange:" + location);
+        this.statusWindowLocation = location;
+        // synchronized (StatusWindow) {
+        // if (AttachedStatusWindow && StatusWindowOwner == this) {
+        // if (location == null) {
+        // StatusWindow.setVisible(false);
+        // }
+        // else {
+        // StatusWindow.setLocation(
+        // location.x,
+        // location.y + location.height);
+        // if (!StatusWindow.isVisible()) {
+        // if (this.active) {
+        // setStatusWindowForeground(Color.black);
+        // } else {
+        // setStatusWindowForeground(Color.lightGray);
+        // }
+        // StatusWindow.setVisible(true);
+        // }
+        // }
+        // }
+        // }
+        this.updateLookupWindowLocation();
+    }
 
-	}
+    @Override
+    public void reconvert() {
+        // not supported yet
+        WoogleLog.log(this, "reconvert");
+        // throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public Object getControlObject() {
-		this.log("getControlObject");
-		return null;
-	}
+    @Override
+    public void removeNotify() {
+        // not supported yet
+        WoogleLog.log(this, "removeNotify");
+        // throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public Locale getLocale() {
-		this.log("getLocale");
-		return this.locale;
-	}
+    @Override
+    public void setCharacterSubsets(Subset[] subsets) {
+        // igore
+        WoogleLog.log(this, "setCharacterSubsets:" + subsets);
+    }
 
-	@Override
-	public void hideWindows() {
-		this.log("hideWindows");
-		synchronized (StatusWindow) {
-			if (StatusWindowOwner == this) {
-				StatusWindow.setVisible(false);
-			}
-		}
-		closeLookupWindow();
-	}
+    @Override
+    public void setCompositionEnabled(boolean enable) {
+        // not supported yet
+        WoogleLog.log(this, "setCompositionEnabled:" + enable);
+        // throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public boolean isCompositionEnabled() {
-		// always enabled
-		this.log("isCompositionEnabled");
-		return true;
-	}
+    @Override
+    public void setInputMethodContext(InputMethodContext context) {
+        WoogleLog.log(this, "setInputMethodContext:" + context);
+        this.context = context;
 
-	@Override
-	public void notifyClientWindowChange(Rectangle location) {
-		this.log("notifyClientWindowChange:" + location);
-		this.statusWindowLocation = location;
-		// synchronized (StatusWindow) {
-		// if (AttachedStatusWindow && StatusWindowOwner == this) {
-		// if (location == null) {
-		// StatusWindow.setVisible(false);
-		// }
-		// else {
-		// StatusWindow.setLocation(
-		// location.x,
-		// location.y + location.height);
-		// if (!StatusWindow.isVisible()) {
-		// if (this.active) {
-		// setStatusWindowForeground(Color.black);
-		// } else {
-		// setStatusWindowForeground(Color.lightGray);
-		// }
-		// StatusWindow.setVisible(true);
-		// }
-		// }
-		// }
-		// }
-		this.updateLookupWindowLocation();
-	}
+        // create status window, shared by all instance
+        if (StatusWindow == null) {
+            synchronized (this.getClass()) {
+                if (StatusWindow == null) {
+                    StatusWindow = context.createInputMethodJFrame(
+                            STATUS_WINDOW_TITLE, false);
+                    StatusWindow.setResizable(false);
+                    // StatusWindow.setUndecorated(true);
+                    StatusWindow
+                            .addComponentListener(new WoogleStatusWindowComponentAdapter(
+                                    this));
+                    StatusWindow.setLayout(new FlowLayout());
+                    String localeName = state.getLocaleName();
+                    StatusWindowLabel = new JLabel("当前语言: " + localeName);
+                    StatusWindowLabel.setOpaque(true);
+                    StatusWindowLabel.setForeground(Color.black);
+                    StatusWindowLabel.setBackground(Color.white);
+                    StatusWindowLabel
+                            .addMouseListener(new WoogleStatusWindowMouseAdapter(
+                                    this));
+                    StatusWindowLabel.setBorder(BorderFactory
+                            .createEtchedBorder());
+                    StatusWindow.add(StatusWindowLabel);
+                    StatusWindowOwner = this;
+                    updateStatusWindow(state.locale);
 
-	@Override
-	public void reconvert() {
-		// not supported yet
-		this.log("reconvert");
-		// throw new UnsupportedOperationException();
-	}
+                    // add icon
+                    JLabel label = this.createLabel(STATUS_WINDOW_ICON, "SHRC");
+                    StatusWindow.add(label, 0);
 
-	@Override
-	public void removeNotify() {
-		// not supported yet
-		this.log("removeNotify");
-		// throw new UnsupportedOperationException();
-	}
+                    StatusWindow.pack();
+                    StatusWindow.setVisible(true);
+                    WoogleLog.log(this, "CreateStatusWindow");
+                    WoogleLog.log(this, "StatusWindow.getLocation:"
+                            + StatusWindow.getLocation());
+                }
+            }
+        }
+        context.enableClientWindowNotification(this, isAttachedStatusWindow);
+        synchronized (StatusWindow) {
+            WoogleInputMethodInstances.add(this);
+        }
+    }
 
-	@Override
-	public void setCharacterSubsets(Subset[] subsets) {
-		// igore
-		this.log("setCharacterSubsets:" + subsets);
-	}
+    @Override
+    public boolean setLocale(Locale locale) {
+        for (Locale l : SUPPORTED_LOCALES) {
+            if (locale.equals(l)) {
+                WoogleLog.log(this, "setLocale: " + locale);
+                if (StatusWindow != null) {
+                    updateStatusWindow(locale);
+                }
+                state.locale = locale;
+                return true;
+            }
+        }
+        return false;
+    }
 
-	@Override
-	public void setCompositionEnabled(boolean enable) {
-		// not supported yet
-		this.log("setCompositionEnabled:" + enable);
-		// throw new UnsupportedOperationException();
-	}
+    private void updateStatusWindow(Locale locale) {
+        WoogleLog.log(this, "updateStatusWindow:" + locale);
+        synchronized (StatusWindow) {
+            String localeName = state.getLocaleName();
+            String text = "当前语言: " + localeName;
+            if (!StatusWindowLabel.getText().equals(text)) {
+                StatusWindowLabel.setText(text);
+                StatusWindow.pack();
+            }
+            setPCStyleStatusWindow();
+        }
+    }
 
-	@Override
-	public void setInputMethodContext(InputMethodContext context) {
-		this.log("setInputMethodContext:" + context);
-		this.context = context;
+    // 是否应静态方法
+    public void setPCStyleStatusWindow() {
+        WoogleLog.log(this, "setPCStyleStatusWindow");
+        synchronized (StatusWindow) {
+            if (GlobalStatusWindowLocation == null) {
+                Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+                GlobalStatusWindowLocation = new Point(d.width
+                        - StatusWindow.getPreferredSize().width - 100, d.height
+                        - StatusWindow.getPreferredSize().height - 100);
+            }
+            StatusWindow.setLocation(GlobalStatusWindowLocation.x,
+                    GlobalStatusWindowLocation.y);
+            WoogleLog.log(this, "StatusWindow.getLocation"
+                    + StatusWindow.getLocation());
+        }
+    }
 
-		// create status window, shared by all instance
-		if (StatusWindow == null) {
-			synchronized (this.getClass()) {
-				if (StatusWindow == null) {
-					StatusWindow = context.createInputMethodJFrame(STATUS_WINDOW_TITLE, false);
-					StatusWindow.setResizable(false);
-					// StatusWindow.setUndecorated(true);
-					StatusWindow.addComponentListener(new WoogleStatusWindowComponentAdapter(this));
-					StatusWindow.setLayout(new FlowLayout());
-					String localeName = locale == null ? "无" : locale.getDisplayName();
-					StatusWindowLabel = new JLabel("当前语言: " + localeName);
-					StatusWindowLabel.setOpaque(true);
-					StatusWindowLabel.setForeground(Color.black);
-					StatusWindowLabel.setBackground(Color.white);
-					StatusWindowLabel.addMouseListener(new WoogleStatusWindowMouseAdapter(this));
-					StatusWindowLabel.setBorder(BorderFactory.createEtchedBorder());
-					StatusWindow.add(StatusWindowLabel);
-					StatusWindowOwner = this;
-					updateStatusWindow(this.locale);
+    // 是否应静态方法
+    private void setStatusWindowForeground(Color fg) {
+        WoogleLog.log(this, "setStatusWindowForeground:" + fg);
+        synchronized (StatusWindow) {
+            if (StatusWindowOwner != this) {
+                return;
+            }
+            StatusWindowLabel.setForeground(fg);
+        }
+    }
 
-					// add icon
-					JLabel label = this.createLabel(STATUS_WINDOW_ICON, "SHRC");
-					StatusWindow.add(label, 0);
+    private void closeLookupWindow() {
+        if (lookupWindow != null) {
+            lookupWindow.setVisible(false);
+            lookupWindow = null;
+        }
+    }
 
-					StatusWindow.pack();
-					StatusWindow.setVisible(true);
-					this.log("CreateStatusWindow");
-					this.log("StatusWindow.getLocation:" + StatusWindow.getLocation());
-				}
-			}
-		}
-		context.enableClientWindowNotification(this, isAttachedStatusWindow);
-		synchronized (StatusWindow) {
-			WoogleInputMethodInstances.add(this);
-		}
-	}
+    private void openLookupWindow() {
+        if (lookupWindow == null) {
+            lookupWindow = this.context.createInputMethodJFrame(
+                    LOOKUP_WINDOW_TITLE, true);
+            lookupWindow.setResizable(false);
+            // lookupWindow.setUndecorated(true);
+            lookupPanel = new WoogleLookupPanel(this);
+            lookupWindow.add(lookupPanel);
+            lookupWindow.pack();
+            this.updateLookupWindowLocation();
+            WoogleLog.log(this, "openLookupWindow");
+        }
+        // 实现getSelectedSegmentOffset后重新考虑
+        Point p = lookupWindow.getLocation();
+        if (p.x != 0 && p.y != 0)
+            lookupWindow.setVisible(true);
+        else
+            closeLookupWindow();
+    }
 
-	@Override
-	public boolean setLocale(Locale locale) {
-		for (int i = 0; i < SUPPORTED_LOCALES.length; i++) {
-			if (locale.equals(SUPPORTED_LOCALES[i])) {
-				this.locale = locale;
-				this.log("setLocale: " + locale);
-				if (StatusWindow != null) {
-					updateStatusWindow(locale);
-				}
-				return true;
-			}
-		}
-		return false;
-	}
+    private ImageIcon createIcon(String path, String description) {
+        java.net.URL imgURL = getClass().getResource(path);
+        WoogleLog.log(this, "createButton:" + imgURL.getPath());
+        ImageIcon img = new ImageIcon(imgURL, description);
+        return img;
+    }
 
-	private void updateStatusWindow(Locale locale) {
-		this.log("updateStatusWindow:" + locale);
-		synchronized (StatusWindow) {
-			String localeName = locale == null ? "无" : locale.getDisplayName();
-			String text = "当前语言: " + localeName;
-			if (!StatusWindowLabel.getText().equals(text)) {
-				StatusWindowLabel.setText(text);
-				StatusWindow.pack();
-			}
-			// if (AttachedStatusWindow) {
-			// if (clientWindowLocation != null) {
-			// StatusWindow.setLocation(
-			// clientWindowLocation.x,
-			// clientWindowLocation.y + clientWindowLocation.height);
-			// this.log("StatusWindow.setLocation:" + StatusWindow.getLocation());
-			// }
-			// } else {
-			setPCStyleStatusWindow();
-			// }
-		}
-	}
+    private JLabel createLabel(String path, String description) {
+        ImageIcon img = this.createIcon(path, description);
+        if (img != null) {
+            JLabel l = new JLabel(img);
+            l.setToolTipText(description);
+            return l;
+        }
+        else {
+            return new JLabel(description);
+        }
+    }
 
-	// 是否应静态方法
-	public void setPCStyleStatusWindow() {
-		this.log("setPCStyleStatusWindow");
-		synchronized (StatusWindow) {
-			if (GlobalStatusWindowLocation == null) {
-				Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-				GlobalStatusWindowLocation = new Point(d.width - StatusWindow.getPreferredSize().width - 100, d.height - StatusWindow.getPreferredSize().height - 100);
-			}
-			StatusWindow.setLocation(GlobalStatusWindowLocation.x, GlobalStatusWindowLocation.y);
-			this.log("StatusWindow.getLocation" + StatusWindow.getLocation());
-		}
-	}
+    private void updateLookupWindowLocation() {
+        WoogleLog.log(this, "updateLookupWindowLocation");
+        if (this.context == null || this.lookupWindow == null)
+            return;
+        int textOffset = this.getSelectedSegmentOffset();
+        Rectangle caretRect = this.context.getTextLocation(TextHitInfo
+                .leading(textOffset));
+        WoogleLog.log(this, "caretRect:" + caretRect);
 
-	// 是否应静态方法
-	private void setStatusWindowForeground(Color fg) {
-		this.log("setStatusWindowForeground:" + fg);
-		synchronized (StatusWindow) {
-			if (StatusWindowOwner != this) {
-				return;
-			}
-			StatusWindowLabel.setForeground(fg);
-		}
-	}
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension windowSize = lookupWindow.getPreferredSize();
+        WoogleLog.log(this, "windowSize:" + windowSize);
 
-	private void closeLookupWindow() {
-		if (lookupWindow != null) {
-			lookupWindow.setVisible(false);
-			lookupWindow = null;
-		}
-	}
+        Point windowLocation = new Point();
+        if (caretRect.x + windowSize.width > screenSize.width) {
+            windowLocation.x = screenSize.width - windowSize.width;
+        }
+        else {
+            windowLocation.x = caretRect.x;
+        }
 
-	private void openLookupWindow() {
-		if (lookupWindow == null) {
-			lookupWindow = this.context.createInputMethodJFrame(LOOKUP_WINDOW_TITLE, true);
-			lookupWindow.setResizable(false);
-			// lookupWindow.setUndecorated(true);
-			lookupPanel = new WoogleLookupPanel(this);
-			lookupWindow.add(lookupPanel);
-			lookupWindow.pack();
-			this.updateLookupWindowLocation();
-			this.log("openLookupWindow");
-		}
-		// 实现getSelectedSegmentOffset后重新考虑
-		Point p = lookupWindow.getLocation();
-		if (p.x != 0 && p.y != 0)
-			lookupWindow.setVisible(true);
-		else
-			closeLookupWindow();
-	}
+        if (caretRect.y + caretRect.height + SPACING + windowSize.height > screenSize.height) {
+            windowLocation.y = caretRect.y - SPACING - windowSize.height;
+        }
+        else {
+            windowLocation.y = caretRect.y + caretRect.height + SPACING;
+        }
 
-	private ImageIcon createIcon(String path, String description) {
-		java.net.URL imgURL = getClass().getResource(path);
-		this.log("createButton:" + imgURL.getPath());
-		ImageIcon img = new ImageIcon(imgURL, description);
-		return img;
-	}
+        WoogleLog.log(this, "lookupWindow.getLocation:" + lookupWindow.getLocation());
+        this.lookupWindow.setLocation(windowLocation);
+        this.lookupWindow.pack();
+    }
 
-	private JLabel createLabel(String path, String description) {
-		ImageIcon img = this.createIcon(path, description);
-		if (img != null) {
-			JLabel l = new JLabel(img);
-			l.setToolTipText(description);
-			return l;
-		} else {
-			return new JLabel(description);
-		}
-	}
+    int getSelectedSegmentOffset() {
+        return 0;
+    }
 
-	private void updateLookupWindowLocation() {
-		this.log("updateLookupWindowLocation");
-		if (this.context == null || this.lookupWindow == null)
-			return;
-		int textOffset = this.getSelectedSegmentOffset();
-		Rectangle caretRect = this.context.getTextLocation(TextHitInfo.leading(textOffset));
-		this.log("caretRect:" + caretRect);
+    // void update() {
+    // String s = pinyinHandler.display.toDisplayString();
+    // sendText(s);
+    // }
 
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		Dimension windowSize = lookupWindow.getPreferredSize();
-		this.log("windowSize:" + windowSize);
+    public void sendText(String s) {
+        WoogleLog.log(this, "send:" + s);
+        TextHitInfo caret = null;
+        int count = s.length();
+        context.dispatchInputMethodEvent(
+                InputMethodEvent.INPUT_METHOD_TEXT_CHANGED,
+                new AttributedString(s).getIterator(), count, caret, null);
+    }
 
-		Point windowLocation = new Point();
-		if (caretRect.x + windowSize.width > screenSize.width) {
-			windowLocation.x = screenSize.width - windowSize.width;
-		} else {
-			windowLocation.x = caretRect.x;
-		}
+    void updateCompAndCand() {
+        String comp = state.result.toCompString();
+        WoogleLog.log(this, "comp: " + comp);
+        this.lookupPanel.compLabel.setText(comp);
 
-		if (caretRect.y + caretRect.height + SPACING + windowSize.height > screenSize.height) {
-			windowLocation.y = caretRect.y - SPACING - windowSize.height;
-		} else {
-			windowLocation.y = caretRect.y + caretRect.height + SPACING;
-		}
+        String[] cands = state.getCandString(5);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 5; i++) {
+            this.lookupPanel.candLabel[i].setText(cands[i]);
+            sb.append(cands[i] + ", ");
+        }
+        WoogleLog.log(this, "cands: " + sb);
 
-		this.log("lookupWindow.getLocation:" + lookupWindow.getLocation());
-		this.lookupWindow.setLocation(windowLocation);
-		this.lookupWindow.pack();
-	}
-
-	int getSelectedSegmentOffset() {
-		return 0;
-	}
-
-	void sendText(String s) {
-		// this.log("send:" + s);
-		// TextHitInfo caret = null;
-		// int count = s.length();
-		// context.dispatchInputMethodEvent(InputMethodEvent.INPUT_METHOD_TEXT_CHANGED, new AttributedString(s).getIterator(), count, caret, null);
-	}
-
-	void sendChar(char c) {
-		String s = Character.toString(c);
-		this.sendText(s);
-	}
+        this.updateLookupWindowLocation();
+    }
 }

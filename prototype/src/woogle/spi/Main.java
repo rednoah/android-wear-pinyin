@@ -14,10 +14,7 @@ import java.util.Locale;
 import java.util.Stack;
 import java.util.stream.IntStream;
 
-import woogle.cky.Chart;
-import woogle.cky.ChartCell;
-import woogle.cky.Path;
-import woogle.cky.PinyinSyllable;
+import woogle.chart.Chart;
 
 public class Main {
 
@@ -74,7 +71,6 @@ public class Main {
 		System.out.println(asList(p.getCandString()));
 
 		System.out.println("\n\n--------------- INTERACTIVE --------------------\n\n");
-
 
 		p.clear();
 		"wo'ming'tian'yao'xie'zuo'ye'le".chars().forEach(c -> p.lowerLetterAction((char) c));
@@ -153,7 +149,7 @@ public class Main {
 					int i = Integer.parseInt(name);
 					this.digitAction(me, i);
 				} catch (NumberFormatException e) {
-					w.log(e.getMessage());
+					e.printStackTrace();
 				}
 			} else if (component instanceof WoogleLookupSearchButton) {
 				name = component.getName();
@@ -280,7 +276,7 @@ public class Main {
 		}
 	}
 
-	// ´¦Àí¼üÅÌºÍÊó±ê²Ù×÷£¬¸ø¶¨digit£¬e¿ÉÒÔÎªnull
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½digitï¿½ï¿½eï¿½ï¿½ï¿½ï¿½Îªnull
 	public void digitAction(InputEvent e, int digit) {
 		if (w.getLocale().equals(Locale.SIMPLIFIED_CHINESE) && this.compStr.length() != 0) {
 			if (1 <= digit && digit <= 5) {
@@ -455,7 +451,7 @@ public class Main {
 				}
 			}
 		}
-		// ´Ó[currentResultIndex, currentResultIndex]ºáÏò
+		// ï¿½ï¿½[currentResultIndex, currentResultIndex]ï¿½ï¿½ï¿½ï¿½
 		for (int j = this.chart.column; j >= this.display.currentResultIndex; j--) {
 			cell = chart.getCell(this.display.currentResultIndex, j);
 			if (cell != null) {
