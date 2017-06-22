@@ -1,7 +1,6 @@
 package woogle.ds.reader;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.regex.Pattern;
@@ -16,7 +15,6 @@ public class DependencyLanguageModelReader {
 	public static void load(File file, DependencyLanguageModel lm) {
 		HashMap<String, Integer> dm = new LinkedHashMap<>();
 		MyFileReader reader = MyFileFactory.getFileReader(file);
-		double minUniScore = 0;
 
 		while (reader.hasNext()) {
 			String line = reader.nextLine().trim();
@@ -42,7 +40,7 @@ public class DependencyLanguageModelReader {
 		}
 		reader.close();
 
-		lm.setOOVProb(minUniScore - 0.1);
+		lm.setOOVProb(-100);
 		reader.close();
 	}
 
