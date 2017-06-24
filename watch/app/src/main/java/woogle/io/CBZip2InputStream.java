@@ -57,7 +57,7 @@
  * <keiron@aftexsw.com> to whom the Ant project is very grateful for his
  * great code.
  */
-package pengyifan.io;
+package woogle.io;
 
 import java.io.InputStream;
 import java.io.IOException;

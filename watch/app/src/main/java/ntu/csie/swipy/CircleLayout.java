@@ -1,5 +1,5 @@
 
-package ntu.csie.keydial;
+package ntu.csie.swipy;
 
 import android.content.Context;
 import android.content.res.TypedArray;

@@ -15,10 +15,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import pengyifan.io.MyFileReader;
+import woogle.io.MyFileReader;
 import woogle.ds.DependencyLanguageModel;
 import woogle.ds.NGramLanguageModel;
 import woogle.ds.Pair;

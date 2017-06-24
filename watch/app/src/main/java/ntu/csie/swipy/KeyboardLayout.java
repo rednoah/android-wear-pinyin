@@ -1,9 +1,7 @@
-package ntu.csie.keydial;
+package ntu.csie.swipy;
 
 
 import android.content.Context;
-
-import ntu.csie.swipy.R;
 
 public enum KeyboardLayout {
 

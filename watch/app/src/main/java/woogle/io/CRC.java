@@ -58,7 +58,7 @@
  * great code.
  */
 
-package pengyifan.io;
+package woogle.io;
 
 /**
  * A simple class the hold and calculate the CRC for sanity checking

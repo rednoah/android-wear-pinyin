@@ -1,4 +1,4 @@
-package ntu.csie.keydial;
+package ntu.csie.swipy;
 
 
 public enum InputType {

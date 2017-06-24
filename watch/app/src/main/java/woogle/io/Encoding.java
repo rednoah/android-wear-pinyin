@@ -1,4 +1,4 @@
-package pengyifan.io;
+package woogle.io;
 
 public enum Encoding {
     GBK(0), UTF8(1);

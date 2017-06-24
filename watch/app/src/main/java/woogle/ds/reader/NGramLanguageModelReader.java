@@ -4,8 +4,8 @@ import android.util.Log;
 
 import java.io.File;
 
-import pengyifan.io.MyFileFactory;
-import pengyifan.io.MyFileReader;
+import woogle.io.MyFileFactory;
+import woogle.io.MyFileReader;
 import woogle.ds.NGramLanguageModel;
 
 public class NGramLanguageModelReader {

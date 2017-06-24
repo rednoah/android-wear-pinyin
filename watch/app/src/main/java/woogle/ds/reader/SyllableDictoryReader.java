@@ -2,8 +2,8 @@ package woogle.ds.reader;
 
 import java.io.File;
 
-import pengyifan.io.MyFileFactory;
-import pengyifan.io.MyFileReader;
+import woogle.io.MyFileFactory;
+import woogle.io.MyFileReader;
 import woogle.ds.SyllableDictory;
 
 public class SyllableDictoryReader {

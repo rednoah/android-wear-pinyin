@@ -1,4 +1,4 @@
-package pengyifan.io;
+package woogle.io;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -7,14 +7,16 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
-public class MyBZ2FileBuilder implements MyFileBuilder {
+public class MyGZFileBuilder implements MyFileBuilder {
 
     @Override
     public BufferedReader getReader(File file, Encoding encoding) {
         try {
             return new BufferedReader(new InputStreamReader(
-                    new CBZip2InputStream(new FileInputStream(file)), encoding
+                    new GZIPInputStream(new FileInputStream(file)), encoding
                             .toString()));
 
         }
@@ -29,8 +31,8 @@ public class MyBZ2FileBuilder implements MyFileBuilder {
     public BufferedWriter getWriter(File file, Encoding encoding) {
         try {
             return new BufferedWriter(new OutputStreamWriter(
-                    new CBZip2OutputStream(new FileOutputStream(file)),
-                    encoding.toString()));
+                    new GZIPOutputStream(new FileOutputStream(file)), encoding
+                            .toString()));
 
         }
         catch (Exception e) {

@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.regex.Pattern;
 
-import pengyifan.io.MyFileFactory;
-import pengyifan.io.MyFileReader;
+import woogle.io.MyFileFactory;
+import woogle.io.MyFileReader;
 import woogle.ds.DependencyLanguageModel;
 import woogle.ds.NGramLanguageModel;
 

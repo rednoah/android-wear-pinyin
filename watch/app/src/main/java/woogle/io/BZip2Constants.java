@@ -58,7 +58,7 @@
  * great code.
  */
 
-package pengyifan.io;
+package woogle.io;
 
 /**
  * Base class for both the compress and decompress classes.

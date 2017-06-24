@@ -1,7 +1,8 @@
-package ntu.csie.keydial;
+package ntu.csie.swipy;
 
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.wearable.view.WearableRecyclerView;
 import android.text.Spannable;
@@ -18,8 +19,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import ntu.csie.swipy.R;
-
 import static java.util.Collections.emptyList;
 
 
@@ -35,6 +34,7 @@ public abstract class AbstractPredictiveKeyboardLayout extends AbstractKeyboardL
         super(context, layout);
 
         this.suggestionView = (WearableRecyclerView) findViewById(getSuggestionRecyclerLayout());
+        this.suggestionView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         this.suggestionView.setHasFixedSize(true);
 
         this.suggestionLeadHighlightColor = getResources().getColor(R.color.suggestion_lead_fg, getContext().getTheme());
@@ -70,21 +70,6 @@ public abstract class AbstractPredictiveKeyboardLayout extends AbstractKeyboardL
     public void setSuggestions(List<String> suggestions) {
         // update suggestions
         suggestionView.setAdapter(new SuggestionViewAdapter(getSuggestionItemLayout(), suggestions, this::enterSuggestion, getLastWord(), suggestionLeadHighlightColor));
-
-
-        // highlight predicted keys
-        Set<String> characterSuggestions = new HashSet<String>(26);
-
-        if (buffer.isEmpty() || !buffer.endsWith(WORD_SEPARATOR)) {
-            int length = buffer.length() - buffer.trim().lastIndexOf(WORD_SEPARATOR) - 1;
-            if (length >= 0) {
-                suggestions.stream().filter(s -> length < s.length()).map(s -> s.substring(length, length + 1).toUpperCase()).forEach(characterSuggestions::add);
-            }
-        }
-
-        getLetterKeys().forEach((k, b) -> {
-            highlight(mapKey(k), b, characterSuggestions.contains(k));
-        });
     }
 
 
@@ -92,6 +77,10 @@ public abstract class AbstractPredictiveKeyboardLayout extends AbstractKeyboardL
     public void clear() {
         super.clear();
         setSuggestions(emptyList());
+
+        if (autoComplete != null) {
+            autoComplete.getSuggestionsAsync("", InputType.CONTROL_KEY, buffer, this::setSuggestions);
+        }
     }
 
 
@@ -139,18 +128,8 @@ public abstract class AbstractPredictiveKeyboardLayout extends AbstractKeyboardL
         public void onBindViewHolder(SuggestionViewHolder holder, int position) {
             String word = suggestions.get(position);
 
-            if (lead.length() <= word.length() && lead.equalsIgnoreCase(word.substring(0, lead.length()))) {
-                if (lead.endsWith(WORD_SEPARATOR)) {
-                    holder.view.setText(word.substring(lead.length()));
-                } else {
-                    holder.view.setText(highlightLead(word, lead.length()));
-                }
-            } else {
-                holder.view.setText(word);
-            }
-
-            // view can be different from suggestion value
             holder.value = word;
+            holder.view.setText(word);
         }
 
         protected Spanned highlightLead(String word, int to) {

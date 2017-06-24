@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import pengyifan.io.MyFileFactory;
-import pengyifan.io.MyFileReader;
+import woogle.io.MyFileFactory;
+import woogle.io.MyFileReader;
 import woogle.ds.SyllableWordDictory;
 import woogle.ds.Word;
 import woogle.ds.WordType;

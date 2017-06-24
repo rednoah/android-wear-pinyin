@@ -1,19 +1,52 @@
-package ntu.csie.keydial;
+package ntu.csie.swipy;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.MotionEvent;
+import android.view.ViewGroup;
 import android.widget.Button;
 
-import ntu.csie.swipy.R;
+import java.util.TreeMap;
+import java.util.function.Function;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toMap;
 
 
 public class StandardQwerty extends AbstractPredictiveKeyboardLayout {
+
+    private TreeMap<String, Button> keys;
 
 
     public StandardQwerty(Context context) {
         super(context, R.layout.keyboard_qwerty);
 
-        this.suggestionView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        this.keys = IntStream.of(getButtonGroups())
+                .mapToObj(this.layout::findViewById)
+                .flatMap(v -> {
+                    if (v instanceof ViewGroup) {
+                        ViewGroup g = (ViewGroup) v;
+                        return IntStream.range(0, g.getChildCount()).mapToObj(g::getChildAt);
+                    }
+                    if (v instanceof Button) {
+                        return Stream.of(v);
+                    }
+                    return Stream.empty();
+                })
+                .map(Button.class::cast)
+                .collect(toMap(
+                        k -> k.getText().toString(),
+                        Function.identity(),
+                        (a, b) -> a,
+                        () -> new TreeMap(String.CASE_INSENSITIVE_ORDER)
+                ));
+
+
+        // hook up keyboard listeners
+        for (Button key : keys.values()) {
+            key.setOnClickListener(v -> enterKey(key));
+        }
     }
 
 
@@ -29,7 +62,6 @@ public class StandardQwerty extends AbstractPredictiveKeyboardLayout {
     }
 
 
-    @Override
     protected int[] getButtonGroups() {
         return new int[]{R.id.top_row, R.id.middle_row, R.id.bottom_row, R.id.number_row, R.id.symbol_row, R.id.punctuation_row, R.id.controls, R.id.submit};
     }
@@ -37,18 +69,6 @@ public class StandardQwerty extends AbstractPredictiveKeyboardLayout {
     @Override
     protected int getEditorLayout() {
         return R.id.text_editor;
-    }
-
-
-    @Override
-    protected int getModeLayout(Mode mode) {
-        switch (mode) {
-            case LETTERS:
-                return R.id.letters;
-            case NUMBERS_AND_PUNCTUATION:
-                return R.id.numbers;
-        }
-        return -1;
     }
 
 
@@ -62,23 +82,6 @@ public class StandardQwerty extends AbstractPredictiveKeyboardLayout {
         } else {
             button.setBackgroundResource(R.drawable.qwerty_button_bg);
         }
-    }
-
-    @Override
-    public void setLetterCase(LetterCase letterCase) {
-        super.setLetterCase(letterCase);
-
-        // toggle option button
-        backgroundHighlight(keys.get(Symbols.OPTION), letterCase == LetterCase.UPPER);
-    }
-
-
-    @Override
-    public void setMode(Mode mode) {
-        super.setMode(mode);
-
-        // toggle mode button
-        backgroundHighlight(keys.get(Symbols.KEYBOARD), mode == Mode.LETTERS);
     }
 
 

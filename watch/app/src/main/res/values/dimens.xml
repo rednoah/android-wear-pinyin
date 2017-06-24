@@ -27,12 +27,12 @@
     <dimen name="qwerty_control_button_padding">2dp</dimen>
 
 
-    <dimen name="swipekey_group_width">60dp</dimen>
-    <dimen name="swipekey_group_height">48dp</dimen>
-    <dimen name="swipekey_group_button_size">16dp</dimen>
+    <dimen name="swipekey_group_width">54dp</dimen>
+    <dimen name="swipekey_group_height">42dp</dimen>
+    <dimen name="swipekey_group_button_size">14dp</dimen>
     <dimen name="swipekey_group_button_wide_size">26dp</dimen>
     <dimen name="swipekey_group_button_padding">0dp</dimen>
-    <dimen name="swipekey_group_button_text_size">11dp</dimen>
+    <dimen name="swipekey_group_button_text_size">9dp</dimen>
 
     <dimen name="swipekey_group_margin">22dp</dimen>
 

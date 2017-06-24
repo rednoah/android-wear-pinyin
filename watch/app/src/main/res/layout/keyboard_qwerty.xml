@@ -39,9 +39,9 @@
         android:background="@drawable/editor_bg"
         android:ellipsize="start"
         android:gravity="left|center"
-        android:maxLines="1"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:singleLine="true"
         android:text="@string/app_name"
         android:textColor="@color/editor_fg" />
 

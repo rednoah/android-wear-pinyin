@@ -58,7 +58,7 @@
  * great code.
  */
 
-package pengyifan.io;
+package woogle.io;
 
 import java.io.OutputStream;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package ntu.csie.keydial;
+package ntu.csie.swipy;
 
 
 import android.content.Context;
@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.text.StrBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,9 +28,10 @@ import java.util.function.Function;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import ntu.csie.swipy.R;
+import ntu.csie.swipy.model.Punctuation;
 
 import static java.util.stream.Collectors.toMap;
+import static ntu.csie.swipy.model.Punctuation.APOSTROPHE;
 
 public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
 
@@ -36,14 +39,11 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
     protected View layout;
     protected TextView editor;
 
-    protected TreeMap<String, Button> keys;
 
     protected String buffer;
     protected int highlightColor;
 
-
-    protected LetterCase letterCase = LetterCase.UPPER;
-    protected Mode mode = Mode.LETTERS;
+    protected int highlightStart = -1;
 
 
     public AbstractKeyboardLayout(Context context, int layout) {
@@ -51,26 +51,6 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
 
         this.layout = LayoutInflater.from(context).inflate(layout, this, true);
         this.editor = (TextView) this.layout.findViewById(getEditorLayout());
-
-        this.keys = IntStream.of(getButtonGroups())
-                .mapToObj(this.layout::findViewById)
-                .flatMap(v -> {
-                    if (v instanceof ViewGroup) {
-                        ViewGroup g = (ViewGroup) v;
-                        return IntStream.range(0, g.getChildCount()).mapToObj(g::getChildAt);
-                    }
-                    if (v instanceof Button) {
-                        return Stream.of(v);
-                    }
-                    return Stream.empty();
-                })
-                .map(Button.class::cast)
-                .collect(toMap(
-                        k -> k.getText().toString(),
-                        Function.identity(),
-                        (a, b) -> a,
-                        () -> new TreeMap(String.CASE_INSENSITIVE_ORDER)
-                ));
 
 
         this.highlightColor = getResources().getColor(R.color.editor_highlight_fg, getContext().getTheme());
@@ -87,19 +67,10 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
             }
             return false;
         });
-
-        // hook up keyboard listeners
-        for (Button key : keys.values()) {
-            key.setOnClickListener(v -> enterKey(key));
-        }
     }
 
 
-    protected abstract int[] getButtonGroups();
-
     protected abstract int getEditorLayout();
-
-    protected abstract int getModeLayout(Mode mode);
 
 
     @Override
@@ -122,26 +93,6 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
     }
 
 
-    protected String mapKey(String key) {
-        switch (mode) {
-            case LETTERS:
-                switch (letterCase) {
-                    case UPPER:
-                        return key.toUpperCase();
-                    case LOWER:
-                        return key.toLowerCase();
-                }
-            case NUMBERS_AND_PUNCTUATION:
-                switch (letterCase) {
-                    case UPPER:
-                        return key;
-                    case LOWER:
-                        return Emoji.mapPunctuation(key);
-                }
-        }
-        return key;
-    }
-
     public void onEditorClick(View view, MotionEvent event) {
         if (event.getX() < view.getWidth() / 2) {
             enterBackspace(); // click on the left for BACKSPACE / DELETE
@@ -160,7 +111,7 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
                 keyPressed(key, InputType.CONTROL_KEY);
                 break;
             default:
-                keyPressed(mapKey(key), InputType.ENTER_LETTER);
+                keyPressed(key, InputType.ENTER_LETTER);
                 break;
         }
     }
@@ -178,11 +129,13 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
         keyPressed(Symbols.BACKSPACE, InputType.DELETE_LETTER);
     }
 
+
     public void enterSpace() {
-        if (buffer.isEmpty() || buffer.endsWith(WORD_SEPARATOR)) {
+        if (buffer.isEmpty()) {
             return;
         }
-        keyPressed(WORD_SEPARATOR, InputType.ENTER_LETTER);
+
+        keyPressed(Punctuation.DOT.toString(), InputType.ENTER_LETTER);
     }
 
 
@@ -202,14 +155,7 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
                     case Symbols.ENTER:
                         post(this::submit);
                         break;
-                    case Symbols.KEYBOARD:
-                        setMode(mode.shift());
-                        break;
-                    case Symbols.OPTION:
-                        setLetterCase(letterCase.shift());
-                        break;
                 }
-
                 break;
         }
 
@@ -234,36 +180,27 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
     }
 
 
-    public static final String WORD_SEPARATOR = " ";
-
     protected String applyWord(String word, String buffer) {
-        int i = buffer.lastIndexOf(WORD_SEPARATOR);
-        if (i > 0) {
-            return buffer.substring(0, i) + WORD_SEPARATOR + word + WORD_SEPARATOR;
+        if (buffer.length() > 0) {
+            for (int i = 0; i < buffer.length(); i++) {
+                if (Character.isIdeographic(buffer.charAt(i))) {
+                    continue;
+                }
+                return buffer.substring(0, i) + word;
+            }
         }
-
-        return word + WORD_SEPARATOR;
+        return buffer + word;
     }
 
 
     protected void updateTextBuffer(String buffer) {
         this.buffer = buffer;
 
-        int i = buffer.trim().lastIndexOf(WORD_SEPARATOR);
-        if (i < 0) {
-            editor.setText(highlightTail(buffer, 0)); // highlight entire word
-        } else {
-            editor.setText(highlightTail(buffer, i + 1)); // highlight last word
-        }
+        editor.setText(highlightTail(buffer, highlightStart > 0 && highlightStart < buffer.length() ? highlightStart : 0));
     }
 
 
     protected Spanned highlightTail(String text, int from) {
-        // draw caret to visualize a trailing space
-        if (text.endsWith(WORD_SEPARATOR)) {
-            return highlightTail(text + Symbols.CARET, from);
-        }
-
         SpannableString span = new SpannableString(text);
         span.setSpan(new ForegroundColorSpan(highlightColor), from, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return span;
@@ -277,11 +214,6 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
     }
 
 
-    protected Map<String, Button> getLetterKeys() {
-        return keys.subMap("!", true, "Z", true);
-    }
-
-
     protected void highlight(String key, Button button, boolean enabled) {
         if (enabled) {
             button.setText(highlightKey(key));
@@ -292,49 +224,7 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
 
 
     protected String getLastWord() {
-        int i = buffer.trim().lastIndexOf(WORD_SEPARATOR);
-        if (i > 0) {
-            return buffer.substring(i + 1);
-        }
         return buffer;
-    }
-
-
-    public enum LetterCase {
-        UPPER, LOWER;
-
-        public LetterCase shift() {
-            return this == UPPER ? LOWER : UPPER;
-        }
-    }
-
-
-    public enum Mode {
-        LETTERS, NUMBERS_AND_PUNCTUATION;
-
-        public Mode shift() {
-            return this == LETTERS ? NUMBERS_AND_PUNCTUATION : LETTERS;
-        }
-    }
-
-
-    public void setLetterCase(LetterCase letterCase) {
-        this.letterCase = letterCase;
-
-        getLetterKeys().forEach((k, b) -> {
-            highlight(mapKey(k), b, false);
-        });
-    }
-
-    public void setMode(Mode mode) {
-        this.mode = mode;
-
-        for (Mode m : Mode.values()) {
-            layout.findViewById(getModeLayout(m)).setVisibility(m == mode ? VISIBLE : GONE);
-        }
-
-        // update button text
-        setLetterCase(LetterCase.UPPER);
     }
 
 
@@ -351,14 +241,13 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
 
 
     public void clear() {
-        setText("", Mode.LETTERS, LetterCase.UPPER);
+        setText("");
+        highlightStart = -1;
     }
 
 
-    public void setText(String s, Mode m, LetterCase c) {
+    public void setText(String s) {
         updateTextBuffer(s);
-        setMode(m);
-        setLetterCase(c);
     }
 
 
