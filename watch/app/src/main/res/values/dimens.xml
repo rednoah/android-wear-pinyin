@@ -6,7 +6,7 @@
 
 
     <dimen name="keydial_button_radius">25dp</dimen>
-    <dimen name="keydial_button_size">27.5dp</dimen>
+    <dimen name="keydial_button_size">28dp</dimen>
     <dimen name="keydial_button_padding">0dp</dimen>
 
     <dimen name="keydial_modifier_button_size">30dp</dimen>
@@ -17,18 +17,18 @@
     <dimen name="keydial_zigzag">14dp</dimen>
 
 
-    <dimen name="qwerty_button_height">33dp</dimen>
-    <dimen name="qwerty_button_width">22dp</dimen>
+    <dimen name="qwerty_button_height">28dp</dimen>
+    <dimen name="qwerty_button_width">18dp</dimen>
     <dimen name="qwerty_button_margin">0dp</dimen>
     <dimen name="qwerty_button_padding">0dp</dimen>
 
-    <dimen name="qwerty_control_button_height">24dp</dimen>
+    <dimen name="qwerty_control_button_height">20dp</dimen>
     <dimen name="qwerty_control_button_width">100dp</dimen>
     <dimen name="qwerty_control_button_padding">2dp</dimen>
 
 
-    <dimen name="swipekey_group_width">54dp</dimen>
-    <dimen name="swipekey_group_height">42dp</dimen>
+    <dimen name="swipekey_group_width">50dp</dimen>
+    <dimen name="swipekey_group_height">35dp</dimen>
     <dimen name="swipekey_group_button_size">14dp</dimen>
     <dimen name="swipekey_group_button_wide_size">26dp</dimen>
     <dimen name="swipekey_group_button_padding">0dp</dimen>

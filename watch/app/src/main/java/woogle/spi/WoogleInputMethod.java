@@ -25,6 +25,11 @@ public class WoogleInputMethod {
     }
 
 
+    public void backspace() {
+        this.pinyinHandler.backspaceAction();
+    }
+
+
     public void sendText(String s) {
         Log.d("WoogleInputMethod", "COMMIT: " + s);
     }

@@ -29,8 +29,23 @@ public class AutoComplete {
 
 
     public synchronized List<String> getSuggestions(String key, InputType type, String buffer) {
+        if (type == InputType.DELETE_LETTER) {
+            if (woogle != null) {
+                try {
+                    woogle.backspace();
+                    return woogle.getCandString();
+                } catch (Exception e) {
+                    Log.d("AutoComplete", "woogle.backspace() failed", e);
+                }
+            }
+            return emptyList();
+        }
+
+
         if (key.isEmpty() || buffer.isEmpty()) {
-            woogle.clear();
+            if (woogle != null) {
+                woogle.clear();
+            }
             return emptyList();
         }
 
@@ -43,7 +58,15 @@ public class AutoComplete {
 
 
         // update prediction engine
-        key.chars().forEach(c -> woogle.keyPressed((char) c));
+        switch (type) {
+            case ENTER_LETTER:
+                key.chars().forEach(c -> woogle.keyPressed((char) c));
+                break;
+            case ENTER_WORD:
+                woogle.clear();
+                buffer.chars().filter(c -> !Character.isIdeographic(c)).forEach(c -> woogle.keyPressed((char) c));
+                break;
+        }
 
 
         List<String> suggestions = woogle.getCandString();

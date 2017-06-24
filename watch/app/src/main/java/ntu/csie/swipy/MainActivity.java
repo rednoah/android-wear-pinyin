@@ -19,7 +19,8 @@ public class MainActivity extends WearableActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 
-        keyboard = new PinZhuYinKeyboardLayout(getApplicationContext(), PinZhuYinKeyboardLayout.Mode.PINYIN);
+        // keyboard = new PinZhuYinKeyboardLayout(getApplicationContext(), PinZhuYinKeyboardLayout.Mode.PINYIN);
+        keyboard = new StandardQwerty(getApplicationContext());
         keyboard.setAutoComplete(new AutoComplete(getApplicationContext()));
         keyboard.addSubmitListener(this::submit);
 

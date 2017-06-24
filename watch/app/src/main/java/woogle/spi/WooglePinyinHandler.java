@@ -1,12 +1,6 @@
 package woogle.spi;
 
-import java.awt.AWTEvent;
-import java.awt.Component;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Stack;
 
 import woogle.chart.CKYDecoder;
@@ -14,9 +8,7 @@ import woogle.chart.Chart;
 import woogle.chart.ChartCell;
 import woogle.chart.Path;
 import woogle.cmd.Command;
-import woogle.cmd.DigitLetterCommand;
 import woogle.cmd.LowerLetterCommand;
-import woogle.cmd.UpperLetterCommand;
 import woogle.ds.PathNode;
 import woogle.util.PinyinSyllable;
 import woogle.util.Score;

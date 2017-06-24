@@ -17,7 +17,6 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import woogle.io.MyFileReader;
 import woogle.ds.DependencyLanguageModel;
 import woogle.ds.NGramLanguageModel;
 import woogle.ds.Pair;
@@ -29,6 +28,7 @@ import woogle.ds.reader.NGramLanguageModelReader;
 import woogle.ds.reader.SyllableCharDictoryReader;
 import woogle.ds.reader.SyllableDictoryReader;
 import woogle.ds.reader.SyllableWordDictoryReader;
+import woogle.io.MyFileReader;
 
 public class WoogleDatabase {
 

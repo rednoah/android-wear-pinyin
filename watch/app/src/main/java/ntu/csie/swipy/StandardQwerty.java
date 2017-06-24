@@ -45,6 +45,7 @@ public class StandardQwerty extends AbstractPredictiveKeyboardLayout {
 
         // hook up keyboard listeners
         for (Button key : keys.values()) {
+            key.setText(key.getText().toString().toLowerCase());
             key.setOnClickListener(v -> enterKey(key));
         }
     }

@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 
 
@@ -38,6 +39,8 @@ public abstract class AbstractPredictiveKeyboardLayout extends AbstractKeyboardL
         this.suggestionView.setHasFixedSize(true);
 
         this.suggestionLeadHighlightColor = getResources().getColor(R.color.suggestion_lead_fg, getContext().getTheme());
+
+        setSuggestions(asList("我明天要交作業了", "我", "喔", "窩", "握"));
     }
 
 

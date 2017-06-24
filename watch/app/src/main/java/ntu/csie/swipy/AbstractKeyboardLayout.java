@@ -110,6 +110,9 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
             case Symbols.OPTION:
                 keyPressed(key, InputType.CONTROL_KEY);
                 break;
+            case Symbols.BACKSPACE:
+                keyPressed(key, InputType.DELETE_LETTER);
+                break;
             default:
                 keyPressed(key, InputType.ENTER_LETTER);
                 break;

@@ -10,7 +10,7 @@
     <Button
         android:id="@+id/submit"
         android:layout_width="match_parent"
-        android:layout_height="26dp"
+        android:layout_height="22dp"
         android:layout_gravity="top|center"
         android:background="@drawable/qwerty_button_alt_bg"
         android:gravity="center"
@@ -27,15 +27,15 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/qwerty_button_height"
         android:layout_gravity="top|center"
-        android:layout_marginTop="71dp" />
+        android:layout_marginTop="50dp" />
 
 
     <TextView
         android:id="@+id/text_editor"
         android:layout_width="170dp"
-        android:layout_height="32dp"
+        android:layout_height="26dp"
         android:layout_gravity="top|center"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="26dp"
         android:background="@drawable/editor_bg"
         android:ellipsize="start"
         android:gravity="left|center"
