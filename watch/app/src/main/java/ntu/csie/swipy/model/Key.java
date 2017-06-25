@@ -29,8 +29,13 @@ public enum Key {
     }
 
 
-    public static Key[] getSurroundingKeys(Key key) {
-        switch (key) {
+    public Key[] getSurroundingKeys() {
+        switch (this) {
+            case H:
+                return new Key[]{
+                        Y, U, J, N, B, V, G
+                };
+
             case A:
                 return new Key[]{
                         Q, W, S, X, Z
@@ -43,7 +48,7 @@ public enum Key {
 
             case U:
                 return new Key[]{
-                        Y, H, J, K, I
+                        Y, H, J, K, I, T
                 };
 
             case V:
@@ -70,14 +75,24 @@ public enum Key {
                 return new Key[]{
                         H, B, V, C, F
                 };
+
+            case APOSTROPHE:
+                return new Key[]{
+                        Z, X, C
+                };
         }
 
         return new Key[0];
     }
 
 
-    public static Key[] getSurroundingKeysForced(Key key) {
-        switch (key) {
+    public Key[] getSurroundingKeysForced() {
+        switch (this) {
+            case H:
+                return new Key[]{
+                        H, G
+                };
+
             case A:
                 return new Key[]{
                         A, Q, W, S
@@ -90,7 +105,7 @@ public enum Key {
 
             case U:
                 return new Key[]{
-                        U, Y, H
+                        U, Y
                 };
 
             case V:
@@ -123,10 +138,35 @@ public enum Key {
     }
 
 
-    public static Key[] getSeparatorKeys() {
-        return new Key[]{
-                Z, X, C
-        };
+    public static Key getPhysicalApostropheKey() {
+        return X;
+    }
+
+
+    public int getBackgroundGroup() {
+        switch (this) {
+            case A:
+                return 1;
+            case E:
+                return 2;
+            case U:
+                return 3;
+            case V:
+                return 4;
+            case I:
+                return 2;
+            case O:
+                return 1;
+            case N:
+                return 4;
+            case H:
+                return 4;
+            case G:
+                return 2;
+            default:
+                return 0;
+
+        }
     }
 
 

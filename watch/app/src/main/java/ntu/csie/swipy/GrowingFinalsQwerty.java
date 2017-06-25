@@ -1,6 +1,7 @@
 package ntu.csie.swipy;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,14 +16,11 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import ntu.csie.swipy.model.Key;
-import woogle.ds.SyllableDictory;
 import woogle.ds.reader.SyllableDictoryReader;
-import woogle.util.SyllableSegmentation;
 
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
-import static ntu.csie.swipy.model.Punctuation.APOSTROPHE;
 
 
 public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
@@ -86,6 +84,13 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
         }
     }
 
+    @Override
+    public void clear() {
+        super.clear();
+
+        setInitial();
+    }
+
 
     public void setInitial() {
         // start composition here
@@ -94,6 +99,9 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
         syllableKeys = EnumSet.allOf(Key.class);
 
         resetKeyboardKeys();
+
+        // update composition highlight
+        updateTextBuffer(buffer);
     }
 
 
@@ -112,13 +120,18 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
 
         // start new syllable
         if (!syllableKeys.contains(typedKey)) {
-            super.keyPressed(key, type);
             setInitial();
-            return;
         }
 
         // drill down pinyin syllable
         super.keyPressed(key, type);
+
+
+        // set composing text to after the entered apo
+        if (typedKey == Key.APOSTROPHE) {
+            setInitial();
+            return;
+        }
 
 
         String head = buffer.substring(highlightStart).toLowerCase();
@@ -136,8 +149,7 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
 
         // no more options, start next syllable
         if (syllableKeys.isEmpty()) {
-            updateTextBuffer(applyLetter(APOSTROPHE.toString(), buffer));
-            highlightStart = buffer.length();
+            updateTextBuffer(applyLetter(Key.APOSTROPHE.getLetter(), buffer));
             setInitial();
             return;
         }
@@ -147,16 +159,16 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
         resetKeyboardKeys();
 
         syllableKeys.forEach(k -> {
-            stream(Key.getSurroundingKeys(k)).forEach(sk -> setSurroundingKey(sk, k));
+            stream(k.getSurroundingKeys()).forEach(sk -> setSurroundingKey(sk, k));
         });
 
         syllableKeys.forEach(k -> {
-            stream(Key.getSurroundingKeysForced(k)).forEach(sk -> setSurroundingKey(sk, k));
+            stream(k.getSurroundingKeysForced()).forEach(sk -> setSurroundingKey(sk, k));
         });
 
         // enable End of Syllable buttons
         if (stream(SyllableDictoryReader.SYLLABLES).anyMatch(s -> s.equals(head))) {
-            stream(Key.getSeparatorKeys()).forEach(sk -> setSurroundingKey(sk, Key.APOSTROPHE));
+            stream(Key.APOSTROPHE.getSurroundingKeys()).forEach(sk -> setSurroundingKey(sk, Key.APOSTROPHE));
         }
     }
 
@@ -172,8 +184,35 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
     private void setSurroundingKey(Key buttonKey, Key displayKey) {
         Button b = keys.get(buttonKey);
         b.setTag(displayKey);
-        highlight(displayKey.getLetter(), b, true);
+
+        if (buttonKey == displayKey || (displayKey == Key.APOSTROPHE && buttonKey == Key.getPhysicalApostropheKey())) {
+            highlight(displayKey.getLetter(), b, true);
+        } else {
+            highlight("", b, true);
+        }
+
+
+        switch (displayKey.getBackgroundGroup()) {
+            case 0:
+                b.setBackgroundResource(R.drawable.rect_button_alt_1);
+                break;
+            case 1:
+                b.setBackgroundResource(R.drawable.rect_button_alt_2);
+                break;
+            case 2:
+                b.setBackgroundResource(R.drawable.rect_button_alt_3);
+                break;
+            case 3:
+                b.setBackgroundResource(R.drawable.rect_button_alt_4);
+                break;
+            case 4:
+                b.setBackgroundResource(R.drawable.rect_button_alt_5);
+                break;
+            default:
+                throw new IllegalStateException("Group: " + displayKey);
+        }
     }
+
 
     @Override
     protected int getSuggestionRecyclerLayout() {

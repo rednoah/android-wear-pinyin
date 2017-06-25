@@ -16,7 +16,7 @@ public class PhoneticGroupTest {
     @Test
     public void getFinalGroups() {
         for (Initial i : Initial.values()) {
-            assertEquals(asList(i.getFinals()), asList(PhoneticGroup.getFinalGroups(i)));
+            assertEquals(asList(i.getFinals()), asList(Final.getPhoneticGroups(i)));
         }
     }
 
