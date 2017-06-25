@@ -55,4 +55,19 @@ public enum Initial {
     }
 
 
+
+
+    public static Initial[][] getPhoneticGroups() {
+        return new Initial[][]{
+                {B, P, M, F},
+                {D, T, N, L},
+                {G, K, H},
+                {J, Q, X},
+                {A, Y, E, O},
+                {Z, C, S, W},
+                {ZH, CH, SH, R}
+        };
+    }
+
+
 }

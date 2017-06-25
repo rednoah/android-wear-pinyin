@@ -18,10 +18,10 @@ public class MainActivity extends WearableActivity {
         // make sure that screen doesn't turn off during user study
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-
         // keyboard = new PinZhuYinKeyboardLayout(getApplicationContext(), PinZhuYinKeyboardLayout.Mode.PINYIN);
-        keyboard = new StandardQwerty(getApplicationContext());
-        keyboard.setAutoComplete(new AutoComplete(getApplicationContext()));
+//        keyboard = new StandardQwerty(getApplicationContext());
+        keyboard = new GrowingFinalsQwerty(getApplicationContext());
+//        keyboard.setAutoComplete(new AutoComplete(getApplicationContext()));
         keyboard.addSubmitListener(this::submit);
 
         setContentView(keyboard);

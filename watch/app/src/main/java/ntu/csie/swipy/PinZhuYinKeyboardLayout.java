@@ -17,7 +17,6 @@ import java.util.List;
 
 import ntu.csie.swipy.model.Final;
 import ntu.csie.swipy.model.Initial;
-import ntu.csie.swipy.model.PhoneticGroup;
 import ntu.csie.swipy.model.Pinyin;
 
 import static com.google.common.collect.Lists.newArrayList;
@@ -120,7 +119,7 @@ public class PinZhuYinKeyboardLayout extends AbstractPredictiveKeyboardLayout {
         table.removeAllViews();
 
 
-        for (List<Initial[]> groups : partition(newArrayList(PhoneticGroup.getZhuyinGroups()), MAX_COLUMNS)) {
+        for (List<Initial[]> groups : partition(newArrayList(Initial.getPhoneticGroups()), MAX_COLUMNS)) {
             TableRow row = new TableRow(table.getContext());
             row.setGravity(Gravity.CENTER);
             table.addView(row);
@@ -149,7 +148,7 @@ public class PinZhuYinKeyboardLayout extends AbstractPredictiveKeyboardLayout {
 
         table.removeAllViews();
 
-        Final[] finals = PhoneticGroup.getFinalGroups(initial);
+        Final[] finals = Final.getPhoneticGroups(initial);
         int cols = finals.length <= 6 * 4 ? 3 : 4;
 
         partition(partition(newArrayList(finals), MAX_KEYS), cols).forEach(groups -> {
