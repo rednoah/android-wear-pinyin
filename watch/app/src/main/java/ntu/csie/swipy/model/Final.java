@@ -275,40 +275,40 @@ public enum Final {
         switch (initial) {
             case B:
                 return new Final[][]{
-                        {ai, an, ei, en, u, i, o},
-                        {a, ao, eng, ie, ian, iao},
-                        {ang, in, ing}
+                        {ai, ao, ei, u, i, o},
+                        {a, en, eng, ie, ian, iao},
+                        {an, ang, in, ing}
                 };
 
 
             case P:
                 return new Final[][]{
                         {ai, ao, ei, u, i, o, ou},
-                        {a, en, eng, ie, in, ing},
-                        {an, ang, ian, iao}
+                        {a, en, eng, ie, ian, iao},
+                        {an, ang, in, ing}
                 };
 
 
             case M:
                 return new Final[][]{
-                        {ai, an, e, ei, en, u, i, o, ou},
-                        {a, ao, eng, ie, ian, iao},
-                        {ang, in, ing, iu}
+                        {ai, ao, e, ei, u, i, iu, o},
+                        {a, en, eng, ie, ian, iao, ou},
+                        {an, ang, in, ing}
                 };
 
             case F:
                 return new Final[][]{
-                        {an, ei, en, u, o, ou},
-                        {a, eng,},
-                        {ang}
+                        {u, o, ou},
+                        {a, an, en, ei},
+                        {ang, eng}
                 };
 
 
             case D:
                 return new Final[][]{
-                        {ai, e, ei, un, uo, u, ui, i, ie, ou},
-                        {a, en, eng, uan, iu, ian, iao, ong},
-                        {ao, an, ang, ing}
+                        {ai, ao, e, ei, uo, u, ui, i, ie, ou},
+                        {a, an, en, eng, un, uan, iu, ong},
+                        {ang, ian, iao, ing}
                 };
 
             case T:
@@ -321,51 +321,51 @@ public enum Final {
 
             case N:
                 return new Final[][]{
-                        {ai, an, e, en, ei, iu, uan, u, uo, i, ong},
-                        {a, ao, eng, ie, üe, ian, iao},
-                        {ang, iang, ü, in, ing}
+                        {ai, ao, e, ei, uo, u, i, iu, ong},
+                        {a, an, en, uan, ian, iang, in},
+                        {ang, eng, ü, üe, ie, iao, ing}
                 };
 
 
             case L:
                 return new Final[][]{
-                        {ai, an, e, ei, iu, uan, un, u, uo, i, ou, ong},
-                        {a, ao, eng, ie, üe, ian, iao},
-                        {ang, iang, ü, in, ing}
+                        {ai, ao, e, ei, uo, u, i, iu, in, ou},
+                        {a, an, un, uan, ian, iang, ong},
+                        {ang, eng, ü, üe, ie, iao, ing}
                 };
 
 
             case K:
                 return new Final[][]{
-                        {ai, an, e, en, u, uo, ou, ong},
-                        {a, ao, eng, ua, ui, uai},
-                        {ang, un, uan, uang}
+                        {ai, ao, e, u, ui, uo, ou},
+                        {a, an, en, un, ua, uai, ong},
+                        {ang, eng, uan, uang}
                 };
 
 
             case G:
             case H:
                 return new Final[][]{
-                        {ai, an, e, en, ei, u, ua, uo, ou, ong},
-                        {a, ao, eng, uai, ui, un},
-                        {ang, uan, uang}
+                        {ai, ao, e, ei, u, ui, uo, ou},
+                        {a, an, en, ua, uai, un, ong},
+                        {ang, eng, uan, uang}
                 };
 
 
             case Z:
                 return new Final[][]{
-                        {ai, an, e, en, ei, uan, un, u, ui, i, ou, ong},
-                        {a, ao, eng, uo},
-                        {ang}
+                        {ai, ao, e, ei, u, ui, i, ou},
+                        {a, an, en, un, uo, ong},
+                        {ang, eng, uan}
                 };
 
 
             case C:
             case S:
                 return new Final[][]{
-                        {ai, an, e, en, uan, un, u, ui, i, ou, ong},
-                        {a, ao, eng, uo},
-                        {ang}
+                        {ai, ao, e, u, ui, i, ou},
+                        {a, an, en, un, uo, ong},
+                        {ang, eng, uan}
                 };
 
 
@@ -373,9 +373,9 @@ public enum Final {
             case Q:
             case X:
                 return new Final[][]{
-                        {ia, ie, i, u, ue, un},
-                        {iao, ian, iu, uan},
-                        {iang, in, ing, iong}
+                        {u, ue, i, ie, iu},
+                        {un, uan, ia, in, ing},
+                        {ian, iang, iao, iong}
                 };
 
 
@@ -388,17 +388,17 @@ public enum Final {
 
             case CH:
                 return new Final[][]{
-                        {ai, an, e, en, uan, un, u, ui, i, ou, ong},
-                        {a, ao, eng, uo},
-                        {ang, uai, uang}
+                        {ai, ao, e, u, ui, i, ou},
+                        {a, an, en, un, uan, uo, ong},
+                        {ang, eng, uai, uang}
                 };
 
 
             case SH:
                 return new Final[][]{
                         {ai, ao, e, ei, uo, u, ui, i, ou},
-                        {a, en, eng, un, uan},
-                        {an, ang, ua, uai, uang}
+                        {a, en, eng, ua, uai},
+                        {an, ang, un, uan, uang}
                 };
 
 
@@ -413,7 +413,7 @@ public enum Final {
             case Y:
                 return new Final[][]{
                         {e, u, ue, i, ou},
-                        {a, ao, uan, un, ong},
+                        {a, ao, un, uan, ong},
                         {an, ang, in, ing}
                 };
 
@@ -446,6 +446,59 @@ public enum Final {
 
         // can't happen
         throw new IllegalArgumentException("Initial: " + initial);
+    }
+
+
+    public int getColor() {
+        switch (this) {
+            case a:
+            case ai:
+            case an:
+            case ang:
+            case ao:
+                return 1;
+            case e:
+            case ei:
+            case en:
+            case eng:
+                return 2;
+            case i:
+            case ia:
+            case ian:
+            case iang:
+            case iao:
+            case ie:
+            case in:
+            case ing:
+            case iong:
+            case iu:
+                return 3;
+            case n:
+            case ng:
+                return 5;
+            case o:
+            case ong:
+            case ou:
+                return 5;
+            case r:
+                return 3;
+            case u:
+            case ua:
+            case uai:
+            case uan:
+            case uang:
+            case ue:
+            case ui:
+            case un:
+            case uo:
+                return 4;
+            case ü:
+            case üe:
+                return 0;
+        }
+
+        // can't happen
+        throw new IllegalArgumentException("Initial: " + this);
     }
 
 }

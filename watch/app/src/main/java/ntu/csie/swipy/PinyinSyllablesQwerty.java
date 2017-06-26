@@ -1,11 +1,6 @@
 package ntu.csie.swipy;
 
-import static java.util.Arrays.*;
-
 import android.content.Context;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,18 +10,9 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.google.common.collect.Table;
-
-import java.util.LinkedList;
-import java.util.stream.Stream;
-
 import ntu.csie.swipy.model.Final;
 import ntu.csie.swipy.model.Initial;
-import ntu.csie.swipy.model.Pinyin;
 
-
-import static com.google.common.collect.Lists.newArrayList;
-import static com.google.common.collect.Lists.partition;
 import static java.util.Arrays.stream;
 import static java.util.Collections.emptyList;
 import static ntu.csie.swipy.model.Punctuation.APOSTROPHE;
@@ -130,14 +116,37 @@ public class PinyinSyllablesQwerty extends AbstractPredictiveKeyboardLayout {
             table.addView(row);
 
             stream(r).forEach(k -> {
-                Button keyButton = (Button) LayoutInflater.from(row.getContext()).inflate(R.layout.button_qwerty, row, false);
-                row.addView(keyButton);
+                Button b = (Button) LayoutInflater.from(row.getContext()).inflate(R.layout.button_qwerty, row, false);
+                row.addView(b);
 
                 if (k != null) {
                     Final f = (Final) k;
-                    keyButton.setText(f.toString().toLowerCase());
-                    keyButton.setTag(f);
-                    keyButton.setOnClickListener(this::keyPressed);
+                    b.setText(f.toString().toLowerCase());
+                    b.setTag(f);
+                    b.setOnClickListener(this::keyPressed);
+
+                    switch (f.getColor()) {
+                        case 0:
+                            b.setBackgroundResource(R.drawable.rect_button_alt_1);
+                            break;
+                        case 1:
+                            b.setBackgroundResource(R.drawable.rect_button_alt_2);
+                            break;
+                        case 2:
+                            b.setBackgroundResource(R.drawable.rect_button_alt_3);
+                            break;
+                        case 3:
+                            b.setBackgroundResource(R.drawable.rect_button_alt_4);
+                            break;
+                        case 4:
+                            b.setBackgroundResource(R.drawable.rect_button_alt_5);
+                            break;
+                        case 5:
+                            b.setBackgroundResource(R.drawable.rect_button_alt_6);
+                            break;
+                        default:
+                            throw new IllegalStateException("Color Group: " + f);
+                    }
                 }
             });
         }
@@ -174,7 +183,7 @@ public class PinyinSyllablesQwerty extends AbstractPredictiveKeyboardLayout {
             setFinal(getTable(), i);
             return;
         }
-        
+
         if (t instanceof Final) {
             Final f = (Final) t;
             appendCommit(f.toString().toLowerCase());
