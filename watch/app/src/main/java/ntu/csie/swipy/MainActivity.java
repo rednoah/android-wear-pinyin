@@ -1,36 +1,190 @@
 package ntu.csie.swipy;
 
+import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.support.wearable.activity.WearableActivity;
+import android.support.wearable.view.CurvedChildLayoutManager;
+import android.support.wearable.view.WearableRecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.TextView;
+
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.util.function.Consumer;
 
 
 public class MainActivity extends WearableActivity {
 
 
-    private AbstractPredictiveKeyboardLayout keyboard;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        WearableRecyclerView keyboardRecycler = (WearableRecyclerView) findViewById(R.id.keyboardRecycler);
+        keyboardRecycler.setHasFixedSize(true);
+        keyboardRecycler.setCenterEdgeItems(true);
+
+        keyboardRecycler.setLayoutManager(new CurvedChildLayoutManager(getApplicationContext()));
+        keyboardRecycler.setAdapter(new KeyboardItemAdapter(KeyboardLayout.values(), this::openKeyboard));
+
 
         // make sure that screen doesn't turn off during user study
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-        // keyboard = new PinZhuYinKeyboardLayout(getApplicationContext(), PinZhuYinKeyboardLayout.Mode.PINYIN);
-//        keyboard = new StandardQwerty(getApplicationContext());
-//        keyboard = new GrowingFinalsQwerty(getApplicationContext());
-        keyboard = new PinyinSyllablesQwerty(getApplicationContext());
-//        keyboard.setAutoComplete(new AutoComplete(getApplicationContext()));
-        keyboard.addSubmitListener(this::submit);
-
-        setContentView(keyboard);
     }
 
 
-    public void submit(String s) {
-        keyboard.clear();
+    public static class KeyboardItem extends RecyclerView.ViewHolder {
+
+        private KeyboardLayout keyboard;
+        private TextView text;
+
+
+        public KeyboardItem(ViewGroup parent, Consumer<KeyboardLayout> handler) {
+            super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_keyboard, parent, false));
+
+            this.text = (TextView) itemView.findViewById(R.id.text);
+            this.text.setOnClickListener(v -> handler.accept(keyboard));
+        }
+
+
+        public void setValue(KeyboardLayout keyboard) {
+            if (keyboard != null) {
+                this.keyboard = keyboard;
+                this.text.setText(keyboard.toString());
+                this.text.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_launcher, 0, 0, 0);
+            } else {
+                this.keyboard = null;
+                this.text.setText("RESET");
+                this.text.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cc_clear, 0, 0, 0);
+            }
+        }
+    }
+
+
+    public static class KeyboardItemAdapter extends RecyclerView.Adapter<KeyboardItem> {
+
+        private KeyboardLayout[] layouts;
+        private Consumer<KeyboardLayout> handler;
+
+
+        public KeyboardItemAdapter(KeyboardLayout[] layouts, Consumer<KeyboardLayout> handler) {
+            this.layouts = layouts;
+            this.handler = handler;
+        }
+
+        @Override
+        public KeyboardItem onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new KeyboardItem(parent, handler);
+        }
+
+        @Override
+        public void onBindViewHolder(KeyboardItem holder, int position) {
+            try {
+                holder.setValue(layouts[position]);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                holder.setValue(null);
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return layouts.length + 1;
+        }
+
+    }
+
+
+    public void openKeyboard(KeyboardLayout keyboard) {
+        if (keyboard == null) {
+            for (File f : getApplicationContext().getFilesDir().listFiles()) {
+                try {
+                    Log.d("RESET", "Delete " + f);
+                    FileUtils.forceDelete(f);
+                } catch (Exception e) {
+                    Log.d("RESET", "RESET FAILED", e);
+                }
+            }
+            finish();
+            System.exit(0); // exit process to reset Adaptext learning language model
+        }
+
+
+        KeyboardFragment fragment = new KeyboardFragment();
+        Bundle args = new Bundle();
+        args.putInt(KeyboardFragment.EXTRA_KEYBOARD, keyboard.ordinal());
+        fragment.setArguments(args);
+
+
+        // open keyboard
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_view, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+
+    public static class KeyboardFragment extends Fragment {
+
+        public static final String EXTRA_KEYBOARD = "keyboard";
+
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            KeyboardLayout k = KeyboardLayout.values()[getArguments().getInt(EXTRA_KEYBOARD)];
+
+            AbstractPredictiveKeyboardLayout keyboard = k.create(getContext());
+            keyboard.setAutoComplete(new AutoComplete(getContext()));
+            keyboard.addSubmitListener(this::submit);
+
+            return keyboard;
+        }
+
+
+        public void submit(String s) {
+            // close fragment
+            if (s.isEmpty()) {
+                getActivity().getFragmentManager().popBackStack();
+            }
+        }
+
+    }
+
+
+    public enum KeyboardLayout {
+
+        StandardQwerty,
+        PinyinSyllables,
+        GrowingFinals,
+        SwipePinyin,
+        SwipeZhuyin;
+
+
+        public AbstractPredictiveKeyboardLayout create(Context context) {
+            switch (this) {
+                case StandardQwerty:
+                    return new StandardQwerty(context);
+                case PinyinSyllables:
+                    return new PinyinSyllablesQwerty(context);
+                case GrowingFinals:
+                    return new GrowingFinalsQwerty(context);
+                case SwipePinyin:
+                    return new PinZhuYinSwipeKey(context, PinZhuYinSwipeKey.Mode.PINYIN);
+                case SwipeZhuyin:
+                    return new PinZhuYinSwipeKey(context, PinZhuYinSwipeKey.Mode.ZHUYIN);
+                default:
+                    throw new IllegalStateException("Keyboard: " + this);
+            }
+        }
+
     }
 
 

@@ -25,7 +25,7 @@ import static java.util.Arrays.copyOf;
 import static java.util.Collections.emptyList;
 import static ntu.csie.swipy.model.Punctuation.APOSTROPHE;
 
-public class PinZhuYinKeyboardLayout extends AbstractPredictiveKeyboardLayout {
+public class PinZhuYinSwipeKey extends AbstractPredictiveKeyboardLayout {
 
 
     public enum Mode {
@@ -37,7 +37,7 @@ public class PinZhuYinKeyboardLayout extends AbstractPredictiveKeyboardLayout {
     private Mode mode;
 
 
-    public PinZhuYinKeyboardLayout(Context context, Mode mode) {
+    public PinZhuYinSwipeKey(Context context, Mode mode) {
         super(context, R.layout.keyboard_common);
 
         this.mode = mode;
