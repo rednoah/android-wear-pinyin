@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/qwerty_button_height"
+    android:layout_margin="@dimen/qwerty_button_margin"
+    android:layout_weight="1"
+    android:background="@drawable/qwerty_button_bg"
+    android:gravity="center"
+    android:padding="@dimen/qwerty_button_padding"
+    android:textAlignment="center"
+    android:textAllCaps="false"
+    android:textColor="@color/key_fg" />

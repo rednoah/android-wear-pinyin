@@ -20,7 +20,8 @@ public class MainActivity extends WearableActivity {
 
         // keyboard = new PinZhuYinKeyboardLayout(getApplicationContext(), PinZhuYinKeyboardLayout.Mode.PINYIN);
 //        keyboard = new StandardQwerty(getApplicationContext());
-        keyboard = new GrowingFinalsQwerty(getApplicationContext());
+//        keyboard = new GrowingFinalsQwerty(getApplicationContext());
+        keyboard = new PinyinSyllablesQwerty(getApplicationContext());
 //        keyboard.setAutoComplete(new AutoComplete(getApplicationContext()));
         keyboard.addSubmitListener(this::submit);
 

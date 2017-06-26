@@ -37,4 +37,9 @@
     <dimen name="swipekey_group_margin">22dp</dimen>
 
 
+    <dimen name="qwerty_row_1_width">180dp</dimen>
+    <dimen name="qwerty_row_2_width">162dp</dimen>
+    <dimen name="qwerty_row_3_width">126dp</dimen>
+
+
 </resources>

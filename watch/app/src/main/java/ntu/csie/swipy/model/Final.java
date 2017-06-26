@@ -70,7 +70,6 @@ public enum Final {
     }
 
 
-
     public static Final[] getPhoneticGroups(Initial initial) {
         switch (initial) {
             case B:
@@ -264,6 +263,21 @@ public enum Final {
                         a, ai, an, ang,
                         u, ei, en, eng,
                         null, null, null, o,
+                };
+        }
+
+        // can't happen
+        throw new IllegalArgumentException("Initial: " + initial);
+    }
+
+
+    public static Final[][] getQwertyGroups(Initial initial) {
+        switch (initial) {
+            case B:
+                return new Final[][]{
+                        {ai, an, ei, en, u, i, o},
+                        {a, ao, eng, ie, ian, iao},
+                        {ang, in, ing}
                 };
         }
 

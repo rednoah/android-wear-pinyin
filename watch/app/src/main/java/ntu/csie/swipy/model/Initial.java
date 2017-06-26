@@ -55,8 +55,6 @@ public enum Initial {
     }
 
 
-
-
     public static Initial[][] getPhoneticGroups() {
         return new Initial[][]{
                 {B, P, M, F},
@@ -66,6 +64,15 @@ public enum Initial {
                 {A, Y, E, O},
                 {Z, C, S, W},
                 {ZH, CH, SH, R}
+        };
+    }
+
+
+    public static Initial[][] getQwertyGroups() {
+        return new Initial[][]{
+                {Q, W, E, R, T, Y, SH, ZH, O, P},
+                {A, S, D, F, G, H, J, K, L},
+                {Z, X, C, CH, B, N, M}
         };
     }
 
