@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -xu
 
 # adb shell screenrecord --time-limit 30 --o raw-frames /sdcard/screenrecord.raw
 # adb pull /sdcard/screenrecord.raw
