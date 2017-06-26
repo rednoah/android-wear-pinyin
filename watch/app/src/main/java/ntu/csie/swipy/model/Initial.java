@@ -45,6 +45,11 @@ public enum Initial {
     }
 
 
+    public String getPinyin() {
+        return name().toLowerCase();
+    }
+
+
     public String getZhuyin() {
         return zhuyin;
     }

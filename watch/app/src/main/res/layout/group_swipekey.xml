@@ -5,4 +5,5 @@
     android:layout_height="@dimen/swipekey_group_height"
     android:background="@drawable/swipekey_group_background"
     app:angleOffset="@integer/swipekey_group_angle"
-    app:margin="@dimen/swipekey_group_margin" />
+    app:marginH="@dimen/swipekey_group_margin_h"
+    app:marginV="@dimen/swipekey_group_margin_v" />

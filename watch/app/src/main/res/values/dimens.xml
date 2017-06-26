@@ -34,7 +34,8 @@
     <dimen name="swipekey_group_button_padding">0dp</dimen>
     <dimen name="swipekey_group_button_text_size">9dp</dimen>
 
-    <dimen name="swipekey_group_margin">22dp</dimen>
+    <dimen name="swipekey_group_margin_v">6dp</dimen>
+    <dimen name="swipekey_group_margin_h">17dp</dimen>
 
 
     <dimen name="qwerty_row_1_width">180dp</dimen>

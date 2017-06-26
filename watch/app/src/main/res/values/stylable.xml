@@ -2,8 +2,8 @@
 <resources>
 
     <declare-styleable name="CircleLayout">
-        <attr name="margin" format="dimension" />
-        <attr name="zigzag" format="dimension" />
+        <attr name="marginV" format="dimension" />
+        <attr name="marginH" format="dimension" />
         <attr name="angleOffset" format="float" />
         <attr name="angleRange" format="float" />
     </declare-styleable>

@@ -29,14 +29,13 @@ public class AutoComplete {
 
 
     public synchronized List<String> getSuggestions(String key, InputType type, String buffer) {
+        Log.d("AutoComplete", key + " -> " + buffer);
+
         if (type == InputType.DELETE_LETTER) {
             if (woogle != null) {
-                try {
-                    woogle.backspace();
-                    return woogle.getCandString();
-                } catch (Exception e) {
-                    Log.d("AutoComplete", "woogle.backspace() failed", e);
-                }
+                woogle.clear();
+                buffer.chars().filter(c -> !Character.isIdeographic(c)).forEach(c -> woogle.keyPressed((char) c));
+                return woogle.getCandString();
             }
             return emptyList();
         }

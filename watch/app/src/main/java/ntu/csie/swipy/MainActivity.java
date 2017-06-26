@@ -161,11 +161,11 @@ public class MainActivity extends WearableActivity {
 
     public enum KeyboardLayout {
 
-        StandardQwerty,
-        PinyinSyllables,
         GrowingFinals,
+        PinyinSyllables,
         SwipePinyin,
-        SwipeZhuyin;
+        SwipeZhuyin,
+        StandardQwerty;
 
 
         public AbstractPredictiveKeyboardLayout create(Context context) {

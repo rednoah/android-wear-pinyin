@@ -21,8 +21,8 @@ public class CircleLayout extends ViewGroup {
     protected final float mAngleOffset;
     protected final float mAngleRange;
 
-    protected final int mMargin;
-    protected final int mZigZag;
+    protected final int mMarginV;
+    protected final int mMarginH;
 
 
     private RectF mBounds = new RectF();
@@ -45,8 +45,8 @@ public class CircleLayout extends ViewGroup {
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CircleLayout, 0, 0);
         mAngleOffset = a.getFloat(R.styleable.CircleLayout_angleOffset, DEFAULT_ANGLE_OFFSET);
         mAngleRange = a.getFloat(R.styleable.CircleLayout_angleRange, DEFAULT_ANGLE_RANGE);
-        mMargin = a.getDimensionPixelSize(R.styleable.CircleLayout_margin, 0);
-        mZigZag = a.getDimensionPixelSize(R.styleable.CircleLayout_zigzag, 0);
+        mMarginV = a.getDimensionPixelSize(R.styleable.CircleLayout_marginV, 0);
+        mMarginH = a.getDimensionPixelSize(R.styleable.CircleLayout_marginH, 0);
         a.recycle();
 
         setLayerType(LAYER_TYPE_SOFTWARE, null);
@@ -119,7 +119,8 @@ public class CircleLayout extends ViewGroup {
         final int height = getHeight();
 
         final float minDimen = width > height ? height : width;
-        final float radius = (minDimen - mMargin) / 2f;
+        final float radiusV = (minDimen - mMarginV) / 2f;
+        final float radiusH = (minDimen - mMarginH) / 2f;
 
         mBounds.set(width / 2 - minDimen / 2, height / 2 - minDimen / 2, width / 2 + minDimen / 2, height / 2 + minDimen / 2);
 
@@ -137,11 +138,9 @@ public class CircleLayout extends ViewGroup {
             final int y;
 
             if (children > 1) {
-                double distanceFromCenter = i % 2 == 0 ? radius : radius - mZigZag;
                 double radian = Math.toRadians(centerAngle);
-
-                x = (int) (distanceFromCenter * Math.cos(radian)) + (width / 2);
-                y = (int) (distanceFromCenter * Math.sin(radian)) + (height / 2);
+                x = (int) (radiusV * Math.cos(radian)) + (width / 2);
+                y = (int) (radiusH * Math.sin(radian)) + (height / 2);
             } else {
                 x = width / 2;
                 y = height / 2;

@@ -77,6 +77,12 @@ public class PinZhuYinSwipeKey extends AbstractPredictiveKeyboardLayout {
 
 
     @Override
+    protected int[] getButtonGroups() {
+        return new int[]{R.id.controls, R.id.submit};
+    }
+
+
+    @Override
     protected int getSuggestionRecyclerLayout() {
         return R.id.suggestion_recycler;
     }
@@ -217,14 +223,14 @@ public class PinZhuYinSwipeKey extends AbstractPredictiveKeyboardLayout {
         if (t instanceof Initial) {
             Initial i = (Initial) t;
 
-            appendStart(getLabel(i));
+            appendStart(i.getPinyin());
             setFinal(getTable(), i);
             return;
         }
 
         if (t instanceof Pinyin) {
             Pinyin p = (Pinyin) t;
-            appendCommit(p.getFinal().toString().toLowerCase()); // FIXME: ZHUYIN SUPPORT
+            appendCommit(p.getFinal().getPinyin()); // FIXME: ZHUYIN SUPPORT
             setInitial(getTable());
             return;
         }

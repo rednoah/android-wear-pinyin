@@ -55,6 +55,11 @@ public enum Final {
     }
 
 
+    public String getPinyin() {
+        return name().toLowerCase();
+    }
+
+
     public String getZhuyin(Initial i) {
         return zhuyin.apply(i);
     }

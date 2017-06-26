@@ -16,38 +16,12 @@ import static java.util.stream.Collectors.toMap;
 
 public class StandardQwerty extends AbstractPredictiveKeyboardLayout {
 
-    private TreeMap<String, Button> keys;
-
 
     public StandardQwerty(Context context) {
         super(context, R.layout.keyboard_qwerty);
 
-        this.keys = IntStream.of(getButtonGroups())
-                .mapToObj(this.layout::findViewById)
-                .flatMap(v -> {
-                    if (v instanceof ViewGroup) {
-                        ViewGroup g = (ViewGroup) v;
-                        return IntStream.range(0, g.getChildCount()).mapToObj(g::getChildAt);
-                    }
-                    if (v instanceof Button) {
-                        return Stream.of(v);
-                    }
-                    return Stream.empty();
-                })
-                .map(Button.class::cast)
-                .collect(toMap(
-                        k -> k.getText().toString(),
-                        Function.identity(),
-                        (a, b) -> a,
-                        () -> new TreeMap(String.CASE_INSENSITIVE_ORDER)
-                ));
-
-
-        // hook up keyboard listeners
-        for (Button key : keys.values()) {
-            key.setText(key.getText().toString().toLowerCase());
-            key.setOnClickListener(v -> enterKey(key));
-        }
+        // prefer lower-case button labels
+        getButtons().forEach(b -> b.setText(b.getText().toString().toLowerCase()));
     }
 
 

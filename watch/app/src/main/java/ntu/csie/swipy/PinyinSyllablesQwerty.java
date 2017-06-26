@@ -38,6 +38,11 @@ public class PinyinSyllablesQwerty extends AbstractPredictiveKeyboardLayout {
 
 
     @Override
+    protected int[] getButtonGroups() {
+        return new int[]{R.id.controls, R.id.submit};
+    }
+
+    @Override
     protected int getSuggestionRecyclerLayout() {
         return R.id.suggestion_recycler;
     }

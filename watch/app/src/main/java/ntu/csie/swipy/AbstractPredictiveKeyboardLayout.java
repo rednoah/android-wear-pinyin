@@ -39,8 +39,6 @@ public abstract class AbstractPredictiveKeyboardLayout extends AbstractKeyboardL
         this.suggestionView.setHasFixedSize(true);
 
         this.suggestionLeadHighlightColor = getResources().getColor(R.color.suggestion_lead_fg, getContext().getTheme());
-
-        setSuggestions(asList("我明天要交作業了", "我", "喔", "窩", "握"));
     }
 
 
@@ -82,7 +80,7 @@ public abstract class AbstractPredictiveKeyboardLayout extends AbstractKeyboardL
         setSuggestions(emptyList());
 
         if (autoComplete != null) {
-            autoComplete.getSuggestionsAsync("", InputType.CONTROL_KEY, buffer, this::setSuggestions);
+            autoComplete.getSuggestionsAsync("", InputType.CONTROL_KEY, "", this::setSuggestions);
         }
     }
 

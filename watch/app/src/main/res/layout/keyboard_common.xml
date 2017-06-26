@@ -47,7 +47,7 @@
 
 
     <TableLayout
-        android:id="@+id/letters"
+        android:id="@+id/keyboard_content_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"

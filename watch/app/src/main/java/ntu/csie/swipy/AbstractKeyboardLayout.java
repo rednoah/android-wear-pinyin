@@ -67,10 +67,33 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
             }
             return false;
         });
+
+        // register listener for all buttons
+        getButtons().forEach(b -> b.setOnClickListener(v -> enterKey(b)));
     }
 
 
     protected abstract int getEditorLayout();
+
+
+    protected abstract int[] getButtonGroups();
+
+
+    protected Stream<Button> getButtons() {
+        return IntStream.of(getButtonGroups())
+                .mapToObj(this.layout::findViewById)
+                .flatMap(v -> {
+                    if (v instanceof ViewGroup) {
+                        ViewGroup g = (ViewGroup) v;
+                        return IntStream.range(0, g.getChildCount()).mapToObj(g::getChildAt);
+                    }
+                    if (v instanceof Button) {
+                        return Stream.of(v);
+                    }
+                    return Stream.empty();
+                })
+                .map(Button.class::cast);
+    }
 
 
     @Override
@@ -94,11 +117,7 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
 
 
     public void onEditorClick(View view, MotionEvent event) {
-        if (event.getX() < view.getWidth() / 2) {
-            enterBackspace(); // click on the left for BACKSPACE / DELETE
-        } else {
-            enterSpace(); // click on the right to add SPACE
-        }
+        // UNUSED
     }
 
     public void enterKey(Button button) {
@@ -199,7 +218,12 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
     protected void updateTextBuffer(String buffer) {
         this.buffer = buffer;
 
-        editor.setText(highlightTail(buffer, highlightStart > 0 && highlightStart < buffer.length() ? highlightStart : 0));
+        if (highlightStart > 0 && highlightStart < buffer.length()) {
+            editor.setText(highlightTail(buffer, highlightStart));
+        } else {
+            editor.setText(buffer);
+        }
+
     }
 
 

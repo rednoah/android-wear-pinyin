@@ -32,22 +32,7 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
         super(context, R.layout.keyboard_qwerty);
 
 
-        List<Button> buttons = IntStream.of(getButtonGroups())
-                .mapToObj(this.layout::findViewById)
-                .flatMap(v -> {
-                    if (v instanceof ViewGroup) {
-                        ViewGroup g = (ViewGroup) v;
-                        return IntStream.range(0, g.getChildCount()).mapToObj(g::getChildAt);
-                    }
-                    if (v instanceof Button) {
-                        return Stream.of(v);
-                    }
-                    return Stream.empty();
-                })
-                .map(Button.class::cast).collect(toList());
-
-
-        keys = buttons.stream()
+        keys = getButtons()
                 .filter(b -> Key.forLetter(b.getText()) != null)
                 .collect(toMap(
                         b -> Key.forLetter(b.getText()),
@@ -61,12 +46,6 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
         keys.forEach((k, b) -> {
             b.setTag(k);
         });
-
-
-        // hook up keyboard listeners
-        for (Button key : buttons) {
-            key.setOnClickListener(v -> enterKey(key));
-        }
 
 
         setInitial();
@@ -83,6 +62,7 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
             super.enterKey(button);
         }
     }
+
 
     @Override
     public void clear() {
@@ -105,32 +85,53 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
     }
 
 
+    @Override
+    public void enterSuggestion(String text) {
+        super.enterSuggestion(text);
+
+        setInitial();
+    }
+
     private Set<Key> syllableKeys = EnumSet.noneOf(Key.class);
 
 
     @Override
     public void keyPressed(String key, InputType type) {
-        Key typedKey = Key.forLetter(key);
-
-        // control key
-        if (typedKey == null) {
+        if (type == InputType.DELETE_LETTER) {
             super.keyPressed(key, type);
-            return;
-        }
 
-        // start new syllable
-        if (!syllableKeys.contains(typedKey)) {
-            setInitial();
-        }
+            if (buffer.isEmpty()) {
+                setInitial();
+                return;
+            }
 
-        // drill down pinyin syllable
-        super.keyPressed(key, type);
+            if (highlightStart > buffer.length()) {
+                setInitial();
+                return;
+            }
+        } else {
+            Key typedKey = Key.forLetter(key);
+
+            // control key)
+            if (typedKey == null) {
+                super.keyPressed(key, type);
+                return;
+            }
+
+            // start new syllable
+            if (!syllableKeys.contains(typedKey)) {
+                setInitial();
+            }
+
+            // drill down pinyin syllable
+            super.keyPressed(key, type);
 
 
-        // set composing text to after the entered apo
-        if (typedKey == Key.APOSTROPHE) {
-            setInitial();
-            return;
+            // set composing text to after the entered apo
+            if (typedKey == Key.APOSTROPHE) {
+                setInitial();
+                return;
+            }
         }
 
 
@@ -149,8 +150,7 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
 
         // no more options, start next syllable
         if (syllableKeys.isEmpty()) {
-            updateTextBuffer(applyLetter(Key.APOSTROPHE.getLetter(), buffer));
-            setInitial();
+            keyPressed(Key.APOSTROPHE.getLetter(), InputType.ENTER_LETTER);
             return;
         }
 
