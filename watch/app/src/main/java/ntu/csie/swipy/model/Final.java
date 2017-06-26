@@ -283,9 +283,9 @@ public enum Final {
 
             case P:
                 return new Final[][]{
-                        {ai, an, ei, en, u, i, o, ou},
-                        {a, ao, eng, ie, ian, iao},
-                        {ang, in, ing}
+                        {ai, ao, ei, u, i, o, ou},
+                        {a, en, eng, ie, in, ing},
+                        {an, ang, ian, iao}
                 };
 
 
@@ -306,16 +306,16 @@ public enum Final {
 
             case D:
                 return new Final[][]{
-                        {ai, an, e, en, ei, iu, uan, un, u, uo, ui, i, ou, ong},
-                        {a, ao, eng, ie, ian, iao},
-                        {ang, ing}
+                        {ai, e, ei, un, uo, u, ui, i, ie, ou},
+                        {a, en, eng, uan, iu, ian, iao, ong},
+                        {ao, an, ang, ing}
                 };
 
             case T:
                 return new Final[][]{
-                        {ai, an, e, uan, un, u, uo, ui, i, ou, ong},
-                        {a, ao, eng, ie, ian, iao},
-                        {ang, ing}
+                        {ai, e, un, uo, u, ui, i, ie, ou},
+                        {a, eng, uan, ian, iao, ong},
+                        {ao, an, ang, ing}
                 };
 
 
@@ -375,15 +375,15 @@ public enum Final {
                 return new Final[][]{
                         {ia, ie, i, u, ue, un},
                         {iao, ian, iu, uan},
-                        {in, ing, iang, iong}
+                        {iang, in, ing, iong}
                 };
 
 
             case ZH:
                 return new Final[][]{
-                        {ai, an, e, en, uan, un, u, ui, i, ou, ong},
-                        {a, ao, eng, uo},
-                        {ang, ua, uai, uang}
+                        {ai, ao, e, uo, u, ui, i, ou},
+                        {a, en, eng, un, uan, ong},
+                        {an, ang, ua, uai, uang}
                 };
 
             case CH:
@@ -396,25 +396,25 @@ public enum Final {
 
             case SH:
                 return new Final[][]{
-                        {ai, an, e, en, ei, uan, un, u, ui, i, ou},
-                        {a, ao, eng, uo},
-                        {ang, ua, uai, uang}
+                        {ai, ao, e, ei, uo, u, ui, i, ou},
+                        {a, en, eng, un, uan},
+                        {an, ang, ua, uai, uang}
                 };
 
 
             case R:
                 return new Final[][]{
-                        {an, en, e, i, u, uo, ou, ong},
-                        {ao, eng, ui, un},
-                        {ang, uan}
+                        {ao, e, i, ui, u, uo, ou},
+                        {an, en, un, ong},
+                        {ang, eng, uan}
                 };
 
 
             case Y:
                 return new Final[][]{
-                        {an, e, u, i, ou, ong},
-                        {a, ao, ue, un, uan},
-                        {ang, in, ing}
+                        {e, u, ue, i, ou},
+                        {a, ao, uan, un, ong},
+                        {an, ang, in, ing}
                 };
 
 
@@ -438,9 +438,9 @@ public enum Final {
 
             case W:
                 return new Final[][]{
-                        {ai, an, ei, u, o},
+                        {ai, ei, u, o},
                         {a, en, eng},
-                        {ang}
+                        {an, ang}
                 };
         }
 
