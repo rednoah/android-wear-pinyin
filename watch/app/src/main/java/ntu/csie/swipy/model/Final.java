@@ -279,6 +279,169 @@ public enum Final {
                         {a, ao, eng, ie, ian, iao},
                         {ang, in, ing}
                 };
+
+
+            case P:
+                return new Final[][]{
+                        {ai, an, ei, en, u, i, o, ou},
+                        {a, ao, eng, ie, ian, iao},
+                        {ang, in, ing}
+                };
+
+
+            case M:
+                return new Final[][]{
+                        {ai, an, e, ei, en, u, i, o, ou},
+                        {a, ao, eng, ie, ian, iao},
+                        {ang, in, ing, iu}
+                };
+
+            case F:
+                return new Final[][]{
+                        {an, ei, en, u, o, ou},
+                        {a, eng,},
+                        {ang}
+                };
+
+
+            case D:
+                return new Final[][]{
+                        {ai, an, e, en, ei, iu, uan, un, u, uo, ui, i, ou, ong},
+                        {a, ao, eng, ie, ian, iao},
+                        {ang, ing}
+                };
+
+            case T:
+                return new Final[][]{
+                        {ai, an, e, uan, un, u, uo, ui, i, ou, ong},
+                        {a, ao, eng, ie, ian, iao},
+                        {ang, ing}
+                };
+
+
+            case N:
+                return new Final[][]{
+                        {ai, an, e, en, ei, iu, uan, u, uo, i, ong},
+                        {a, ao, eng, ie, üe, ian, iao},
+                        {ang, iang, ü, in, ing}
+                };
+
+
+            case L:
+                return new Final[][]{
+                        {ai, an, e, ei, iu, uan, un, u, uo, i, ou, ong},
+                        {a, ao, eng, ie, üe, ian, iao},
+                        {ang, iang, ü, in, ing}
+                };
+
+
+            case K:
+                return new Final[][]{
+                        {ai, an, e, en, u, uo, ou, ong},
+                        {a, ao, eng, ua, ui, uai},
+                        {ang, un, uan, uang}
+                };
+
+
+            case G:
+            case H:
+                return new Final[][]{
+                        {ai, an, e, en, ei, u, ua, uo, ou, ong},
+                        {a, ao, eng, uai, ui, un},
+                        {ang, uan, uang}
+                };
+
+
+            case Z:
+                return new Final[][]{
+                        {ai, an, e, en, ei, uan, un, u, ui, i, ou, ong},
+                        {a, ao, eng, uo},
+                        {ang}
+                };
+
+
+            case C:
+            case S:
+                return new Final[][]{
+                        {ai, an, e, en, uan, un, u, ui, i, ou, ong},
+                        {a, ao, eng, uo},
+                        {ang}
+                };
+
+
+            case J:
+            case Q:
+            case X:
+                return new Final[][]{
+                        {ia, ie, i, u, ue, un},
+                        {iao, ian, iu, uan},
+                        {in, ing, iang, iong}
+                };
+
+
+            case ZH:
+                return new Final[][]{
+                        {ai, an, e, en, uan, un, u, ui, i, ou, ong},
+                        {a, ao, eng, uo},
+                        {ang, ua, uai, uang}
+                };
+
+            case CH:
+                return new Final[][]{
+                        {ai, an, e, en, uan, un, u, ui, i, ou, ong},
+                        {a, ao, eng, uo},
+                        {ang, uai, uang}
+                };
+
+
+            case SH:
+                return new Final[][]{
+                        {ai, an, e, en, ei, uan, un, u, ui, i, ou},
+                        {a, ao, eng, uo},
+                        {ang, ua, uai, uang}
+                };
+
+
+            case R:
+                return new Final[][]{
+                        {an, en, e, i, u, uo, ou, ong},
+                        {ao, eng, ui, un},
+                        {ang, uan}
+                };
+
+
+            case Y:
+                return new Final[][]{
+                        {an, e, u, i, ou, ong},
+                        {a, ao, ue, un, uan},
+                        {ang, in, ing}
+                };
+
+
+            case A:
+                return new Final[][]{
+                        {i, o},
+                        {a},
+                        {n, ng}
+                };
+
+            case E:
+                return new Final[][]{
+                        {e, r},
+                        {n}
+                };
+
+            case O:
+                return new Final[][]{
+                        {u, o}
+                };
+
+            case W:
+                return new Final[][]{
+                        {ai, an, ei, u, o},
+                        {a, en, eng},
+                        {ang}
+                };
         }
 
         // can't happen
