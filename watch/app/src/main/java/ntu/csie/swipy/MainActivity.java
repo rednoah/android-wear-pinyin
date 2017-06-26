@@ -35,7 +35,6 @@ public class MainActivity extends WearableActivity {
         keyboardRecycler.setLayoutManager(new CurvedChildLayoutManager(getApplicationContext()));
         keyboardRecycler.setAdapter(new KeyboardItemAdapter(KeyboardLayout.values(), this::openKeyboard));
 
-
         // make sure that screen doesn't turn off during user study
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
@@ -113,7 +112,7 @@ public class MainActivity extends WearableActivity {
                 }
             }
             finish();
-            System.exit(0); // exit process to reset Adaptext learning language model
+            System.exit(0);
         }
 
 
@@ -126,9 +125,13 @@ public class MainActivity extends WearableActivity {
         // open keyboard
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.content_view, fragment)
-                .addToBackStack(null)
+                .replace(R.id.content_view, fragment, fragment.toString())
+                .addToBackStack(fragment.toString())
                 .commit();
+
+
+        // fix "click through" issues
+        findViewById(R.id.keyboardRecycler).setVisibility(View.GONE);
     }
 
 
@@ -153,6 +156,7 @@ public class MainActivity extends WearableActivity {
             // close fragment
             if (s.isEmpty()) {
                 getActivity().getFragmentManager().popBackStack();
+                getActivity().findViewById(R.id.keyboardRecycler).setVisibility(View.VISIBLE);
             }
         }
 

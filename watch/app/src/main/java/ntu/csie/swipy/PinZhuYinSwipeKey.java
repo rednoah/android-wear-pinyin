@@ -230,7 +230,7 @@ public class PinZhuYinSwipeKey extends AbstractPredictiveKeyboardLayout {
 
         if (t instanceof Pinyin) {
             Pinyin p = (Pinyin) t;
-            appendCommit(p.getFinal().getPinyin()); // FIXME: ZHUYIN SUPPORT
+            appendCommit(p.hasFinal() ? p.getFinal().getPinyin() : ""); // FIXME: ZHUYIN SUPPORT
             setInitial(getTable());
             return;
         }
