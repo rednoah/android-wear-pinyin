@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static java.util.stream.Collectors.toList;
+
 public class WoogleState {
     Locale locale;
 
@@ -56,12 +58,20 @@ public class WoogleState {
         return can;
     }
 
-    public boolean isSimplefiedChinese() {
-        return locale.equals(Locale.SIMPLIFIED_CHINESE);
+
+    public List<String> getCandidates() {
+        return cands.stream().map(c -> {
+            return c.getPathWords();
+        }).collect(toList());
+    }
+
+
+    public boolean isChinese() {
+        return true;
     }
 
     public boolean isUS() {
-        return locale.equals(Locale.US);
+        return false;
     }
 
     public boolean isInputStringEmpty() {

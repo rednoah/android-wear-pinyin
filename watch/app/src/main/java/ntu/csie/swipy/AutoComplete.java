@@ -1,12 +1,10 @@
 package ntu.csie.swipy;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -42,7 +40,7 @@ public class AutoComplete {
                     Log.d("AutoComplete", type + " -> " + buffer);
                     woogle.clear();
                 }
-                return new Result(woogle.getBuffer(), false, woogle.getCandString());
+                return new Result(woogle.getBuffer(), false, woogle.getCandidates());
             }
             return new Result(emptyList());
         }
@@ -76,13 +74,13 @@ public class AutoComplete {
                         s = woogle.getCompString();
                         commit = false;
                     }
-                    return new Result(s, commit, woogle.getCandString());
+                    return new Result(s, commit, woogle.getCandidates());
                 }
                 break;
         }
 
 
-        List<String> suggestions = woogle.getCandString();
+        List<String> suggestions = woogle.getCandidates();
 
         Log.d("AutoComplete", "PINYIN: " + woogle.getCompString());
         Log.d("AutoComplete", "HANZI: " + suggestions);

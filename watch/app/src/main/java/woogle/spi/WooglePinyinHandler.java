@@ -7,6 +7,7 @@ import woogle.chart.CKYDecoder;
 import woogle.chart.Chart;
 import woogle.chart.ChartCell;
 import woogle.chart.Path;
+import woogle.cmd.CandidateSelectCommand;
 import woogle.cmd.Command;
 import woogle.cmd.DigitLetterCommand;
 import woogle.cmd.LowerLetterCommand;
@@ -56,16 +57,23 @@ public class WooglePinyinHandler {
     }
 
 
-    public void candidatePressed(int i) {
-        Command cmd = new DigitLetterCommand(this, i);
+    public boolean candidateSelected(String s) {
+        WoogleLookupCandidate candidate = state.cands.stream().filter(c -> s.equals(c.getPathWords())).findFirst().orElse(null);
+        if (candidate == null) {
+            return false;
+        }
+        
+        Command cmd = new CandidateSelectCommand(this, candidate);
         cmd.execute();
         cmdManager.push(cmd);
         this.consumeKeyTypedAndPressed = true;
+
+        return true;
     }
 
 
     public void downAction() {
-        if (state.isSimplefiedChinese() && !state.isInputStringEmpty()) {
+        if (state.isChinese() && !state.isInputStringEmpty()) {
             if (!state.isLastPage())
                 state.pageDown();
             this.consumeKeyTypedAndPressed = true;
@@ -73,7 +81,7 @@ public class WooglePinyinHandler {
     }
 
     public void upAction() {
-        if (state.isSimplefiedChinese() && !state.isInputStringEmpty()) {
+        if (state.isChinese() && !state.isInputStringEmpty()) {
             if (!state.isFirstPage())
                 state.pageUp();
             this.consumeKeyTypedAndPressed = true;
@@ -82,7 +90,7 @@ public class WooglePinyinHandler {
 
 
     public void enterAction() {
-        if (state.isSimplefiedChinese() && !state.isInputStringEmpty()) {
+        if (state.isChinese() && !state.isInputStringEmpty()) {
             WoogleLookupCandidate c = state.getCand(0);
             c.c.selectedIndex = c.pathIndex;
 
@@ -97,7 +105,7 @@ public class WooglePinyinHandler {
     }
 
     public void backspaceAction() {
-        if (state.isSimplefiedChinese() && !state.isInputStringEmpty()) {
+        if (state.isChinese() && !state.isInputStringEmpty()) {
             Command cmd = cmdManager.pop();
             cmd.undo();
             this.consumeKeyTypedAndPressed = true;
@@ -152,5 +160,6 @@ public class WooglePinyinHandler {
     public void sendText(String text) {
         woogleInputMethod.sendText(text);
     }
+
 
 }

@@ -27,7 +27,7 @@ public class LowerLetterCommand implements Command {
 
     @Override
     public void execute() {
-        if (state.isSimplefiedChinese()) {
+        if (state.isChinese()) {
             state.inputString.append(lowerletter);
             state.result.pinyin = pinyinSyllable.split(state.inputString
                     .toString());
@@ -39,7 +39,7 @@ public class LowerLetterCommand implements Command {
 
     @Override
     public void undo() {
-        if (state.isSimplefiedChinese()) {
+        if (state.isChinese()) {
             state.inputString.deleteCharAt(state.inputString.length() - 1);
             if (state.inputString.length() != 0) {
                 state.result.pinyin = pinyinSyllable.split(state.inputString

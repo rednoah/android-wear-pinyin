@@ -50,8 +50,8 @@ public class WoogleInputMethod {
     }
 
 
-    public List<String> getCandString() {
-        return state.getCandString(5);
+    public List<String> getCandidates() {
+        return state.getCandidates();
     }
 
 
@@ -65,15 +65,7 @@ public class WoogleInputMethod {
     }
 
     public boolean select(String candidate) {
-        List<String> cands = getCandString();
-        int i = cands.indexOf(candidate);
-        if (i >= 0) {
-            pinyinHandler.candidatePressed(i + 1);
-            return true;
-        }
-
-        Log.d("WoogleInputMethod", "Illegal candidate: " + candidate + " -> " + cands);
-        return false;
+        return pinyinHandler.candidateSelected(candidate);
     }
 
 

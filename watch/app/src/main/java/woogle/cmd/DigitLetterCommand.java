@@ -29,7 +29,7 @@ public class DigitLetterCommand implements Command {
 
     @Override
     public void execute() {
-        if (state.isSimplefiedChinese() && !state.isInputStringEmpty()) {
+        if (state.isChinese() && !state.isInputStringEmpty()) {
             if (1 <= digit && digit <= 5) {
                 WoogleLookupCandidate c = state.getCand(digit - 1);
                 c.c.selectedIndex = c.pathIndex;
@@ -56,7 +56,7 @@ public class DigitLetterCommand implements Command {
 
     @Override
     public void undo() {
-        if (state.isSimplefiedChinese() && !state.isInputStringEmpty()) {
+        if (state.isChinese() && !state.isInputStringEmpty()) {
             ChartCell c = state.result.popChartCell();
             c.selectedIndex = ChartCell.NOT_SEL;
             decoder.setChartCellSelected(handler.chart, c);

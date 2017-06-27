@@ -27,7 +27,7 @@ public class UpperLetterCommand implements Command {
 
     @Override
     public void execute() {
-        if (state.isSimplefiedChinese() && !state.isInputStringEmpty()) {
+        if (state.isChinese() && !state.isInputStringEmpty()) {
             state.inputString.append(upperletter);
             state.result.pinyin = pinyinSyllable.split(state.inputString
                     .toString());
@@ -40,7 +40,7 @@ public class UpperLetterCommand implements Command {
 
     @Override
     public void undo() {
-        if (state.isSimplefiedChinese() && !state.isInputStringEmpty()) {
+        if (state.isChinese() && !state.isInputStringEmpty()) {
             state.inputString.deleteCharAt(state.inputString.length() - 1);
             state.result.pinyin = pinyinSyllable.split(state.inputString
                     .toString());
