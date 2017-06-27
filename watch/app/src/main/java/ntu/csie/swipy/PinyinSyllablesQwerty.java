@@ -159,23 +159,15 @@ public class PinyinSyllablesQwerty extends AbstractPredictiveKeyboardLayout {
 
 
     private void appendStart(String s) {
-        highlightStart = buffer.length();
+        markHighlightStart();
         keyPressed(s, InputType.ENTER_LETTER);
     }
 
 
     private void appendCommit(String s) {
         keyPressed(s + APOSTROPHE, InputType.ENTER_LETTER);
-        highlightStart = buffer.length();
-    }
 
-
-    @Override
-    public void setText(String s) {
-        super.setText(s);
-
-        setInitial(getTable());
-        setSuggestions(emptyList());
+        markHighlightStart();
     }
 
 

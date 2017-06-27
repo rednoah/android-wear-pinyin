@@ -74,14 +74,11 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
 
     public void setInitial() {
         // start composition here
-        highlightStart = buffer.length();
+        markHighlightStart();
 
         syllableKeys = EnumSet.allOf(Key.class);
 
         resetKeyboardKeys();
-
-        // update composition highlight
-        updateTextBuffer(buffer);
     }
 
 
@@ -100,12 +97,7 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
         if (type == InputType.DELETE_LETTER) {
             super.keyPressed(key, type);
 
-            if (buffer.isEmpty()) {
-                setInitial();
-                return;
-            }
-
-            if (highlightStart > buffer.length()) {
+            if (getComposingBuffer().isEmpty()) {
                 setInitial();
                 return;
             }
@@ -135,7 +127,7 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
         }
 
 
-        String head = buffer.substring(highlightStart).toLowerCase();
+        String head = getHighlightBuffer().toLowerCase();
 
         syllableKeys.clear();
         stream(SyllableDictoryReader.SYLLABLES)

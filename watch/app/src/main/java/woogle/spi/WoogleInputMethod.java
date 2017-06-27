@@ -30,8 +30,18 @@ public class WoogleInputMethod {
     }
 
 
+    String commit;
+
+
     public void sendText(String s) {
-        Log.d("WoogleInputMethod", "COMMIT: " + s);
+        commit = s;
+    }
+
+
+    public String result() {
+        String s = commit;
+        commit = null;
+        return s;
     }
 
 
@@ -47,6 +57,23 @@ public class WoogleInputMethod {
 
     public String getCompString() {
         return state.result.toCompString();
+    }
+
+
+    public String getBuffer() {
+        return state.inputString.toString();
+    }
+
+    public boolean select(String candidate) {
+        List<String> cands = getCandString();
+        int i = cands.indexOf(candidate);
+        if (i >= 0) {
+            pinyinHandler.candidatePressed(i + 1);
+            return true;
+        }
+
+        Log.d("WoogleInputMethod", "Illegal candidate: " + candidate + " -> " + cands);
+        return false;
     }
 
 

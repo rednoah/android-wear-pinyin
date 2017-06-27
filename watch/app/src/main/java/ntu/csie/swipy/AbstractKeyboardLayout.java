@@ -43,6 +43,7 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
     protected String buffer;
     protected int highlightColor;
 
+    protected int composingStart = 0;
     protected int highlightStart = -1;
 
 
@@ -215,7 +216,21 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
     }
 
 
+    protected void setComposingBuffer(String buffer) {
+        updateTextBuffer(this.buffer.substring(0, composingStart) + buffer);
+    }
+
+
     protected void updateTextBuffer(String buffer) {
+        if (composingStart > buffer.length()) {
+            composingStart = buffer.length();
+        }
+
+        if (highlightStart > buffer.length()) {
+            highlightStart = -1;
+        }
+
+
         this.buffer = buffer;
 
         if (highlightStart > 0 && highlightStart < buffer.length()) {
@@ -223,7 +238,38 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
         } else {
             editor.setText(buffer);
         }
+    }
 
+
+    public void markComposingStart() {
+        this.composingStart = buffer.length();
+
+        // update composition highlight
+        updateTextBuffer(buffer);
+    }
+
+    public void markHighlightStart() {
+        this.highlightStart = buffer.length();
+
+        // update composition highlight
+        updateTextBuffer(buffer);
+    }
+
+    protected String getComposingBuffer() {
+        if (composingStart > buffer.length()) {
+            return "";
+        }
+
+        return buffer.substring(composingStart);
+    }
+
+
+    protected String getHighlightBuffer() {
+        if (highlightStart > buffer.length()) {
+            return "";
+        }
+
+        return buffer.substring(highlightStart);
     }
 
 
@@ -247,11 +293,6 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
         } else {
             button.setText(key);
         }
-    }
-
-
-    protected String getLastWord() {
-        return buffer;
     }
 
 

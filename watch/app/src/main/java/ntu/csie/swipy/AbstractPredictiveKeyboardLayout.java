@@ -14,13 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
-import static java.util.Arrays.asList;
+import ntu.csie.swipy.model.Punctuation;
+
 import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 
 
 public abstract class AbstractPredictiveKeyboardLayout extends AbstractKeyboardLayout {
@@ -58,7 +60,7 @@ public abstract class AbstractPredictiveKeyboardLayout extends AbstractKeyboardL
         super.keyPressed(key, type);
 
         if (autoComplete != null && type != InputType.CONTROL_KEY) {
-            autoComplete.getSuggestionsAsync(key, type, buffer, this::setSuggestions);
+            autoComplete.getSuggestionsAsync(key, type, getComposingBuffer(), this::setSuggestions);
         }
     }
 
@@ -68,16 +70,32 @@ public abstract class AbstractPredictiveKeyboardLayout extends AbstractKeyboardL
     }
 
 
-    public void setSuggestions(List<String> suggestions) {
+    public void setSuggestions(AutoComplete.Result candidates) {
+        if (candidates.buffer != null) {
+            setComposingBuffer(candidates.buffer);
+
+            if (candidates.commit) {
+                markComposingStart();
+            }
+        }
+
+
+        // suggest punctuation after selecting all characters
+        List<String> cands = candidates.candidates;
+
+        if (cands.isEmpty()) {
+            cands = Stream.of(Punctuation.COMMA, Punctuation.DOT).map(Objects::toString).collect(toList());
+        }
+
         // update suggestions
-        suggestionView.setAdapter(new SuggestionViewAdapter(getSuggestionItemLayout(), suggestions, this::enterSuggestion, getLastWord(), suggestionLeadHighlightColor));
+        suggestionView.setAdapter(new SuggestionViewAdapter(getSuggestionItemLayout(), cands, this::enterSuggestion, getComposingBuffer(), suggestionLeadHighlightColor));
     }
 
 
     @Override
     public void clear() {
         super.clear();
-        setSuggestions(emptyList());
+        setSuggestions(new AutoComplete.Result(emptyList()));
 
         if (autoComplete != null) {
             autoComplete.getSuggestionsAsync("", InputType.CONTROL_KEY, "", this::setSuggestions);

@@ -1,6 +1,7 @@
 package ntu.csie.swipy;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -20,6 +21,7 @@ public class AutoComplete {
 
     private Context context;
 
+
     private WoogleInputMethod woogle;
 
 
@@ -28,16 +30,21 @@ public class AutoComplete {
     }
 
 
-    public synchronized List<String> getSuggestions(String key, InputType type, String buffer) {
+    public synchronized Result getSuggestions(String key, InputType type, String buffer) {
         Log.d("AutoComplete", key + " -> " + buffer);
 
         if (type == InputType.DELETE_LETTER) {
             if (woogle != null) {
                 woogle.clear();
-                buffer.chars().filter(c -> !Character.isIdeographic(c)).forEach(c -> woogle.keyPressed((char) c));
-                return woogle.getCandString();
+                try {
+                    buffer.chars().forEach(c -> woogle.keyPressed((char) c));
+                } catch (Exception e) {
+                    Log.d("AutoComplete", type + " -> " + buffer);
+                    woogle.clear();
+                }
+                return new Result(woogle.getBuffer(), false, woogle.getCandString());
             }
-            return emptyList();
+            return new Result(emptyList());
         }
 
 
@@ -45,7 +52,7 @@ public class AutoComplete {
             if (woogle != null) {
                 woogle.clear();
             }
-            return emptyList();
+            return new Result(emptyList());
         }
 
 
@@ -62,8 +69,15 @@ public class AutoComplete {
                 key.chars().forEach(c -> woogle.keyPressed((char) c));
                 break;
             case ENTER_WORD:
-                woogle.clear();
-                buffer.chars().filter(c -> !Character.isIdeographic(c)).forEach(c -> woogle.keyPressed((char) c));
+                if (woogle.select(key)) {
+                    String s = woogle.result();
+                    boolean commit = true;
+                    if (s == null) {
+                        s = woogle.getCompString();
+                        commit = false;
+                    }
+                    return new Result(s, commit, woogle.getCandString());
+                }
                 break;
         }
 
@@ -73,22 +87,48 @@ public class AutoComplete {
         Log.d("AutoComplete", "PINYIN: " + woogle.getCompString());
         Log.d("AutoComplete", "HANZI: " + suggestions);
 
-        return suggestions;
+
+        return new Result(suggestions);
     }
 
 
-    public void getSuggestionsAsync(String key, InputType type, String buffer, Consumer<List<String>> handler) {
-        new AsyncTask<Void, Void, List<String>>() {
+    public void getSuggestionsAsync(String key, InputType type, String buffer, Consumer<Result> handler) {
+        new AsyncTask<Void, Void, Result>() {
             @Override
-            protected List<String> doInBackground(Void... params) {
+            protected Result doInBackground(Void... params) {
                 return getSuggestions(key, type, buffer);
             }
 
             @Override
-            protected void onPostExecute(List<String> suggestions) {
+            protected void onPostExecute(Result suggestions) {
                 handler.accept(suggestions);
             }
         }.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+    }
+
+
+    public static class Result {
+
+        public final String buffer;
+        public final boolean commit;
+
+
+        public final List<String> candidates;
+
+
+        public Result(String buffer, boolean commit, List<String> candidates) {
+            this.buffer = buffer;
+            this.commit = commit;
+            this.candidates = candidates;
+        }
+
+        public Result(List<String> candidates) {
+            this.buffer = null;
+            this.commit = false;
+            this.candidates = candidates;
+        }
+
+
     }
 
 

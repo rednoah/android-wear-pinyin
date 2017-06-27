@@ -8,6 +8,7 @@ import woogle.chart.Chart;
 import woogle.chart.ChartCell;
 import woogle.chart.Path;
 import woogle.cmd.Command;
+import woogle.cmd.DigitLetterCommand;
 import woogle.cmd.LowerLetterCommand;
 import woogle.ds.PathNode;
 import woogle.util.PinyinSyllable;
@@ -53,6 +54,15 @@ public class WooglePinyinHandler {
         cmdManager.push(cmd);
         this.consumeKeyTypedAndPressed = true;
     }
+
+
+    public void candidatePressed(int i) {
+        Command cmd = new DigitLetterCommand(this, i);
+        cmd.execute();
+        cmdManager.push(cmd);
+        this.consumeKeyTypedAndPressed = true;
+    }
+
 
     public void downAction() {
         if (state.isSimplefiedChinese() && !state.isInputStringEmpty()) {
