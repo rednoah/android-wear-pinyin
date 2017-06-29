@@ -77,7 +77,7 @@ public class UserStudyActivity extends MainActivity {
             // make sure to record last input before turning of key logging
             recorder.record(Symbols.ENTER, s);
 
-            if (phraseIndex.incrementAndGet() >= PHRASE_COUNT) {
+            if (phraseIndex.incrementAndGet() > PHRASE_COUNT) {
                 recorder.record(Symbols.END_OF_TEXT, Symbols.END_OF_TEXT);
                 recorder.setEnabled(false);
 

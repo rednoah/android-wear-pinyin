@@ -69,7 +69,6 @@ public class Prompter extends Application {
 		switch (state) {
 		case SelectKeyboard:
 			if (START_OF_TEXT.equals(r.key)) {
-				phrase.reset();
 				promptNextPhrase();
 				return true;
 			}
