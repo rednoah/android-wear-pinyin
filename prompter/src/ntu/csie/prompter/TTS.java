@@ -1,6 +1,5 @@
 package ntu.csie.prompter;
 
-import java.util.Random;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -10,16 +9,8 @@ public class TTS {
 
 	private static final Executor runner = Executors.newSingleThreadScheduledExecutor();
 
-	public static void sayLetter(String s) {
-		execute("say", "-v", getVoice(), "-r", "250", s.toLowerCase());
-	}
-
 	public static void say(String s) {
-		execute("say", "-v", getVoice(), s);
-	}
-
-	private static String getVoice() {
-		return new Random().nextBoolean() ? "Karen" : "Alex";
+		execute("say", "-v", "Ting-Ting", s);
 	}
 
 	private static void execute(String... command) {
