@@ -3,6 +3,7 @@ package ntu.csie.swipy;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.wearable.activity.WearableActivity;
 import android.support.wearable.view.CurvedChildLayoutManager;
@@ -18,6 +19,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 
 public class MainActivity extends WearableActivity {
@@ -33,10 +35,27 @@ public class MainActivity extends WearableActivity {
         keyboardRecycler.setCenterEdgeItems(true);
 
         keyboardRecycler.setLayoutManager(new CurvedChildLayoutManager(getApplicationContext()));
-        keyboardRecycler.setAdapter(new KeyboardItemAdapter(KeyboardLayout.values(), this::openKeyboard));
+        keyboardRecycler.setAdapter(new KeyboardItemAdapter(getKeyboardLayoutItems(), this::openKeyboard));
 
         // make sure that screen doesn't turn off during user study
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    }
+
+
+    public KeyboardLayout[] getKeyboardLayoutItems() {
+        return new KeyboardLayout[]{
+                KeyboardLayout.GrowingFinals,
+                KeyboardLayout.PinyinSyllables,
+                KeyboardLayout.SwipePinyin,
+                KeyboardLayout.SwipeZhuyin,
+                KeyboardLayout.StandardQwerty,
+                null
+        };
+    }
+
+
+    public KeyboardFragment getKeyboardFragment() {
+        return new KeyboardFragment();
     }
 
 
@@ -95,7 +114,7 @@ public class MainActivity extends WearableActivity {
 
         @Override
         public int getItemCount() {
-            return layouts.length + 1;
+            return layouts.length;
         }
 
     }
@@ -116,7 +135,7 @@ public class MainActivity extends WearableActivity {
         }
 
 
-        KeyboardFragment fragment = new KeyboardFragment();
+        KeyboardFragment fragment = getKeyboardFragment();
         Bundle args = new Bundle();
         args.putInt(KeyboardFragment.EXTRA_KEYBOARD, keyboard.ordinal());
         fragment.setArguments(args);
@@ -141,14 +160,17 @@ public class MainActivity extends WearableActivity {
 
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            KeyboardLayout k = KeyboardLayout.values()[getArguments().getInt(EXTRA_KEYBOARD)];
-
-            AbstractPredictiveKeyboardLayout keyboard = k.create(getContext());
+        public AbstractPredictiveKeyboardLayout onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            AbstractPredictiveKeyboardLayout keyboard = getKeyboardLayout().create(getContext());
             keyboard.setAutoComplete(new AutoComplete(getContext()));
             keyboard.addSubmitListener(this::submit);
 
             return keyboard;
+        }
+
+
+        public KeyboardLayout getKeyboardLayout() {
+            return KeyboardLayout.values()[getArguments().getInt(EXTRA_KEYBOARD)];
         }
 
 
