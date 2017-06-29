@@ -2,13 +2,13 @@ package ntu.csie.swipy;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.IntStream;
+
+import woogle.spi.WoogleInputMethod;
+import woogle.util.WoogleDatabase;
 
 public class UserStudyActivity extends MainActivity {
 
@@ -16,7 +16,15 @@ public class UserStudyActivity extends MainActivity {
     public static final String RECORDER_NODE = "http://oasis1.csie.ntu.edu.tw:22148/record";
     public static final String RECORDER_SESSION = String.format("%08X", System.currentTimeMillis());
 
-    public static final int PHRASE_COUNT = 20;
+    public static final int PHRASE_COUNT = 25;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // make sure that Woogle is initialized and loaded into memory
+        // WoogleDatabase.load(getApplicationContext());
+    }
 
 
     @Override
@@ -33,7 +41,7 @@ public class UserStudyActivity extends MainActivity {
     public static class UserStudyKeyboardFragment extends KeyboardFragment {
 
 
-        AtomicInteger phraseIndex = new AtomicInteger(1);
+        AtomicInteger phraseIndex = new AtomicInteger(0);
         Recorder recorder;
 
 
@@ -44,6 +52,8 @@ public class UserStudyActivity extends MainActivity {
             recorder.setEnabled(true);
             recorder.record(Symbols.START_OF_TEXT, Symbols.START_OF_TEXT);
 
+            // start with Phrase 1
+            phraseIndex.incrementAndGet();
 
             AbstractPredictiveKeyboardLayout keyboard = super.onCreateView(inflater, container, savedInstanceState);
             keyboard.setRecorder(recorder);
@@ -51,7 +61,7 @@ public class UserStudyActivity extends MainActivity {
             return keyboard;
         }
 
-        
+
         @Override
         public void submit(String s) {
             if (s.isEmpty()) {
@@ -59,7 +69,7 @@ public class UserStudyActivity extends MainActivity {
                 return;
             }
 
-            if (phraseIndex.incrementAndGet() >= PHRASE_COUNT) {
+            if (phraseIndex.incrementAndGet() > PHRASE_COUNT) {
                 recorder.record(Symbols.END_OF_TEXT, Symbols.END_OF_TEXT);
                 recorder.setEnabled(false);
 
