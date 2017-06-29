@@ -28,8 +28,7 @@ public class AutoComplete {
     }
 
 
-    public synchronized Result getSuggestions(String key, InputType type, String buffer) {
-        // Log.d("AutoComplete", key + " -> " + buffer);
+    public Result getSuggestions(String key, InputType type, String buffer) {
 
         if (type == InputType.DELETE_LETTER) {
             if (woogle != null) {
@@ -37,7 +36,6 @@ public class AutoComplete {
                 try {
                     buffer.chars().forEach(c -> woogle.keyPressed((char) c));
                 } catch (Exception e) {
-                    // Log.d("AutoComplete", type + " -> " + buffer);
                     woogle.clear();
                 }
                 return new Result(woogle.getBuffer(), false, woogle.getCandidates());
