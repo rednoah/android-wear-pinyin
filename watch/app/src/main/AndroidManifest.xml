@@ -34,17 +34,23 @@
 
         <activity
             android:name=".MainActivity"
-            android:label="Pinyin Input Method">
+            android:icon="@mipmap/ic_launcher"
+            android:label="Pinyin Input Method"
+            android:taskAffinity=".main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
 
         <activity
             android:name=".UserStudyActivity"
-            android:label="Pinyin Input Method (User Study)">
+            android:icon="@mipmap/ic_launcher"
+            android:label="Pinyin Input Method (User Study)"
+            android:taskAffinity=".study">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
