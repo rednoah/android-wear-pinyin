@@ -165,6 +165,8 @@ public class MainActivity extends WearableActivity {
             keyboard.setAutoComplete(new AutoComplete(getContext()));
             keyboard.addSubmitListener(this::submit);
 
+            keyboard.getSuggestionView().requestFocus();
+
             return keyboard;
         }
 
