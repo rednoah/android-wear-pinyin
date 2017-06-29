@@ -177,9 +177,14 @@ public class MainActivity extends WearableActivity {
         public void submit(String s) {
             // close fragment
             if (s.isEmpty()) {
-                getActivity().getFragmentManager().popBackStack();
-                getActivity().findViewById(R.id.keyboardRecycler).setVisibility(View.VISIBLE);
+                back();
             }
+        }
+
+
+        public void back() {
+            getActivity().getFragmentManager().popBackStack();
+            getActivity().findViewById(R.id.keyboardRecycler).setVisibility(View.VISIBLE);
         }
 
     }

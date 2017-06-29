@@ -84,7 +84,7 @@ public abstract class AbstractPredictiveKeyboardLayout extends AbstractKeyboardL
         List<String> cands = candidates.candidates;
 
         if (cands.isEmpty()) {
-            cands = Stream.of(Punctuation.COMMA, Punctuation.DOT).map(Objects::toString).collect(toList());
+            cands = Stream.of(Punctuation.COMMA, Punctuation.DOT, Punctuation.QUESTION_MARK).map(Objects::toString).collect(toList());
         }
 
         // update suggestions

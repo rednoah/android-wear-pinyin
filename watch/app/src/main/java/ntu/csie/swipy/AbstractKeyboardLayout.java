@@ -99,20 +99,6 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getRepeatCount() == 0) {
-            // log hardware key events
-            if (recorder != null) {
-                recorder.record(KeyEvent.keyCodeToString(keyCode), buffer);
-            }
-
-            if (keyCode == KeyEvent.KEYCODE_STEM_1) {
-                keyPressed(Symbols.KEYBOARD, InputType.CONTROL_KEY);
-            } else if (keyCode == KeyEvent.KEYCODE_STEM_2) {
-                keyPressed(Symbols.OPTION, InputType.CONTROL_KEY);
-            }
-
-            return true;
-        }
         return super.onKeyDown(keyCode, event);
     }
 
@@ -187,7 +173,8 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
             hapticFeedback.feedback();
         }
 
-        if (recorder != null) {
+
+        if (recorder != null && type != InputType.CONTROL_KEY) {
             recorder.record(key, buffer);
         }
     }

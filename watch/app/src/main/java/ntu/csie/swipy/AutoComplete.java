@@ -29,7 +29,7 @@ public class AutoComplete {
 
 
     public synchronized Result getSuggestions(String key, InputType type, String buffer) {
-        Log.d("AutoComplete", key + " -> " + buffer);
+        // Log.d("AutoComplete", key + " -> " + buffer);
 
         if (type == InputType.DELETE_LETTER) {
             if (woogle != null) {
@@ -37,7 +37,7 @@ public class AutoComplete {
                 try {
                     buffer.chars().forEach(c -> woogle.keyPressed((char) c));
                 } catch (Exception e) {
-                    Log.d("AutoComplete", type + " -> " + buffer);
+                    // Log.d("AutoComplete", type + " -> " + buffer);
                     woogle.clear();
                 }
                 return new Result(woogle.getBuffer(), false, woogle.getCandidates());
@@ -82,8 +82,8 @@ public class AutoComplete {
 
         List<String> suggestions = woogle.getCandidates();
 
-        Log.d("AutoComplete", "PINYIN: " + woogle.getCompString());
-        Log.d("AutoComplete", "HANZI: " + suggestions);
+        // Log.d("AutoComplete", "PINYIN: " + woogle.getCompString());
+        // Log.d("AutoComplete", "HANZI: " + suggestions);
 
 
         return new Result(suggestions);

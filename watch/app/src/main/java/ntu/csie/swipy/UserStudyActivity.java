@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import woogle.spi.WoogleInputMethod;
 import woogle.util.WoogleDatabase;
 
 public class UserStudyActivity extends MainActivity {
@@ -16,14 +15,14 @@ public class UserStudyActivity extends MainActivity {
     public static final String RECORDER_NODE = "http://oasis1.csie.ntu.edu.tw:22148/record";
     public static final String RECORDER_SESSION = String.format("%08X", System.currentTimeMillis());
 
-    public static final int PHRASE_COUNT = 25;
+    public static final int PHRASE_COUNT = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // make sure that Woogle is initialized and loaded into memory
-        // WoogleDatabase.load(getApplicationContext());
+        WoogleDatabase.load(getApplicationContext());
     }
 
 
@@ -37,6 +36,11 @@ public class UserStudyActivity extends MainActivity {
         };
     }
 
+    @Override
+    public KeyboardFragment getKeyboardFragment() {
+        return new UserStudyKeyboardFragment();
+    }
+
 
     public static class UserStudyKeyboardFragment extends KeyboardFragment {
 
@@ -47,7 +51,7 @@ public class UserStudyActivity extends MainActivity {
 
         @Override
         public AbstractPredictiveKeyboardLayout onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            Recorder recorder = new Recorder(getContext(), RECORDER_NODE, RECORDER_SESSION, Build.MODEL);
+            recorder = new Recorder(getContext(), RECORDER_NODE, RECORDER_SESSION, Build.MODEL, getKeyboardLayout());
             recorder.setProgress(phraseIndex);
             recorder.setEnabled(true);
             recorder.record(Symbols.START_OF_TEXT, Symbols.START_OF_TEXT);
@@ -69,12 +73,16 @@ public class UserStudyActivity extends MainActivity {
                 return;
             }
 
-            if (phraseIndex.incrementAndGet() > PHRASE_COUNT) {
+
+            // make sure to record last input before turning of key logging
+            recorder.record(Symbols.ENTER, s);
+
+            if (phraseIndex.incrementAndGet() >= PHRASE_COUNT) {
                 recorder.record(Symbols.END_OF_TEXT, Symbols.END_OF_TEXT);
                 recorder.setEnabled(false);
 
                 // close fragment
-                super.submit(s);
+                back();
                 return;
             }
         }
