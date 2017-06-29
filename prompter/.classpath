@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/jetty-client.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-http.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-io.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-util.jar"/>
+	<classpathentry kind="lib" path="lib/websocket-api.jar"/>
+	<classpathentry kind="lib" path="lib/websocket-client.jar"/>
+	<classpathentry kind="lib" path="lib/websocket-common.jar"/>
+	<classpathentry kind="lib" path="lib/miglayout-core.jar"/>
+	<classpathentry kind="lib" path="lib/miglayout-javafx.jar"/>
+	<classpathentry kind="lib" path="lib/args4j.jar"/>
+	<classpathentry kind="lib" path="lib/streamex.jar"/>
+	<classpathentry kind="lib" path="lib/commons-text.jar"/>
+	<classpathentry kind="lib" path="lib/commons-math.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

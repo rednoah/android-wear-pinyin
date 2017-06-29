@@ -1,0 +1,16 @@
+1	PinyinSyllables	SwipePinyin	GrowingFinals	StandardQwerty
+2	SwipePinyin	StandardQwerty	PinyinSyllables	GrowingFinals
+3	StandardQwerty	GrowingFinals	SwipePinyin	PinyinSyllables
+4	GrowingFinals	PinyinSyllables	StandardQwerty	SwipePinyin
+5	SwipePinyin	StandardQwerty	PinyinSyllables	GrowingFinals
+6	StandardQwerty	GrowingFinals	SwipePinyin	PinyinSyllables
+7	PinyinSyllables	SwipePinyin	GrowingFinals	StandardQwerty
+8	GrowingFinals	PinyinSyllables	StandardQwerty	SwipePinyin
+9	StandardQwerty	GrowingFinals	PinyinSyllables	SwipePinyin
+10	SwipePinyin	StandardQwerty	GrowingFinals	PinyinSyllables
+11	GrowingFinals	PinyinSyllables	SwipePinyin	StandardQwerty
+12	PinyinSyllables	SwipePinyin	StandardQwerty	GrowingFinals
+13	GrowingFinals	StandardQwerty	PinyinSyllables	SwipePinyin
+14	PinyinSyllables	GrowingFinals	SwipePinyin	StandardQwerty
+15	SwipePinyin	PinyinSyllables	StandardQwerty	GrowingFinals
+16	StandardQwerty	SwipePinyin	GrowingFinals	PinyinSyllables
