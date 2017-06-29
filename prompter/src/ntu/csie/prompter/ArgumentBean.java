@@ -20,7 +20,8 @@ public class ArgumentBean {
 	public int phraseCount = 25;
 
 	@Option(name = "-Device")
-	public String device = "701KPTM0011921"; // LG Watch Style
+	public String device = "unknown"; // emulator
+	// public String device = "701KPTM0011921"; // LG Watch Style
 	// public String device = "702KPKN003413"; // LG Watch Sport
 
 	@Option(name = "-Node")
