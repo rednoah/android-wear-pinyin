@@ -1,8 +1,6 @@
 package woogle.spi;
 
 
-import android.util.Log;
-
 import java.util.List;
 
 
@@ -21,6 +19,9 @@ public class WoogleInputMethod {
 
 
     public void keyPressed(char c) {
+        if (c == 'ü') {
+            c = 'v';
+        }
         this.pinyinHandler.keyPressed(c);
     }
 
