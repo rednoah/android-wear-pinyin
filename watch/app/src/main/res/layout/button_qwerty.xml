@@ -9,4 +9,5 @@
     android:padding="@dimen/qwerty_button_padding"
     android:textAlignment="center"
     android:textAllCaps="false"
-    android:textColor="@color/key_fg" />
+    android:textColor="@color/key_fg"
+    android:textSize="@dimen/button_font_size" />

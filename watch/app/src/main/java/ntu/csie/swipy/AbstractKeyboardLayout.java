@@ -319,4 +319,17 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
     }
 
 
+    public static class UndoState {
+        final String buffer;
+        final int composingStart;
+        final int highlightStart;
+
+        public UndoState(String buffer, int composingStart, int highlightStart) {
+            this.buffer = buffer;
+            this.composingStart = composingStart;
+            this.highlightStart = highlightStart;
+        }
+    }
+
+
 }

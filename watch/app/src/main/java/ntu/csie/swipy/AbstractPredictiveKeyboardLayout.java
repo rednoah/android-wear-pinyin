@@ -80,15 +80,8 @@ public abstract class AbstractPredictiveKeyboardLayout extends AbstractKeyboardL
         }
 
 
-        // suggest punctuation after selecting all characters
-        List<String> cands = candidates.candidates;
-
-        if (cands.isEmpty()) {
-            cands = Stream.of(Punctuation.COMMA, Punctuation.DOT, Punctuation.QUESTION_MARK).map(Objects::toString).collect(toList());
-        }
-
         // update suggestions
-        suggestionView.setAdapter(new SuggestionViewAdapter(getSuggestionItemLayout(), cands, this::enterSuggestion, getComposingBuffer(), suggestionLeadHighlightColor));
+        suggestionView.setAdapter(new SuggestionViewAdapter(getSuggestionItemLayout(), candidates.candidates, this::enterSuggestion, getComposingBuffer(), suggestionLeadHighlightColor));
     }
 
 

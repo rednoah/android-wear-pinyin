@@ -19,6 +19,7 @@
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="@color/key_fg"
+        android:textSize="@dimen/button_control_font_size"
         android:textStyle="bold" />
 
 
@@ -68,7 +69,8 @@
                 android:text="Q"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -80,7 +82,8 @@
                 android:text="W"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -92,7 +95,8 @@
                 android:text="E"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -104,7 +108,8 @@
                 android:text="R"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -116,7 +121,8 @@
                 android:text="T"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -128,7 +134,8 @@
                 android:text="Y"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -140,7 +147,8 @@
                 android:text="U"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -152,7 +160,8 @@
                 android:text="I"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -164,7 +173,8 @@
                 android:text="O"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -176,7 +186,8 @@
                 android:text="P"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
 
         </TableRow>
@@ -196,7 +207,8 @@
                 android:text="A"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -208,7 +220,8 @@
                 android:text="S"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -220,7 +233,8 @@
                 android:text="D"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -232,7 +246,8 @@
                 android:text="F"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -244,7 +259,8 @@
                 android:text="G"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -256,7 +272,8 @@
                 android:text="H"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -268,7 +285,8 @@
                 android:text="J"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -280,7 +298,8 @@
                 android:text="K"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -292,7 +311,8 @@
                 android:text="L"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
         </TableRow>
 
@@ -310,7 +330,8 @@
                 android:text="Z"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -322,7 +343,8 @@
                 android:text="X"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -334,7 +356,8 @@
                 android:text="C"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -346,7 +369,8 @@
                 android:text="V"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -358,7 +382,8 @@
                 android:text="B"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -370,7 +395,8 @@
                 android:text="N"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -382,7 +408,8 @@
                 android:text="M"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
         </TableRow>
 
@@ -412,7 +439,8 @@
                 android:text="1"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -424,7 +452,8 @@
                 android:text="2"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -436,7 +465,8 @@
                 android:text="3"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -448,7 +478,8 @@
                 android:text="4"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -460,7 +491,8 @@
                 android:text="5"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -472,7 +504,8 @@
                 android:text="6"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -484,7 +517,8 @@
                 android:text="7"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -496,7 +530,8 @@
                 android:text="8"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -508,7 +543,8 @@
                 android:text="9"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -520,7 +556,8 @@
                 android:text="0"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
         </TableRow>
 
@@ -539,7 +576,8 @@
                 android:text="\@"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -551,7 +589,8 @@
                 android:text="#"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -563,7 +602,8 @@
                 android:text="$"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -575,7 +615,8 @@
                 android:text="%"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -587,7 +628,8 @@
                 android:text="&amp;"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -599,7 +641,8 @@
                 android:text="-"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -611,7 +654,8 @@
                 android:text="+"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -623,7 +667,8 @@
                 android:text="("
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -635,7 +680,8 @@
                 android:text=")"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
         </TableRow>
 
@@ -653,7 +699,8 @@
                 android:text="."
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -665,7 +712,8 @@
                 android:text="*"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -677,7 +725,8 @@
                 android:text="'"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -689,7 +738,8 @@
                 android:text=";"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -701,7 +751,8 @@
                 android:text="!"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -713,7 +764,8 @@
                 android:text="\?"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
             <Button
                 android:layout_width="@dimen/qwerty_button_width"
@@ -725,7 +777,8 @@
                 android:text=","
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_font_size" />
 
         </TableRow>
 
@@ -751,7 +804,8 @@
                 android:text="⌫"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_control_font_size" />
 
             <Button
                 android:layout_width="match_parent"
@@ -763,7 +817,8 @@
                 android:text="⌨"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_control_font_size" />
 
         </TableRow>
 

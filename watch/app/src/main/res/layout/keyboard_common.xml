@@ -12,13 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:layout_gravity="top|center"
-        android:background="@drawable/qwerty_button_alt_bg"
+        android:background="@drawable/qwerty_button_bg"
         android:gravity="center"
         android:padding="@dimen/qwerty_button_padding"
         android:text="⏎"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="@color/key_fg"
+        android:textSize="@dimen/button_control_font_size"
         android:textStyle="bold" />
 
 
@@ -70,25 +71,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/qwerty_control_button_height"
                 android:layout_margin="@dimen/qwerty_button_margin"
-                android:background="@drawable/qwerty_button_alt_bg"
+                android:background="@drawable/qwerty_button_bg"
                 android:gravity="right"
                 android:paddingRight="10dp"
                 android:text="⌫"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_control_font_size" />
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/qwerty_control_button_height"
                 android:layout_margin="@dimen/qwerty_button_margin"
-                android:background="@drawable/qwerty_button_alt_bg"
+                android:background="@drawable/qwerty_button_bg"
                 android:gravity="left"
                 android:paddingLeft="10dp"
                 android:text="⌨"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/key_fg" />
+                android:textColor="@color/key_fg"
+                android:textSize="@dimen/button_control_font_size" />
 
         </TableRow>
 

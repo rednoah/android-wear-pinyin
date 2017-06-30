@@ -31,7 +31,6 @@ public class UserStudyActivity extends MainActivity {
         return new MainActivity.KeyboardLayout[]{
                 MainActivity.KeyboardLayout.GrowingFinals,
                 MainActivity.KeyboardLayout.PinyinSyllables,
-                MainActivity.KeyboardLayout.SwipePinyin,
                 MainActivity.KeyboardLayout.StandardQwerty
         };
     }

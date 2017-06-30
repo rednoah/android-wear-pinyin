@@ -17,7 +17,7 @@
     <dimen name="keydial_zigzag">14dp</dimen>
 
 
-    <dimen name="qwerty_button_height">28dp</dimen>
+    <dimen name="qwerty_button_height">30dp</dimen>
     <dimen name="qwerty_button_width">18dp</dimen>
     <dimen name="qwerty_button_margin">0dp</dimen>
     <dimen name="qwerty_button_padding">0dp</dimen>
@@ -41,6 +41,9 @@
     <dimen name="qwerty_row_1_width">180dp</dimen>
     <dimen name="qwerty_row_2_width">162dp</dimen>
     <dimen name="qwerty_row_3_width">126dp</dimen>
+
+    <dimen name="button_font_size">20dp</dimen>
+    <dimen name="button_control_font_size">14dp</dimen>
 
 
 </resources>

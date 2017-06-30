@@ -4,13 +4,13 @@
     <item name="watch_bg" type="color">@color/black</item>
 
     <item name="key_fg" type="color">@color/white</item>
-    <item name="key_bg" type="color">#424242</item>
+    <item name="key_bg" type="color">@color/black</item>
     <item name="key_alt_bg" type="color">#616161</item>
     <item name="key_selected_bg" type="color">#58819a</item>
 
     <item name="editor_fg" type="color">@color/white</item>
     <item name="editor_bg" type="color">#38474f</item>
-    <item name="editor_highlight_fg" type="color">#80ccc5</item>
+    <item name="editor_highlight_fg" type="color">@color/white</item>
 
     <item name="suggestion_fg" type="color">@color/white</item>
     <item name="suggestion_lead_fg" type="color">@color/editor_highlight_fg</item>
