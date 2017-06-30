@@ -3,6 +3,7 @@ package ntu.csie.swipy;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -28,6 +29,14 @@ public class PinyinSyllablesQwerty extends AbstractPredictiveKeyboardLayout {
 
         setInitial(getTable());
     }
+
+
+    @Override
+    public void onEditorClick(View view, MotionEvent event) {
+        setInitial(getTable());
+        markHighlightStart();
+    }
+
 
     @Override
     public void clear() {

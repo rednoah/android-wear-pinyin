@@ -3,6 +3,8 @@ package ntu.csie.swipy;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
@@ -48,6 +50,12 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
         });
 
 
+        setInitial();
+    }
+
+
+    @Override
+    public void onEditorClick(View view, MotionEvent event) {
         setInitial();
     }
 
@@ -129,6 +137,14 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
 
         String head = getHighlightBuffer().toLowerCase();
 
+
+        // reset keyboard when deleting backwards
+        if (head.isEmpty()) {
+            setInitial();
+            return;
+        }
+
+
         syllableKeys.clear();
         stream(SyllableDictoryReader.SYLLABLES)
                 .filter(s -> s.startsWith(head) && s.length() > head.length())
@@ -141,7 +157,7 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
 
 
         // no more options, start next syllable
-        if (syllableKeys.isEmpty()) {
+        if (syllableKeys.isEmpty() && head.length() > 1) {
             keyPressed(Key.APOSTROPHE.getLetter(), InputType.ENTER_LETTER);
             return;
         }

@@ -243,7 +243,7 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
     }
 
     protected String getComposingBuffer() {
-        if (composingStart > buffer.length()) {
+        if (composingStart < 0 || composingStart > buffer.length()) {
             return "";
         }
 
@@ -252,7 +252,7 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
 
 
     protected String getHighlightBuffer() {
-        if (highlightStart > buffer.length()) {
+        if (highlightStart < 0 || highlightStart > buffer.length()) {
             return "";
         }
 

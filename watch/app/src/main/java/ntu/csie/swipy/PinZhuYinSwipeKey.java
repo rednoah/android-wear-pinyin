@@ -7,6 +7,7 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -47,6 +48,14 @@ public class PinZhuYinSwipeKey extends AbstractPredictiveKeyboardLayout {
 
         setInitial(getTable());
     }
+
+
+    @Override
+    public void onEditorClick(View view, MotionEvent event) {
+        setInitial(getTable());
+        markHighlightStart();
+    }
+
 
     @Override
     public void clear() {
