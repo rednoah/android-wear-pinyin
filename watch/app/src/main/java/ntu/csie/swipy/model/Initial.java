@@ -16,8 +16,8 @@ public enum Initial {
     F("ㄈ", a, o, ei, ou, an, en, ang, eng, u),
     D("ㄉ", a, e, ai, ei, ao, ou, an, en, ang, eng, ong, i, iao, ie, iu, ian, ing, u, uo, ui, uan, un),
     T("ㄊ", a, e, ai, ao, ou, an, ang, eng, ong, i, iao, ie, ian, ing, u, uo, ui, uan, un),
-    N("ㄋ", a, e, ai, ei, ao, an, en, ang, eng, ong, i, iao, ie, iu, ian, in, iang, ing, u, uo, uan, ü, üe),
-    L("ㄌ", a, e, ai, ei, ao, ou, an, ang, eng, ong, i, iao, ie, iu, ian, in, iang, ing, u, uo, uan, un, ü, üe), // ignore 倆 lia
+    N("ㄋ", a, e, ai, ei, ao, an, en, ang, eng, ong, i, iao, ie, iu, ian, in, iang, ing, u, uo, uan, ü, ue),
+    L("ㄌ", a, e, ai, ei, ao, ou, an, ang, eng, ong, i, iao, ie, iu, ian, in, iang, ing, u, uo, uan, un, ü, ue), // ignore 倆 lia
     G("ㄍ", a, e, ai, ei, ao, ou, an, en, ang, eng, ong, u, ua, uo, uai, ui, uan, un, uang),
     K("ㄎ", a, e, ai, ao, ou, an, en, ang, eng, ong, u, ua, uo, uai, ui, uan, un, uang),
     H("ㄏ", a, e, ai, ei, ao, ou, an, en, ang, eng, ong, u, ua, uo, uai, ui, uan, un, uang),
