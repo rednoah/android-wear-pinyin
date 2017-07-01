@@ -1,27 +1,21 @@
 package ntu.csie.swipy;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 
 import java.util.EnumMap;
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import ntu.csie.swipy.model.Key;
 import woogle.ds.reader.SyllableDictoryReader;
 
 import static java.util.Arrays.stream;
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
 
@@ -102,49 +96,50 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
 
     @Override
     public void keyPressed(String key, InputType type) {
-        if (type == InputType.DELETE_LETTER) {
+        Key letter = Key.forLetter(key);
+
+        // control key)
+        if (letter == null) {
             super.keyPressed(key, type);
-
-            if (getComposingBuffer().isEmpty()) {
-                setInitial();
-                return;
-            }
-        } else {
-            Key typedKey = Key.forLetter(key);
-
-            // control key)
-            if (typedKey == null) {
-                super.keyPressed(key, type);
-                return;
-            }
-
-            // start new syllable
-            if (!syllableKeys.contains(typedKey)) {
-                setInitial();
-            }
-
-            // drill down pinyin syllable
-            super.keyPressed(key, type);
-
-
-            // set composing text to after the entered apo
-            if (typedKey == Key.APOSTROPHE) {
-                setInitial();
-                return;
-            }
+            return;
         }
 
 
-        String head = getHighlightBuffer().toLowerCase();
-
-
-        // reset keyboard when deleting backwards
-        if (head.isEmpty()) {
+        // set composing text to after the entered apo
+        if (letter == Key.APOSTROPHE) {
+            super.keyPressed(key, type);
             setInitial();
             return;
         }
 
 
+        // start new syllable
+        if (!syllableKeys.contains(letter)) {
+            Log.d("GrowingFinals", "ENTER: " + Key.APOSTROPHE.getLetter() + key);
+            super.keyPressed(Key.APOSTROPHE.getLetter() + key, type);
+            setInitial();
+            return;
+        }
+
+
+        String head = getNextHighlightBuffer(key, type);
+        updateSyllableKeys(head);
+
+        // no more options, start next syllable
+        if (syllableKeys.isEmpty() && head.length() > 1) {
+            Log.d("GrowingFinals", "ENTER: " + key + Key.APOSTROPHE.getLetter());
+            super.keyPressed(key + Key.APOSTROPHE.getLetter(), InputType.ENTER_LETTER);
+            setInitial();
+            return;
+        }
+
+
+        super.keyPressed(key, InputType.ENTER_LETTER);
+        updateSyllableButtons(head);
+    }
+
+
+    private void updateSyllableKeys(String head) {
         syllableKeys.clear();
         stream(SyllableDictoryReader.SYLLABLES)
                 .filter(s -> s.startsWith(head) && s.length() > head.length())
@@ -154,15 +149,10 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
 
 
         Log.d("KEYS", head + ": " + syllableKeys);
+    }
 
 
-        // no more options, start next syllable
-        if (syllableKeys.isEmpty() && head.length() > 1) {
-            keyPressed(Key.APOSTROPHE.getLetter(), InputType.ENTER_LETTER);
-            return;
-        }
-
-
+    private void updateSyllableButtons(String head) {
         // grow and highlight possible next keys
         resetKeyboardKeys();
 
@@ -178,6 +168,24 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
         if (stream(SyllableDictoryReader.SYLLABLES).anyMatch(s -> s.equals(head))) {
             stream(Key.APOSTROPHE.getSurroundingKeys()).forEach(sk -> setSurroundingKey(sk, Key.APOSTROPHE));
         }
+    }
+
+
+    private String getNextHighlightBuffer(String key, InputType type) {
+        if (type == InputType.ENTER_LETTER) {
+            return applyLetter(key, getHighlightBuffer()).toLowerCase();
+        } else {
+            return getHighlightBuffer().toLowerCase();
+        }
+    }
+
+
+    @Override
+    public void popHistory() {
+        super.popHistory();
+
+        updateSyllableKeys(getHighlightBuffer());
+        updateSyllableButtons(getHighlightBuffer());
     }
 
 

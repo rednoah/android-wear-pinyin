@@ -17,21 +17,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.apache.commons.lang3.text.StrBuilder;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.Stack;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import ntu.csie.swipy.model.Punctuation;
-
-import static java.util.stream.Collectors.toMap;
-import static ntu.csie.swipy.model.Punctuation.APOSTROPHE;
 
 public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
 
@@ -151,12 +144,14 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
     public void keyPressed(String key, InputType type) {
         switch (type) {
             case DELETE_LETTER:
-                updateTextBuffer(applyDelete(buffer));
+                popHistory();
                 break;
             case ENTER_LETTER:
+                pushHistory();
                 updateTextBuffer(applyLetter(key, buffer));
                 break;
             case ENTER_WORD:
+                pushHistory();
                 updateTextBuffer(applyWord(key, buffer));
                 break;
             case CONTROL_KEY:
@@ -177,11 +172,6 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
         if (recorder != null && type != InputType.CONTROL_KEY) {
             recorder.record(key, buffer);
         }
-    }
-
-
-    protected String applyDelete(String buffer) {
-        return buffer.isEmpty() ? buffer : Emoji.deleteLastCodePoint(buffer); // be aware of multi-byte emoji
     }
 
 
@@ -296,13 +286,11 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
 
 
     public void clear() {
-        setText("");
+        composingStart = 0;
         highlightStart = -1;
-    }
+        history.clear();
 
-
-    public void setText(String s) {
-        updateTextBuffer(s);
+        updateTextBuffer("");
     }
 
 
@@ -319,12 +307,34 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
     }
 
 
-    public static class UndoState {
-        final String buffer;
-        final int composingStart;
-        final int highlightStart;
+    private final Stack<State> history = new Stack<>();
 
-        public UndoState(String buffer, int composingStart, int highlightStart) {
+
+    public void pushHistory() {
+        history.push(new State(buffer, composingStart, highlightStart));
+    }
+
+    public void popHistory() {
+        if (history.isEmpty()) {
+            return;
+        }
+
+
+        State prev = history.pop();
+        this.buffer = prev.buffer;
+        this.composingStart = prev.composingStart;
+        this.highlightStart = prev.highlightStart;
+
+        updateTextBuffer(this.buffer);
+    }
+
+
+    public static class State {
+        public final String buffer;
+        public final int composingStart;
+        public final int highlightStart;
+
+        public State(String buffer, int composingStart, int highlightStart) {
             this.buffer = buffer;
             this.composingStart = composingStart;
             this.highlightStart = highlightStart;

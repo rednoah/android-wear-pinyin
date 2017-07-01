@@ -15,14 +15,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Consumer;
-import java.util.stream.Stream;
-
-import ntu.csie.swipy.model.Punctuation;
 
 import static java.util.Collections.emptyList;
-import static java.util.stream.Collectors.toList;
 
 
 public abstract class AbstractPredictiveKeyboardLayout extends AbstractKeyboardLayout {
