@@ -62,8 +62,9 @@ public class WoogleInputMethod {
 
 
     public String getBuffer() {
-        return state.inputString.toString();
+        return state.inputString.toString().replace('v', 'ü');
     }
+
 
     public boolean select(String candidate) {
         return pinyinHandler.candidateSelected(candidate);
