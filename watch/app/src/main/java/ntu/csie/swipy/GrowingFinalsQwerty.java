@@ -184,8 +184,13 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
     public void popHistory() {
         super.popHistory();
 
-        updateSyllableKeys(getHighlightBuffer());
-        updateSyllableButtons(getHighlightBuffer());
+        String s = getHighlightBuffer();
+        if (s.isEmpty()) {
+            setInitial();
+        } else {
+            updateSyllableKeys(s);
+            updateSyllableButtons(s);
+        }
     }
 
 
