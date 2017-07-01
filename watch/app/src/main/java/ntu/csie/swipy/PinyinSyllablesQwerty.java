@@ -1,6 +1,7 @@
 package ntu.csie.swipy;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -198,5 +199,21 @@ public class PinyinSyllablesQwerty extends AbstractPredictiveKeyboardLayout {
         }
     }
 
+    @Override
+    public void popHistory() {
+        super.popHistory();
 
+        String s = getHighlightBuffer();
+        if (s.isEmpty()) {
+            setInitial(getTable());
+        } else {
+            try {
+                Initial i = Initial.valueOf(s.toUpperCase());
+                setFinal(getTable(), i);
+            } catch (Exception e) {
+                Log.d("PinyinSyllables", "Bad buffer: " + s, e);
+                setInitial(getTable());
+            }
+        }
+    }
 }
