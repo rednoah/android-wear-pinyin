@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Map;
@@ -16,6 +17,7 @@ import ntu.csie.swipy.model.Key;
 import woogle.ds.reader.SyllableDictoryReader;
 
 import static java.util.Arrays.stream;
+import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.toMap;
 
 
@@ -156,6 +158,16 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
         // grow and highlight possible next keys
         resetKeyboardKeys();
 
+
+        if (syllableKeys.isEmpty()) {
+            return;
+        }
+
+
+        keys.forEach((k, b) -> {
+            setKeyEnabled(b, false);
+        });
+
         syllableKeys.forEach(k -> {
             stream(k.getSurroundingKeys()).forEach(sk -> setSurroundingKey(sk, k));
         });
@@ -194,9 +206,19 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
     }
 
 
+    private void setKeyEnabled(Button key, boolean enabled) {
+        if (enabled) {
+            key.setAlpha(1.0f);
+        } else {
+            key.setAlpha(0.5f);
+        }
+    }
+
+
     private void resetKeyboardKeys() {
         keys.forEach((k, b) -> {
             b.setTag(k);
+            setKeyEnabled(b, k.isInitial());
             highlight(k.getLetter(), b, false);
         });
     }
@@ -205,8 +227,9 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
     private void setSurroundingKey(Key buttonKey, Key displayKey) {
         Button b = keys.get(buttonKey);
         b.setTag(displayKey);
+        setKeyEnabled(b, true);
 
-        if (buttonKey == displayKey || (displayKey == Key.APOSTROPHE && buttonKey == Key.getPhysicalApostropheKey())) {
+        if (buttonKey == displayKey.getPhysicalKey(syllableKeys)) {
             highlight(displayKey.getLetter(), b, true);
         } else {
             highlight("", b, true);

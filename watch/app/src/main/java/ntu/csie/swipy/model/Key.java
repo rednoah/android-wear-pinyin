@@ -1,6 +1,8 @@
 package ntu.csie.swipy.model;
 
 
+import java.util.Set;
+
 import static java.util.Arrays.stream;
 
 public enum Key {
@@ -33,12 +35,12 @@ public enum Key {
         switch (this) {
             case H:
                 return new Key[]{
-                        Y, U, J, N, B, V, G
+                        Y, U, J, B, V, G
                 };
 
             case A:
                 return new Key[]{
-                        Q, W, S, X, Z
+                        Q, W, S
                 };
 
             case E:
@@ -48,27 +50,27 @@ public enum Key {
 
             case U:
                 return new Key[]{
-                        Y, H, J, K, I, T
+                        Y, H, J, I, T, G, U
                 };
 
             case V:
                 return new Key[]{
-                        C, F, G, H, N
+                        C, F
                 };
 
             case I:
                 return new Key[]{
-                        U, J, K, O
+                        U, J, K, O, H
                 };
 
             case O:
                 return new Key[]{
-                        I, K, L, P
+                        I, K, L, P, K
                 };
 
             case N:
                 return new Key[]{
-                        B, H, J, M
+                        B, M
                 };
 
             case G:
@@ -105,7 +107,7 @@ public enum Key {
 
             case U:
                 return new Key[]{
-                        U, Y
+                        Y, T
                 };
 
             case V:
@@ -115,7 +117,7 @@ public enum Key {
 
             case I:
                 return new Key[]{
-                        I, J, K
+                        I, J, U
                 };
 
             case O:
@@ -138,8 +140,20 @@ public enum Key {
     }
 
 
-    public static Key getPhysicalApostropheKey() {
-        return X;
+    public Key getPhysicalKey(Set<Key> context) {
+        if (this == APOSTROPHE) {
+            return X;
+        }
+
+        if (this == U && context.contains(I)) {
+            return Y;
+        }
+
+        if (this == O && context.contains(I)) {
+            return P;
+        }
+
+        return this;
     }
 
 
@@ -170,4 +184,14 @@ public enum Key {
     }
 
 
+    public boolean isInitial() {
+        switch (this) {
+            case U:
+            case I:
+            case V:
+                return false;
+            default:
+                return true;
+        }
+    }
 }

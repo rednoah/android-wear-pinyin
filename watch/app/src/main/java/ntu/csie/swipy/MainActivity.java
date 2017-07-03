@@ -3,7 +3,6 @@ package ntu.csie.swipy;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.wearable.activity.WearableActivity;
 import android.support.wearable.view.CurvedChildLayoutManager;
@@ -15,13 +14,10 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.osfans.trime.Rime;
-
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 
 public class MainActivity extends WearableActivity {
