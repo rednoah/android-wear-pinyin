@@ -1,15 +1,7 @@
-package ntu.csie.swipy;
+package ntu.csie.pinyin;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
-import android.view.MotionEvent;
-import android.view.ViewGroup;
 import android.widget.Button;
-
-import java.util.TreeMap;
-import java.util.function.Function;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toMap;
 

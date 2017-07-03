@@ -1,4 +1,4 @@
-package ntu.csie.swipy;
+package ntu.csie.pinyin;
 
 import android.content.Context;
 import android.util.Log;
@@ -6,18 +6,16 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
-import ntu.csie.swipy.model.Key;
+import ntu.csie.pinyin.model.Key;
 import woogle.ds.reader.SyllableDictoryReader;
 
 import static java.util.Arrays.stream;
-import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.toMap;
 
 

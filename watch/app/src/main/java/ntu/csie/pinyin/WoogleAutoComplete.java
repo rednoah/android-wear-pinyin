@@ -1,11 +1,9 @@
-package ntu.csie.swipy;
+package ntu.csie.pinyin;
 
 
 import android.content.Context;
-import android.os.AsyncTask;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 import woogle.spi.WoogleInputMethod;
 import woogle.util.WoogleDatabase;

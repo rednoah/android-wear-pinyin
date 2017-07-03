@@ -1,9 +1,9 @@
-package ntu.csie.swipy.model;
+package ntu.csie.pinyin.model;
 
 
 import java.util.function.Function;
 
-import static ntu.csie.swipy.model.Initial.*;
+import static ntu.csie.pinyin.model.Initial.*;
 
 
 public enum Final {

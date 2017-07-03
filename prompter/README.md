@@ -1,6 +1,6 @@
 # Pilot Study
 
-Evaluate 3 KeyDial and 2 SwipeKey keyboard layouts.
+Evaluate 2 experimental and 1 standard QWERTY keyboards.
 
 
 ## Procedure

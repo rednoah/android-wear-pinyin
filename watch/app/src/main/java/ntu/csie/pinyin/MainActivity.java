@@ -1,4 +1,4 @@
-package ntu.csie.swipy;
+package ntu.csie.pinyin;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -185,7 +185,7 @@ public class MainActivity extends WearableActivity {
             if (abi.contains("armeabi-v7a")) {
                 return null;
             }
-            
+
             // default to Java implementation
             return new WoogleAutoComplete(getContext());
         }

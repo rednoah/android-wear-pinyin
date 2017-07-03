@@ -1,17 +1,14 @@
 
-package ntu.csie.swipy;
+package ntu.csie.pinyin;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-
-import ntu.csie.swipy.R;
 
 public class CircleLayout extends ViewGroup {
 

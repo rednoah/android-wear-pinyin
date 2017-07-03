@@ -1,11 +1,4 @@
-package ntu.csie.swipy.model;
-
-import static java.util.stream.Collectors.*;
-
-import java.util.EnumSet;
-import java.util.Optional;
-import java.util.Set;
-import java.util.regex.Pattern;
+package ntu.csie.pinyin.model;
 
 public class Pinyin {
 

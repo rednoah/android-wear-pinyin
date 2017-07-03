@@ -1,4 +1,4 @@
-package ntu.csie.swipy.model;
+package ntu.csie.pinyin.model;
 
 
 public enum Punctuation {

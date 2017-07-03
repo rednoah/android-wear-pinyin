@@ -1,4 +1,4 @@
-package ntu.csie.swipy;
+package ntu.csie.pinyin;
 
 
 import android.content.Context;
@@ -24,7 +24,7 @@ import java.util.function.Consumer;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import ntu.csie.swipy.model.Punctuation;
+import ntu.csie.pinyin.model.Punctuation;
 
 public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
 

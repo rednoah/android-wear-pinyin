@@ -1,6 +1,6 @@
-package ntu.csie.swipy.model;
+package ntu.csie.pinyin.model;
 
-import static ntu.csie.swipy.model.Final.*;
+import static ntu.csie.pinyin.model.Final.*;
 
 public enum Initial {
 

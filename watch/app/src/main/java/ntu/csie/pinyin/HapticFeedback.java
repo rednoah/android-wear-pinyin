@@ -1,7 +1,6 @@
-package ntu.csie.swipy;
+package ntu.csie.pinyin;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.os.Vibrator;

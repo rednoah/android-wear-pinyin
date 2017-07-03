@@ -1,4 +1,4 @@
-package ntu.csie.swipy;
+package ntu.csie.pinyin;
 
 
 public enum InputType {

@@ -1,9 +1,8 @@
-package ntu.csie.swipy.model;
+package ntu.csie.pinyin.model;
 
 
 import org.junit.Test;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 

@@ -1,4 +1,4 @@
-package ntu.csie.swipy;
+package ntu.csie.pinyin;
 
 
 import android.content.Context;
@@ -16,15 +16,14 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import ntu.csie.swipy.model.Final;
-import ntu.csie.swipy.model.Initial;
-import ntu.csie.swipy.model.Pinyin;
+import ntu.csie.pinyin.model.Final;
+import ntu.csie.pinyin.model.Initial;
+import ntu.csie.pinyin.model.Pinyin;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Lists.partition;
 import static java.util.Arrays.copyOf;
-import static java.util.Collections.emptyList;
-import static ntu.csie.swipy.model.Punctuation.APOSTROPHE;
+import static ntu.csie.pinyin.model.Punctuation.APOSTROPHE;
 
 public class PinZhuYinSwipeKey extends AbstractPredictiveKeyboardLayout {
 
