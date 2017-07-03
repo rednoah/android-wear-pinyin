@@ -2,6 +2,7 @@ package ntu.csie.swipy;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.wearable.activity.WearableActivity;
@@ -17,7 +18,10 @@ import android.widget.TextView;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.util.List;
 import java.util.function.Consumer;
+
+import static java.util.Arrays.asList;
 
 
 public class MainActivity extends WearableActivity {
@@ -176,6 +180,13 @@ public class MainActivity extends WearableActivity {
 
 
         public AutoComplete getAutoCompleteInstance() {
+            List<String> abi = asList(Build.SUPPORTED_ABIS);
+
+            if (abi.contains("armeabi-v7a")) {
+                return null;
+            }
+            
+            // default to Java implementation
             return new WoogleAutoComplete(getContext());
         }
 

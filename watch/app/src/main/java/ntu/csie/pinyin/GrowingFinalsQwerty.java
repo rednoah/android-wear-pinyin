@@ -218,7 +218,7 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
     private void resetKeyboardKeys() {
         keys.forEach((k, b) -> {
             b.setTag(k);
-            setKeyEnabled(b, k.isInitial());
+            setKeyEnabled(b, true);
             highlight(k.getLetter(), b, false);
         });
     }
