@@ -116,8 +116,13 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
         // start new syllable
         if (!syllableKeys.contains(letter)) {
             Log.d("GrowingFinals", "ENTER: " + Key.APOSTROPHE.getLetter() + key);
+
+            highlightStart = buffer.length() + Key.APOSTROPHE.getLetter().length();
             super.keyPressed(Key.APOSTROPHE.getLetter() + key, type);
-            setInitial();
+
+            String s = getHighlightBuffer();
+            updateSyllableKeys(s);
+            updateSyllableButtons(s);
             return;
         }
 
