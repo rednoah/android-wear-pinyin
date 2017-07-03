@@ -426,19 +426,17 @@ public enum Final {
             case A:
                 return new Final[][]{
                         {i, o},
-                        {a},
-                        {n, ng}
+                        {a, n, ng}
                 };
 
             case E:
                 return new Final[][]{
-                        {e, r},
-                        {n}
+                        {e, n, r}
                 };
 
             case O:
                 return new Final[][]{
-                        {u, o}
+                        {o, u}
                 };
 
             case W:
@@ -499,7 +497,7 @@ public enum Final {
                 return 4;
             case ü:
             case üe:
-                return 0;
+                return 4;
         }
 
         // can't happen

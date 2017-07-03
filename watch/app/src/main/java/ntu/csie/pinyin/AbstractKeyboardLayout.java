@@ -37,7 +37,7 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
     protected int highlightColor;
 
     protected int composingStart = 0;
-    protected int highlightStart = -1;
+    protected int highlightStart = 0;
 
 
     public AbstractKeyboardLayout(Context context, int layout) {
@@ -199,18 +199,9 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
 
 
     protected void updateTextBuffer(String buffer) {
-        if (composingStart > buffer.length()) {
-            composingStart = buffer.length();
-        }
-
-        if (highlightStart > buffer.length()) {
-            highlightStart = -1;
-        }
-
-
         this.buffer = buffer;
 
-        if (highlightStart > 0 && highlightStart < buffer.length()) {
+        if (highlightStart >= 0 && highlightStart < buffer.length()) {
             editor.setText(highlightTail(buffer, highlightStart));
         } else {
             editor.setText(buffer);
@@ -259,7 +250,6 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
     protected Spanned highlightKey(String key) {
         SpannableString span = new SpannableString(key);
         span.setSpan(new StyleSpan(Typeface.BOLD), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        span.setSpan(new ForegroundColorSpan(highlightColor), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return span;
     }
 

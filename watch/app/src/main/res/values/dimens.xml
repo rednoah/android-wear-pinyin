@@ -37,13 +37,17 @@
     <dimen name="swipekey_group_margin_v">12dp</dimen>
     <dimen name="swipekey_group_margin_h">20dp</dimen>
 
+    <dimen name="qwerty_table_height">90dp</dimen>
 
-    <dimen name="qwerty_row_1_width">180dp</dimen>
-    <dimen name="qwerty_row_2_width">162dp</dimen>
-    <dimen name="qwerty_row_3_width">126dp</dimen>
+    <dimen name="qwerty_row_1_width">182dp</dimen>
+    <dimen name="qwerty_row_2_width">168dp</dimen>
+    <dimen name="qwerty_row_3_width">128dp</dimen>
 
     <dimen name="button_font_size">20dp</dimen>
     <dimen name="button_control_font_size">14dp</dimen>
+
+    <dimen name="button_font_size_smaller">16dp</dimen>
+    <dimen name="button_font_size_smallest">12dp</dimen>
 
 
 </resources>

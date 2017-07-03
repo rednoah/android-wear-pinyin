@@ -10,7 +10,8 @@
 
     <item name="editor_fg" type="color">@color/white</item>
     <item name="editor_bg" type="color">#38474f</item>
-    <item name="editor_highlight_fg" type="color">@color/white</item>
+    <item name="editor_highlight_fg" type="color">#80ccc5</item>
+
 
     <item name="suggestion_fg" type="color">@color/white</item>
     <item name="suggestion_lead_fg" type="color">@color/editor_highlight_fg</item>

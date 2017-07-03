@@ -2,6 +2,7 @@ package ntu.csie.pinyin;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -12,28 +13,47 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.function.Function;
+
 import ntu.csie.pinyin.model.Final;
 import ntu.csie.pinyin.model.Initial;
+import ntu.csie.pinyin.model.Pinyin;
+import ntu.csie.pinyin.model.Punctuation;
 
 import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toMap;
 import static ntu.csie.pinyin.model.Punctuation.APOSTROPHE;
 
 public class PinyinSyllablesQwerty extends AbstractPredictiveKeyboardLayout {
+
+    private TableRow[] initialTable;
+    private Map<Initial, TableRow[]> finalTable;
 
 
     public PinyinSyllablesQwerty(Context context) {
         super(context, R.layout.keyboard_common);
 
+        initialTable = createInitialTable();
+        finalTable = stream(Initial.values()).collect(toMap(Function.identity(), this::createFinalTable, (a, b) -> a, () -> new EnumMap<Initial, TableRow[]>(Initial.class)));
+
         Button submit = (Button) findViewById(R.id.submit);
         submit.setOnClickListener(b -> submit());
 
-        setInitial(getTable());
+        ViewGroup table = getTable();
+        stream(initialTable).forEach(table::addView);
+        finalTable.forEach((k, vs) -> {
+            stream(vs).forEach(table::addView);
+        });
+
+        setInitial();
     }
 
 
     @Override
     public void onEditorClick(View view, MotionEvent event) {
-        setInitial(getTable());
+        setInitial();
         markHighlightStart();
     }
 
@@ -42,7 +62,7 @@ public class PinyinSyllablesQwerty extends AbstractPredictiveKeyboardLayout {
     public void clear() {
         super.clear();
 
-        setInitial(getTable());
+        setInitial();
     }
 
 
@@ -79,22 +99,20 @@ public class PinyinSyllablesQwerty extends AbstractPredictiveKeyboardLayout {
     }
 
 
-    public void setInitial(ViewGroup table) {
-        table.removeAllViews();
-
-
+    private TableRow[] createInitialTable() {
         Initial[][] qwertyGroups = Initial.getQwertyGroups();
+        TableRow[] rows = new TableRow[qwertyGroups.length];
+
         int[] rowWidth = {R.dimen.qwerty_row_1_width, R.dimen.qwerty_row_2_width, R.dimen.qwerty_row_3_width};
 
         for (int n = 0; n < qwertyGroups.length; n++) {
             Initial[] r = qwertyGroups[n];
             int p = (getResources().getDimensionPixelSize(rowWidth[0]) - getResources().getDimensionPixelSize(rowWidth[n])) / 2;
 
-            TableRow row = new TableRow(table.getContext());
+            TableRow row = new TableRow(getContext());
             row.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
             row.setGravity(Gravity.CENTER);
             row.setPadding(p, 0, p, 0);
-            table.addView(row);
 
             stream(r).forEach(k -> {
                 Button keyButton = (Button) LayoutInflater.from(row.getContext()).inflate(R.layout.button_qwerty, row, false);
@@ -105,78 +123,120 @@ public class PinyinSyllablesQwerty extends AbstractPredictiveKeyboardLayout {
                     keyButton.setText(i.toString().toLowerCase());
                     keyButton.setTag(i);
                     keyButton.setOnClickListener(this::keyPressed);
+
+                    if (i.toString().length() > 1) {
+                        smallerKeyText(keyButton);
+                    }
                 }
             });
+
+            rows[n] = row;
         }
 
+        return rows;
     }
 
-
-    public void setFinal(ViewGroup table, Initial initial) {
-        table.removeAllViews();
-
-
+    private TableRow[] createFinalTable(Initial initial) {
         Final[][] qwertyGroups = Final.getQwertyGroups(initial);
+        TableRow[] rows = new TableRow[qwertyGroups.length];
+
+        int keyHeight = (int) ((float) getResources().getDimensionPixelOffset(R.dimen.qwerty_table_height) / (float) qwertyGroups.length);
         int[] rowWidth = {R.dimen.qwerty_row_1_width, R.dimen.qwerty_row_2_width, R.dimen.qwerty_row_3_width};
 
         for (int n = 0; n < qwertyGroups.length; n++) {
             Final[] r = qwertyGroups[n];
+
             int p = (getResources().getDimensionPixelSize(rowWidth[0]) - getResources().getDimensionPixelSize(rowWidth[n])) / 2;
 
-            TableRow row = new TableRow(table.getContext());
+            TableRow row = new TableRow(getContext());
             row.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
             row.setGravity(Gravity.CENTER);
             row.setPadding(p, 0, p, 0);
-            table.addView(row);
 
             stream(r).forEach(k -> {
                 Button b = (Button) LayoutInflater.from(row.getContext()).inflate(R.layout.button_qwerty, row, false);
+                b.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, keyHeight, 1.0f));
                 row.addView(b);
 
                 if (k != null) {
-                    Final f = (Final) k;
-                    b.setText(f.toString().toLowerCase());
-                    b.setTag(f);
+                    Pinyin yin = new Pinyin(initial, (Final) k);
                     b.setOnClickListener(this::keyPressed);
 
-                    switch (f.getColor()) {
-                        case 0:
-                            b.setBackgroundResource(R.drawable.rect_button_alt_1);
-                            break;
-                        case 1:
-                            b.setBackgroundResource(R.drawable.rect_button_alt_2);
-                            break;
-                        case 2:
-                            b.setBackgroundResource(R.drawable.rect_button_alt_3);
-                            break;
-                        case 3:
-                            b.setBackgroundResource(R.drawable.rect_button_alt_4);
-                            break;
-                        case 4:
-                            b.setBackgroundResource(R.drawable.rect_button_alt_5);
-                            break;
-                        case 5:
-                            b.setBackgroundResource(R.drawable.rect_button_alt_6);
-                            break;
-                        default:
-                            throw new IllegalStateException("Color Group: " + f);
+                    if (yin.hasFinal()) {
+                        b.setText(yin.getFinal().toString().toLowerCase());
+                        b.setTag(yin);
+
+                        if (b.getText().length() > 1) {
+                            smallerKeyText(b);
+                        }
+
+                        switch (yin.getFinal().getColor()) {
+                            case 0:
+                                b.setBackgroundResource(R.drawable.rect_button_alt_1);
+                                break;
+                            case 1:
+                                b.setBackgroundResource(R.drawable.rect_button_alt_2);
+                                break;
+                            case 2:
+                                b.setBackgroundResource(R.drawable.rect_button_alt_3);
+                                break;
+                            case 3:
+                                b.setBackgroundResource(R.drawable.rect_button_alt_4);
+                                break;
+                            case 4:
+                                b.setBackgroundResource(R.drawable.rect_button_alt_5);
+                                break;
+                            case 5:
+                                b.setBackgroundResource(R.drawable.rect_button_alt_6);
+                                break;
+                            default:
+                                throw new IllegalStateException("Color Group: " + yin.getFinal());
+                        }
+                    } else {
+                        b.setText(APOSTROPHE.toString());
+                        b.setTag(APOSTROPHE);
+                        b.setBackgroundResource(R.drawable.rect_button_alt_1);
                     }
+
                 }
             });
+
+            rows[n] = row;
+        }
+
+        return rows;
+    }
+
+
+    private void smallerKeyText(Button b) {
+        if (b.getText().length() >= 3) {
+            b.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.button_font_size_smallest));
+            b.setPadding(0, 12, 0, 0);
+        } else if (b.getText().length() >= 2) {
+            b.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.button_font_size_smaller));
+            b.setPadding(0, 8, 0, 0);
         }
     }
 
 
-    private void appendStart(String s) {
-        markHighlightStart();
-        keyPressed(s, InputType.ENTER_LETTER);
+    private void hideAllRows() {
+        stream(initialTable).forEach(v -> v.setVisibility(GONE));
+
+        finalTable.forEach((k, vs) -> {
+            stream(vs).forEach(v -> v.setVisibility(GONE));
+        });
     }
 
 
-    private void appendCommit(String s) {
-        keyPressed(s + APOSTROPHE, InputType.ENTER_LETTER);
+    public void setInitial() {
+        hideAllRows();
+        stream(initialTable).forEach(v -> v.setVisibility(VISIBLE));
+    }
 
-        markHighlightStart();
+
+    public void setFinal(Initial initial) {
+        hideAllRows();
+        stream(finalTable.get(initial)).forEach(v -> v.setVisibility(VISIBLE));
     }
 
 
@@ -185,15 +245,27 @@ public class PinyinSyllablesQwerty extends AbstractPredictiveKeyboardLayout {
 
         if (t instanceof Initial) {
             Initial i = (Initial) t;
-            appendStart(i.toString().toLowerCase());
-            setFinal(getTable(), i);
-            return;
-        }
 
-        if (t instanceof Final) {
-            Final f = (Final) t;
-            appendCommit(f.toString().toLowerCase());
-            setInitial(getTable());
+            markHighlightStart();
+            keyPressed(i.toString().toLowerCase(), InputType.ENTER_LETTER);
+
+            setFinal(i);
+            return;
+        } else if (t instanceof Pinyin) {
+            Pinyin yin = (Pinyin) t;
+
+            keyPressed(yin.getFinal().toString().toLowerCase() + APOSTROPHE, InputType.ENTER_LETTER);
+            markHighlightStart();
+
+            setInitial();
+            return;
+        } else if (t instanceof Punctuation) {
+            Punctuation p = (Punctuation) t;
+
+            keyPressed(p.toString(), InputType.ENTER_LETTER);
+            markHighlightStart();
+
+            setInitial();
             return;
         }
     }
@@ -204,14 +276,14 @@ public class PinyinSyllablesQwerty extends AbstractPredictiveKeyboardLayout {
 
         String s = getHighlightBuffer();
         if (s.isEmpty()) {
-            setInitial(getTable());
+            setInitial();
         } else {
             try {
                 Initial i = Initial.valueOf(s.toUpperCase());
-                setFinal(getTable(), i);
+                setFinal(i);
             } catch (Exception e) {
                 Log.d("PinyinSyllables", "Bad buffer: " + s, e);
-                setInitial(getTable());
+                setInitial();
             }
         }
     }
