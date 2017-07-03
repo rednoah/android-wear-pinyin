@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.osfans.trime.Rime;
+
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -28,6 +30,7 @@ public class MainActivity extends WearableActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         WearableRecyclerView keyboardRecycler = (WearableRecyclerView) findViewById(R.id.keyboardRecycler);
@@ -162,7 +165,7 @@ public class MainActivity extends WearableActivity {
         @Override
         public AbstractPredictiveKeyboardLayout onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             AbstractPredictiveKeyboardLayout keyboard = getKeyboardLayout().create(getContext());
-            keyboard.setAutoComplete(new AutoComplete(getContext()));
+            keyboard.setAutoComplete(getAutoCompleteInstance());
             keyboard.addSubmitListener(this::submit);
 
             keyboard.getSuggestionView().requestFocus();
@@ -173,6 +176,11 @@ public class MainActivity extends WearableActivity {
 
         public KeyboardLayout getKeyboardLayout() {
             return KeyboardLayout.values()[getArguments().getInt(EXTRA_KEYBOARD)];
+        }
+
+
+        public AutoComplete getAutoCompleteInstance() {
+            return new WoogleAutoComplete(getContext());
         }
 
 

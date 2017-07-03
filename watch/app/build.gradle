@@ -4,7 +4,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
     defaultConfig {
-        applicationId "ntu.csie.keydial"
+        applicationId "ntu.csie.mhci.pinyin"
         minSdkVersion 25
         targetSdkVersion 25
         multiDexEnabled true
@@ -22,7 +22,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    splits {
+        abi {
+            enable true
+            reset()
+            include "armeabi-v7a", "x86"
+            universalApk false
+        }
+    }
 }
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
