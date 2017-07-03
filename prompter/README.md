@@ -5,18 +5,26 @@ Evaluate 2 experimental and 1 standard QWERTY keyboards.
 
 ## Procedure
 
+
+### Introduction
+
+Please select `Pinyin Prototypes` and familiarize yourself with the following input method prototypes:
+
+* `GrowingFinals`
+* `PinyinSyllables`
+* `StandardQwerty`
+
+Notes:
+
+* When using `GrowingFinals`, you may need to use the `'` key in some cases to mark the end of a syllable (e.g. `ni'hao`)
+
+
 ### Phase 1: Keyboard Selection
-Select the `KeyDial` on your Android Wear watch. After opening the keyboard, feel free to play with it until you understand how it works. Once you're ready, type `START` and hit `⏎`.
+Please select `Pinyin Prototypes (User Study)` and follow the instructions on the screen. You will be asked to a select a keyboard and then you will need to enter `25` sentences. After entering all sentences, the screen will return to the keyboard selection where you will be asked to select the next keyboard. The process will repeat until all keyboards have been completed.
 
-### Phase 2: Character Training
-Follow the prompt and enter the given characters one by one **as rapidly as possible**. Do not worry about accuracy during this training phase. Focus on memorizing where each key is located. You can skip to the next phase by hitting `⏎`.
 
-### Phase 3: Phrase Input
-Follow the prompt and enter the given phrases **as quickly and as accurately** as possible. Feel free to correct mistakes when it's easy and ignore them when it's too troublesome. There will be a total of `5` phrases. You can take a rest before typing the first letter of each phrase. The count for each phrase starts when the first letter is entered. Please press `⏎` after entering each phrase.
-
-* Press the left-hand side of the input text field to delete (`⌫`) the last character
-* Press the right-hand side of the input text field to add a space (`⌴`) at the end
-* All input is considered `case-insensitive`
+### Phase 2: Phrase Input
+Follow the prompt and enter the given phrases **as quickly and as accurately** as possible. There will be a total of `25` phrases. You can take a rest for as long as you want before typing the first letter of each phrase. The count for each phrase starts when the first letter is entered. Please press `⏎` once after entering each phrase.
 
 
 ### Final Step
