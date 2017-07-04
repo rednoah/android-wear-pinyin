@@ -1,0 +1,7 @@
+var:
+  option:
+    ascii_punct: true
+  previously_selected_schema: luna_pinyin
+  schema_access_time:
+    cangjie5: 1498918197
+    luna_pinyin: 1498918209
