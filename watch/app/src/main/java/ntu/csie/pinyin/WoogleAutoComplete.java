@@ -45,7 +45,7 @@ public class WoogleAutoComplete extends AutoComplete {
         }
 
 
-        // initialize
+        // prepare
         if (woogle == null) {
             WoogleDatabase.load(context);
             woogle = new WoogleInputMethod();

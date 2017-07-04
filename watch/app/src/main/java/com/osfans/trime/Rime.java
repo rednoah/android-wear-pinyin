@@ -66,11 +66,10 @@ public class Rime {
      * Rime候選項
      */
     public static class RimeCandidate {
-        String text;
-        String comment;
+        public String text;
+        public String comment;
     }
 
-    ;
 
     /**
      * Rime候選區，包含多個{@link RimeCandidate 候選項}
@@ -494,18 +493,6 @@ public class Rime {
         getContexts();
     }
 
-    public static void onMessage(String message_type, String message_value) {
-        Log.info(String.format("message: [%s] %s", message_type, message_value));
-        
-        switch (message_type) {
-            case "schema":
-                initSchema();
-                break;
-            case "option":
-                getStatus();
-                break;
-        }
-    }
 
     public static String openccConvert(String line, String name) {
         if (name != null) {

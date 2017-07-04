@@ -39,45 +39,33 @@ import java.io.*;
  * 解析YAML配置文件
  */
 public class Config {
+    public static String SDCARD = "/sdcard/";
 
-    public static final String SDCARD = "/sdcard/";
-    public static final String RIME = "rime";
-    public static final String USER_DATA_DIR = SDCARD + RIME;
-    public static final String OPENCC_DATA_DIR = USER_DATA_DIR + "/opencc/";
-
-
-    public final static int INLINE_NONE = 0;
-    public final static int INLINE_PREVIEW = 1;
-    public final static int INLINE_COMPOSITION = 2;
-    public final static int INLINE_INPUT = 3;
-
-    private Map<String, Object> mStyle, mDefaultStyle;
-    private static String defaultName = "trime";
     private static String defaultFile = "trime.yaml";
     private String themeName = "trime";
+
     private String schema_id;
 
+    private static String RIME = "rime";
+    private static String USER_DATA_DIR = SDCARD + RIME;
+    public static String OPENCC_DATA_DIR = USER_DATA_DIR + "/opencc/";
 
     private static int BLK_SIZE = 1024;
-    private static Config self = null;
 
-
-    private Map<String, String> fallbackColors;
-    private Map presetColorSchemes, presetKeyboards;
-
-    private List<Object> androidKeys;
-    private Map<String, Map> presetKeys;
+    private static Config self;
 
 
     public Config(Context context) {
-        self = this;
         init();
     }
 
+    public String getTheme() {
+        return themeName;
+    }
 
     public static void prepareRime(Context context) {
         boolean isExist = new File(USER_DATA_DIR).exists();
-        boolean isOverwrite = !isExist;
+        boolean isOverwrite = false;
         if (isOverwrite) {
             copyFileOrDir(context, RIME, true);
         } else if (isExist) {
@@ -92,6 +80,27 @@ public class Config {
         Rime.get(!isExist); //覆蓋時不強制部署
     }
 
+    public static String[] getThemeKeys() {
+        File d = new File(USER_DATA_DIR);
+        FilenameFilter trimeFilter = new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String filename) {
+                return filename.endsWith("trime.yaml");
+            }
+        };
+        return d.list(trimeFilter);
+    }
+
+    public static String[] getThemeNames(String[] keys) {
+        if (keys == null) return null;
+        int n = keys.length;
+        String[] names = new String[n];
+        for (int i = 0; i < n; i++) {
+            String k = keys[i].replace(".trime.yaml", "").replace(".yaml", "");
+            names[i] = k;
+        }
+        return names;
+    }
 
     public static boolean deployOpencc() {
         File d = new File(OPENCC_DATA_DIR);
@@ -170,104 +179,20 @@ public class Config {
         return true;
     }
 
-
     private void deployConfig() {
         Rime.deploy_config_file(themeName + ".yaml", "config_version");
     }
 
 
     public void init() {
-        String name = defaultName;
-
         deployConfig();
-        mDefaultStyle = (Map<String, Object>) Rime.config_get_map(themeName, "style");
-        fallbackColors = (Map<String, String>) Rime.config_get_map(themeName, "fallback_colors");
-        androidKeys = Rime.config_get_list(themeName, "android_keys/name");
-
-        presetKeys = (Map<String, Map>) Rime.config_get_map(themeName, "preset_keys");
-        presetColorSchemes = Rime.config_get_map(themeName, "preset_color_schemes");
-        presetKeyboards = Rime.config_get_map(themeName, "preset_keyboards");
         reset();
     }
 
     public void reset() {
         schema_id = Rime.getSchemaId();
-        mStyle = (Map<String, Object>) Rime.schema_get_value(schema_id, "style");
     }
 
-    private Object _getValue(String k1, String k2) {
-        Map<String, Object> m;
-        if (mStyle != null && mStyle.containsKey(k1)) {
-            m = (Map<String, Object>) mStyle.get(k1);
-            if (m != null && m.containsKey(k2)) return m.get(k2);
-        }
-        if (mDefaultStyle != null && mDefaultStyle.containsKey(k1)) {
-            m = (Map<String, Object>) mDefaultStyle.get(k1);
-            if (m != null && m.containsKey(k2)) return m.get(k2);
-        }
-        return null;
-    }
-
-    private Object _getValue(String k1) {
-        if (mStyle != null && mStyle.containsKey(k1)) return mStyle.get(k1);
-        if (mDefaultStyle != null && mDefaultStyle.containsKey(k1)) return mDefaultStyle.get(k1);
-        return null;
-    }
-
-    public Object getValue(String s) {
-        String[] ss = s.split("/");
-        if (ss.length == 1) return _getValue(ss[0]);
-        else if (ss.length == 2) return _getValue(ss[0], ss[1]);
-        return null;
-    }
-
-    public boolean hasKey(String s) {
-        return getValue(s) != null;
-    }
-
-    public String getKeyboardName(String name) {
-        if (name.contentEquals(".default")) {
-            if (presetKeyboards.containsKey(schema_id)) name = schema_id; //匹配方案名
-            else {
-                if (schema_id.indexOf("_") >= 0) name = schema_id.split("_")[0];
-                if (!presetKeyboards.containsKey(name)) { //匹配“_”前的方案名
-                    Object o = Rime.schema_get_value(schema_id, "speller/alphabet");
-                    name = "qwerty"; //26
-                    if (o != null) {
-                        String alphabet = o.toString();
-                        if (presetKeyboards.containsKey(alphabet)) name = alphabet; //匹配字母表
-                        else {
-                            if (alphabet.indexOf(",") >= 0 || alphabet.indexOf(";") >= 0)
-                                name += "_";
-                            if (alphabet.indexOf("0") >= 0 || alphabet.indexOf("1") >= 0)
-                                name += "0";
-                        }
-                    }
-                }
-            }
-        }
-        if (!presetKeyboards.containsKey(name)) name = "default";
-        Map<String, Object> m = (Map<String, Object>) presetKeyboards.get(name);
-        if (m.containsKey("import_preset")) {
-            name = m.get("import_preset").toString();
-        }
-        return name;
-    }
-
-    public List<String> getKeyboardNames() {
-        List<String> names = (List<String>) getValue("keyboards");
-        List<String> keyboards = new ArrayList<String>();
-        for (String s : names) {
-            s = getKeyboardName(s);
-            if (!keyboards.contains(s)) keyboards.add(s);
-        }
-        return keyboards;
-    }
-
-    public Map<String, Object> getKeyboard(String name) {
-        if (!presetKeyboards.containsKey(name)) name = "default";
-        return (Map<String, Object>) presetKeyboards.get(name);
-    }
 
     public static Config get() {
         return self;
@@ -279,12 +204,6 @@ public class Config {
             self = new Config(context);
         }
         return self;
-    }
-
-    public void destroy() {
-        if (mDefaultStyle != null) mDefaultStyle.clear();
-        if (mStyle != null) mStyle.clear();
-        self = null;
     }
 
 

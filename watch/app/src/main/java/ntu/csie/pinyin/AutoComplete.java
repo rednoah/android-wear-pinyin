@@ -57,8 +57,6 @@ public abstract class AutoComplete {
             this.commit = false;
             this.candidates = candidates;
         }
-
-
     }
 
 
