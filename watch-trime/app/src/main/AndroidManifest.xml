@@ -60,7 +60,7 @@
         <activity
             android:name=".RimeTest"
             android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
+            android:label="RimeTest"
             android:taskAffinity=".rime">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -493,6 +493,21 @@ public class Rime {
         getContexts();
     }
 
+    
+    public static void onMessage(String message_type, String message_value) {
+        Log.info(String.format("Rime.onMessage() => [%s] %s", message_type, message_value));
+
+        switch (message_type) {
+            case "schema":
+                initSchema();
+                break;
+            case "option":
+                getStatus();
+                getContexts(); //切換中英文、簡繁體時更新候選
+                break;
+        }
+    }
+
 
     public static void check(boolean full_check) {
         start_maintenance(full_check);
