@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CircleLayout">
+        <attr name="marginV" format="dimension" />
+        <attr name="marginH" format="dimension" />
+        <attr name="angleOffset" format="float" />
+        <attr name="angleRange" format="float" />
+    </declare-styleable>
+
+
+    <style name="AppTheme" parent="@android:style/Theme.DeviceDefault">
+        <item name="android:windowSwipeToDismiss">false</item>
+    </style>
+
+</resources>

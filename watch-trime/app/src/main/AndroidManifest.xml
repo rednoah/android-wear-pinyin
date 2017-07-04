@@ -35,12 +35,12 @@
 
     <application
         android:allowBackup="false"
-        android:label="ASDF">
+        android:label="RimeTest">
 
 
         <activity
             android:name="com.osfans.trime.RimeTest"
-            android:label="ASDF">
+            android:label="RimeTest">
 
 
             <intent-filter>

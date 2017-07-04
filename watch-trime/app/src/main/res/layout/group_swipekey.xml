@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.osfans.trime.SwipeKeyGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/swipekey_group_width"
+    android:layout_height="@dimen/swipekey_group_height"
+    android:background="@drawable/swipekey_group_background"
+    app:angleOffset="@integer/swipekey_group_angle"
+    app:marginH="@dimen/swipekey_group_margin_h"
+    app:marginV="@dimen/swipekey_group_margin_v" />
