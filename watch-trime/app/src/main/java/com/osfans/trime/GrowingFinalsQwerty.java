@@ -6,14 +6,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
+import com.osfans.trime.model.Key;
+import com.osfans.trime.model.Syllables;
+
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.function.Function;
-
-import com.osfans.trime.model.Key;
-import woogle.ds.reader.SyllableDictoryReader;
 
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toMap;
@@ -144,14 +145,18 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
     }
 
 
+    // letter after z
+    private static final char OMEGA = 'z' + 1;
+
+
     private void updateSyllableKeys(String head) {
         syllableKeys.clear();
-        stream(SyllableDictoryReader.SYLLABLES)
-                .filter(s -> s.startsWith(head) && s.length() > head.length())
+
+        Syllables.PINYIN_SET.subSet(head, head + OMEGA).stream()
+                .filter(s -> s.length() > head.length())
                 .map(s -> s.substring(head.length(), head.length() + 1))
                 .map(Key::forLetter)
                 .forEach(syllableKeys::add);
-
 
         Log.d("KEYS", head + ": " + syllableKeys);
     }
@@ -179,8 +184,9 @@ public class GrowingFinalsQwerty extends AbstractPredictiveKeyboardLayout {
             stream(k.getSurroundingKeysForced()).forEach(sk -> setSurroundingKey(sk, k));
         });
 
+
         // enable End of Syllable buttons
-        if (stream(SyllableDictoryReader.SYLLABLES).anyMatch(s -> s.equals(head))) {
+        if (Syllables.PINYIN_SET.contains(head)) {
             stream(Key.APOSTROPHE.getSurroundingKeys()).forEach(sk -> setSurroundingKey(sk, Key.APOSTROPHE));
         }
     }

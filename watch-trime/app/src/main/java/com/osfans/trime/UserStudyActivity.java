@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import woogle.util.WoogleDatabase;
 
 public class UserStudyActivity extends MainActivity {
 
@@ -17,13 +16,8 @@ public class UserStudyActivity extends MainActivity {
 
     public static final int PHRASE_COUNT = 5;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        // make sure that Woogle is initialized and loaded into memory
-        WoogleDatabase.load(getApplicationContext());
-    }
+
 
 
     @Override

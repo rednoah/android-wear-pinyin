@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.wearable.activity.WearableActivity;
@@ -20,10 +19,7 @@ import android.widget.TextView;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.util.List;
 import java.util.function.Consumer;
-
-import static java.util.Arrays.asList;
 
 
 public class MainActivity extends WearableActivity {
@@ -182,22 +178,15 @@ public class MainActivity extends WearableActivity {
 
 
         public AutoComplete getAutoCompleteInstance() {
-            List<String> abi = asList(Build.SUPPORTED_ABIS);
-
-            if (abi.contains("armeabi-v7a")) {
-                if (getContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    Log.d("RIME", "REQUEST_PERMISSION: " + Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
-                }
-
-                RimeAutoComplete rime = new RimeAutoComplete(getContext());
-                rime.getSuggestionsAsync("", InputType.CONTROL_KEY, "", r -> Log.d("RIME", "CLEARED"));
-                
-                return rime;
+            if (getContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                Log.d("RIME", "REQUEST_PERMISSION: " + Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
             }
 
-            // default to Java implementation
-            return new WoogleAutoComplete(getContext());
+            RimeAutoComplete rime = new RimeAutoComplete(getContext());
+            rime.getSuggestionsAsync("", InputType.CONTROL_KEY, "", r -> Log.d("RIME", "CLEARED"));
+
+            return rime;
         }
 
 
