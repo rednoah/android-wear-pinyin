@@ -38,7 +38,7 @@ public class PinyinSyllablesQwerty extends AbstractPredictiveKeyboardLayout {
         initialTable = createInitialTable();
         finalTable = stream(Initial.values()).collect(toMap(Function.identity(), this::createFinalTable, (a, b) -> a, () -> new EnumMap<Initial, TableRow[]>(Initial.class)));
 
-        Button submit = (Button) findViewById(R.id.submit);
+        Button submit = findViewById(R.id.submit);
         submit.setOnClickListener(b -> submit());
 
         ViewGroup table = getTable();
@@ -61,6 +61,13 @@ public class PinyinSyllablesQwerty extends AbstractPredictiveKeyboardLayout {
     @Override
     public void clear() {
         super.clear();
+
+        setInitial();
+    }
+
+    @Override
+    public void enterSuggestion(String text) {
+        super.enterSuggestion(text);
 
         setInitial();
     }
