@@ -12,34 +12,26 @@ android {
         versionName "1.0"
     }
 
-    // signingConfigs {
-    //    release {
-    //        storeFile rootProject.file(RELEASE_STORE_FILE)
-    //        storePassword RELEASE_STORE_PASSWORD
-    //        keyAlias RELEASE_KEY_ALIAS
-    //        keyPassword RELEASE_KEY_PASSWORD
-    //    }
-    // }
+
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+
 
     buildTypes {
         release {
             minifyEnabled false
-            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-android.txt'
-            //signingConfig signingConfigs.release
         }
     }
 
 
     splits {
-
-        // Configures multiple APKs based on ABI.
         abi {
-
             // Enables building multiple APKs per ABI.
             enable true
-
-            // By default all ABIs are included, so use reset() and include to specify that we only
-            // want APKs for x86, armeabi-v7a, and mips.
 
             // Resets the list of ABIs that Gradle should create APKs for to none.
             reset()
@@ -55,6 +47,14 @@ android {
 
 
 dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile 'com.android.volley:volley:1.0.0'
+    compile 'org.apache.commons:commons-lang3:3.5'
+    compile 'commons-io:commons-io:2.5'
+
     compile 'com.google.android.support:wearable:2.0.1'
     provided 'com.google.android.wearable:wearable:2.0.1'
+
+    testCompile 'junit:junit:4.12'
 }
