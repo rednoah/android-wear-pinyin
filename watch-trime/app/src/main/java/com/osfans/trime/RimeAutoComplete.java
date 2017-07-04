@@ -27,6 +27,7 @@ public class RimeAutoComplete extends AutoComplete {
             Log.d("RIME", "PREPARE");
             Rime.get(false);
             Rime.setOption("_horizontal", true); //水平模式
+//            Rime.setOption("_auto_commit", false);
             initialized = true;
             Log.d("RIME", "INITIALIZED");
         }
@@ -35,7 +36,10 @@ public class RimeAutoComplete extends AutoComplete {
 
     public List<String> candidates() {
         if (Rime.isComposing()) {
-            return stream(Rime.getCandidates()).map(c -> c.text).collect(toList());
+            Rime.RimeCandidate[] cs = Rime.getCandidates();
+            if (cs != null) {
+                return stream(Rime.getCandidates()).map(c -> c.text).collect(toList());
+            }
         }
         return emptyList();
     }
@@ -57,6 +61,8 @@ public class RimeAutoComplete extends AutoComplete {
 
     public void clear() {
         Rime.clearComposition();
+        Rime.getCommit();
+        Rime.commitComposition();
     }
 
 
@@ -66,14 +72,21 @@ public class RimeAutoComplete extends AutoComplete {
      * @return 是否成功上屏
      */
     private String getCommitText() {
-        if (Rime.getCommit()) {
-            String value = Rime.getCommitText();
-            if (!Rime.isComposing()) {
-                Rime.commitComposition(); //自動上屏
-            }
-            return value;
+        if (!Rime.isComposing() && Rime.getCommit()) {
+            String commit = Rime.getCommitText();
+            Rime.commitComposition(); //自動上屏
+            return commit;
         }
         return null;
+    }
+
+
+    private String composition() {
+        String s = Rime.getCompositionText();
+        if (s == null || s.isEmpty()) {
+            return "";
+        }
+        return s.replace(' ', '\'');
     }
 
 
@@ -87,12 +100,14 @@ public class RimeAutoComplete extends AutoComplete {
             clear();
             pressKeys(buffer);
 
-            return new Result(Rime.getCompositionText(), false, candidates());
+            printDebug();
+
+            return new Result(composition(), false, candidates());
         }
 
 
         if (key.isEmpty() || buffer.isEmpty()) {
-            Rime.clearComposition();
+            clear();
             return new Result(emptyList());
         }
 
@@ -101,22 +116,21 @@ public class RimeAutoComplete extends AutoComplete {
         switch (type) {
             case ENTER_LETTER:
                 pressKeys(key);
+                printDebug();
                 break;
             case ENTER_WORD:
                 if (selectCandidate(key)) {
-                    String s = getCommitText();
-                    boolean commit = true;
-                    if (s == null) {
-                        s = Rime.getCompositionText();
-                        commit = false;
+                    printDebug();
+
+                    String commit = getCommitText();
+                    if (commit == null) {
+                        return new Result(composition(), false, candidates());
+                    } else {
+                        return new Result(commit, true, candidates());
                     }
-                    return new Result(s, commit, candidates());
                 }
                 break;
         }
-
-
-        printDebug();
 
 
         return new Result(candidates());
@@ -124,15 +138,17 @@ public class RimeAutoComplete extends AutoComplete {
 
 
     private void printDebug() {
-        Log.d("RIME", "COMPOSING: " + Rime.isComposing());
-        Log.d("RIME", "COMMIT: " + Rime.getCommitText());
-
-        Log.d("RIME", "INLINE_PREVIEW: " + Rime.getComposingText());
-        Log.d("RIME", "INLINE_COMPOSITION: " + Rime.getCompositionText());
-        Log.d("RIME", "INLINE_INPUT: " + Rime.RimeGetInput());
-
-        Log.d("RIME", "INDEX: " + Rime.getCandHighlightIndex());
-        Log.d("RIME", "CANDIDATES: " + stream(Rime.getCandidates()).map(c -> c.text).collect(toList()));
+//        Log.d("RIME", "COMPOSING: " + Rime.isComposing());
+//        Log.d("RIME", "COMMIT: " + Rime.getCommitText());
+//
+//        Log.d("RIME", "INLINE_PREVIEW: " + Rime.getComposingText());
+//        Log.d("RIME", "INLINE_COMPOSITION: " + Rime.getCompositionText());
+//        Log.d("RIME", "INLINE_INPUT: " + Rime.RimeGetInput());
+//
+//        if (Rime.getCandHighlightIndex() >= 0 && Rime.getCandidates() != null) {
+//            Log.d("RIME", "INDEX: " + Rime.getCandHighlightIndex());
+//            Log.d("RIME", "CANDIDATES: " + stream(Rime.getCandidates()).map(c -> c.text).collect(toList()));
+//        }
     }
 
 

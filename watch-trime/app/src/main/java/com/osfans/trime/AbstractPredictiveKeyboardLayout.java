@@ -9,6 +9,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,7 @@ public abstract class AbstractPredictiveKeyboardLayout extends AbstractKeyboardL
     public AbstractPredictiveKeyboardLayout(Context context, int layout) {
         super(context, layout);
 
-        this.suggestionView = (WearableRecyclerView) findViewById(getSuggestionRecyclerLayout());
+        this.suggestionView = findViewById(getSuggestionRecyclerLayout());
         this.suggestionView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         this.suggestionView.setHasFixedSize(true);
 
@@ -67,10 +68,12 @@ public abstract class AbstractPredictiveKeyboardLayout extends AbstractKeyboardL
 
     public void setSuggestions(AutoComplete.Result candidates) {
         if (candidates.buffer != null) {
+            Log.d("AutoComplete", candidates.toString());
             setComposingBuffer(candidates.buffer);
 
             if (candidates.commit) {
                 markComposingStart();
+                markHighlightStart();
             }
         }
 
@@ -90,6 +93,10 @@ public abstract class AbstractPredictiveKeyboardLayout extends AbstractKeyboardL
         }
     }
 
+    @Override
+    public void popHistory() {
+        super.popHistory();
+    }
 
     public static class SuggestionViewHolder extends RecyclerView.ViewHolder {
 
@@ -98,7 +105,7 @@ public abstract class AbstractPredictiveKeyboardLayout extends AbstractKeyboardL
 
         public SuggestionViewHolder(View view, Consumer<String> handler) {
             super(view);
-            this.view = (TextView) view.findViewById(R.id.text);
+            this.view = view.findViewById(R.id.text);
 
             // enter suggestion on click
             this.view.setOnClickListener(v -> handler.accept(this.value));

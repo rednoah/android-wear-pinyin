@@ -31,7 +31,7 @@ public class MainActivity extends WearableActivity {
 
         setContentView(R.layout.activity_main);
 
-        WearableRecyclerView keyboardRecycler = (WearableRecyclerView) findViewById(R.id.keyboardRecycler);
+        WearableRecyclerView keyboardRecycler = findViewById(R.id.keyboardRecycler);
         keyboardRecycler.setHasFixedSize(true);
         keyboardRecycler.setCenterEdgeItems(true);
 
@@ -40,6 +40,9 @@ public class MainActivity extends WearableActivity {
 
         // make sure that screen doesn't turn off during user study
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        // initialize RIME
+        getAutoComplete();
     }
 
 
@@ -47,11 +50,21 @@ public class MainActivity extends WearableActivity {
         return new KeyboardLayout[]{
                 KeyboardLayout.GrowingFinals,
                 KeyboardLayout.PinyinSyllables,
+                KeyboardLayout.StandardQwerty,
                 KeyboardLayout.SwipePinyin,
                 KeyboardLayout.SwipeZhuyin,
-                KeyboardLayout.StandardQwerty,
                 null
         };
+    }
+
+
+    public AutoComplete getAutoComplete() {
+        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            Log.d("RIME", "REQUEST_PERMISSION: " + Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+        }
+
+        return new RimeAutoComplete(this);
     }
 
 
@@ -163,10 +176,11 @@ public class MainActivity extends WearableActivity {
         @Override
         public AbstractPredictiveKeyboardLayout onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             AbstractPredictiveKeyboardLayout keyboard = getKeyboardLayout().create(getContext());
-            keyboard.setAutoComplete(getAutoCompleteInstance());
+            keyboard.setAutoComplete(((MainActivity) getActivity()).getAutoComplete());
             keyboard.addSubmitListener(this::submit);
 
-            keyboard.getSuggestionView().requestFocus();
+            keyboard.clear();
+            keyboard.getSuggestionView().requestFocus(); // make sure that rotary input works for scrolling through suggestions
 
             return keyboard;
         }
@@ -174,19 +188,6 @@ public class MainActivity extends WearableActivity {
 
         public KeyboardLayout getKeyboardLayout() {
             return KeyboardLayout.values()[getArguments().getInt(EXTRA_KEYBOARD)];
-        }
-
-
-        public AutoComplete getAutoCompleteInstance() {
-            if (getContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                Log.d("RIME", "REQUEST_PERMISSION: " + Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
-            }
-
-            RimeAutoComplete rime = new RimeAutoComplete(getContext());
-            rime.getSuggestionsAsync("", InputType.CONTROL_KEY, "", r -> Log.d("RIME", "CLEARED"));
-
-            return rime;
         }
 
 

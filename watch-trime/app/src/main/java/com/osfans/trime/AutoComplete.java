@@ -57,6 +57,16 @@ public abstract class AutoComplete {
             this.commit = false;
             this.candidates = candidates;
         }
+
+
+        @Override
+        public String toString() {
+            return "Result{" +
+                    "buffer='" + buffer + '\'' +
+                    ", commit=" + commit +
+                    ", candidates=" + candidates +
+                    '}';
+        }
     }
 
 

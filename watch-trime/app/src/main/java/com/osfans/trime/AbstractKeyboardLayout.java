@@ -151,7 +151,9 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
                 updateTextBuffer(applyLetter(key, buffer));
                 break;
             case ENTER_WORD:
-                pushHistory();
+                if (getComposingBuffer().chars().noneMatch(Character::isIdeographic)) {
+                    pushHistory();
+                }
                 updateTextBuffer(applyWord(key, buffer));
                 break;
             case CONTROL_KEY:
@@ -211,6 +213,9 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
 
     public void markComposingStart() {
         this.composingStart = buffer.length();
+
+        // clear key stroke history and clear character by character when deleting previously committed characters
+        this.history.clear();
 
         // update composition highlight
         updateTextBuffer(buffer);
@@ -276,11 +281,10 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
 
 
     public void clear() {
-        composingStart = 0;
-        highlightStart = -1;
-        history.clear();
+        buffer = "";
 
-        updateTextBuffer("");
+        markComposingStart();
+        markHighlightStart();
     }
 
 
@@ -304,18 +308,33 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
         history.push(new State(buffer, composingStart, highlightStart));
     }
 
+
     public void popHistory() {
         if (history.isEmpty()) {
+            deleteLastCharacter();
             return;
         }
 
 
         State prev = history.pop();
-        this.buffer = prev.buffer;
-        this.composingStart = prev.composingStart;
-        this.highlightStart = prev.highlightStart;
+        buffer = prev.buffer;
+        composingStart = prev.composingStart;
+        highlightStart = prev.highlightStart;
 
-        updateTextBuffer(this.buffer);
+        updateTextBuffer(buffer);
+    }
+
+
+    public void deleteLastCharacter() {
+        if (buffer.isEmpty()) {
+            return;
+        }
+
+        buffer = buffer.substring(0, buffer.length() - 1);
+        markComposingStart();
+        markHighlightStart();
+
+        updateTextBuffer(buffer);
     }
 
 
