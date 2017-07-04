@@ -27,8 +27,8 @@ public class RimeAutoComplete extends AutoComplete {
             Log.d("RIME", "PREPARE");
             Rime.get(false);
             Rime.setOption("_horizontal", true); //水平模式
-            Log.d("RIME", "INITIALIZED");
             initialized = true;
+            Log.d("RIME", "INITIALIZED");
         }
     }
 
