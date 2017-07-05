@@ -145,7 +145,7 @@ public class Prompter extends Application {
 		System.out.println(msg);
 
 		if (msg.startsWith("CONNECTED") && msg.endsWith(args.device)) {
-			setText(prompt, String.format("Please select <%s> and enter START.", keyboard.current()));
+			setText(prompt, String.format("Please select <%s>", keyboard.current()));
 			setText(status, "Connected");
 			setState(State.SelectKeyboard);
 			return;
@@ -289,7 +289,7 @@ public class Prompter extends Application {
 		stage.setTitle("Prompter");
 
 		MigPane layout = new MigPane("fill");
-		prompt.setFont(Font.font(Font.getDefault().getName(), 42));
+		prompt.setFont(Font.font(Font.getDefault().getName(), 64));
 
 		layout.add(title, "pos 0al 0al");
 		layout.add(progress, "pos 1al 0al");

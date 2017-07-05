@@ -14,10 +14,7 @@ public class UserStudyActivity extends MainActivity {
     public static final String RECORDER_NODE = "http://oasis1.csie.ntu.edu.tw:22148/record";
     public static final String RECORDER_SESSION = String.format("%08X", System.currentTimeMillis());
 
-    public static final int PHRASE_COUNT = 5;
-
-
-
+    public static final int PHRASE_COUNT = 25;
 
 
     @Override

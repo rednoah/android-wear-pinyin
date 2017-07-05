@@ -7,7 +7,7 @@ echo "$USER $NAME" >> pilot-study-participants.txt
 
 java -cp "bin:lib/*" ntu.csie.prompter.Prompter \
   -Participant $USER \
-  -PhraseCount 5 \
+  -PhraseCount 25 \
   -StudyPlan pilot-study-plan.tsv \
   -PhraseSet pilot-study-phrase-set.txt \
   -Record pilot-study-record.tsv
