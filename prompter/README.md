@@ -29,11 +29,11 @@ Notes:
 
 
 ### Phase 1: Keyboard Selection
-Please select `Pinyin Prototypes (User Study)` and follow the instructions on the screen. You will be asked to a select a keyboard and then you will need to enter `25` sentences. After entering all sentences, the screen will return to the keyboard selection where you will be asked to select the next keyboard. The process will repeat until all keyboards have been completed.
+Please select `Pinyin Prototypes (User Study)` and follow the instructions on the screen. You will be asked to a select a keyboard and then you will need to enter 25 sentences. After entering all sentences, the screen will return to the keyboard selection where you will be asked to select the next keyboard. The process will repeat until all keyboards have been completed.
 
 
 ### Phase 2: Phrase Input
-Follow the prompt and enter the given phrases **as quickly and as accurately** as possible. There will be a total of `25` phrases. You can take a rest for as long as you want before typing the first letter of each phrase. The count for each phrase starts when the first letter is entered. Please press `⏎` once after entering each phrase.
+Follow the prompt and enter the given phrases **as quickly and as accurately** as possible. There will be a total of [25 sentences for each keyboard](https://raw.githubusercontent.com/rednoah/dual-swipe-pinyin/master/prompter/pilot-study-phrase-set.txt). You can take a rest for as long as you want before typing the first letter of each phrase. The count for each phrase starts when the first letter is entered. Please press `⏎` once after entering each phrase.
 
 
 ### Final Step
