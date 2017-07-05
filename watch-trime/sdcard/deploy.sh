@@ -1,2 +1,2 @@
 #!/bin/sh
-adb push rime /sdcard
+adb shell 'cd /sdcard && rm -r rime rime-pristine' && adb push rime /sdcard/rime-pristine
