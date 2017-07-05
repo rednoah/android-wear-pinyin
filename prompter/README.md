@@ -1,4 +1,4 @@
-# Pinyin User Study Questionnaire
+# Pinyin User Study
 
 Evaluate 2 experimental and 1 standard QWERTY keyboards.
 
