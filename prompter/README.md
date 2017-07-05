@@ -1,4 +1,4 @@
-# Pilot Study
+# Pinyin User Study Questionnaire
 
 Evaluate 2 experimental and 1 standard QWERTY keyboards.
 
@@ -37,4 +37,4 @@ Follow the prompt and enter the given phrases **as quickly and as accurately** a
 
 
 ### Final Step
-Once you have completed each task for each keyboard, please fill out the [Pilot Study Questionnaire](https://goo.gl/forms/h5IpYRM28MMJ5ozq2).
+Once you have completed each task for each keyboard, please fill out the [Pinyin User Study Questionnaire](https://docs.google.com/forms/d/e/1FAIpQLSecQErq9kOLsQ9SYqXwya4GDMVdWELj1mDBSikwo0Z0vd5EIw/viewform?usp=sf_link).
