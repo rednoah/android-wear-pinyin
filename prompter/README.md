@@ -11,8 +11,17 @@ Evaluate 2 experimental and 1 standard QWERTY keyboards.
 Please select `Pinyin Prototypes` and familiarize yourself with the following input method prototypes:
 
 * `GrowingFinals`
+
+![GrowingFinals](https://raw.githubusercontent.com/rednoah/dual-swipe-pinyin/master/screenshots/PinyinSyllables.gif "GrowingFinals")
+
 * `PinyinSyllables`
+
+![PinyinSyllables](https://raw.githubusercontent.com/rednoah/dual-swipe-pinyin/master/screenshots/PinyinSyllables.gif "PinyinSyllables")
+
 * `StandardQwerty`
+
+![StandardQwerty](https://raw.githubusercontent.com/rednoah/dual-swipe-pinyin/master/screenshots/StandardQwerty.gif "StandardQwerty")
+
 
 Notes:
 
