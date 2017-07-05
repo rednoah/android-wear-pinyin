@@ -12,7 +12,7 @@ Please select `Pinyin Prototypes` and familiarize yourself with the following in
 
 * `GrowingFinals`
 
-![GrowingFinals](https://raw.githubusercontent.com/rednoah/dual-swipe-pinyin/master/screenshots/PinyinSyllables.gif "GrowingFinals")
+![GrowingFinals](https://raw.githubusercontent.com/rednoah/dual-swipe-pinyin/master/screenshots/GrowingFinals.gif "GrowingFinals")
 
 * `PinyinSyllables`
 
