@@ -89,13 +89,13 @@ public class Recorder {
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, json,
                     r -> Log.d(TAG, String.format("OK: %s", r)),
-                    e -> Log.d(TAG, String.format("%s: %s", e, url), e));
+                    e -> Log.e(TAG, String.format("%s: %s", e, url), e));
 
             request.setShouldCache(false);
-            request.setRetryPolicy(new DefaultRetryPolicy(10000, 10, 1));
+            request.setRetryPolicy(new DefaultRetryPolicy(5000, 10, 1));
             queue.add(request);
         } catch (Exception e) {
-            Log.d(TAG, "Failed to post record", e);
+            Log.e(TAG, "Failed to post record", e);
         }
 
 
