@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class UserStudyActivity extends MainActivity {
 
 
-    public static final String RECORDER_NODE = "http://oasis1.csie.ntu.edu.tw:22148/record";
+    public static final String RECORDER_NODE = "http://140.112.30.51:22148/record";
     public static final String RECORDER_SESSION = String.format("%08X", System.currentTimeMillis());
 
     public static final int PHRASE_COUNT = 25;
