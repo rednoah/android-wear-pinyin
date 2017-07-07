@@ -15,6 +15,8 @@ import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
@@ -87,15 +89,9 @@ public class Recorder {
             json.put("device", Build.SERIAL);
             json.put("line", tsv);
 
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, json,
-                    r -> Log.d(TAG, String.format("OK: %s", r)),
-                    e -> Log.e(TAG, String.format("%s: %s", e, url), e));
-
-            request.setShouldCache(false);
-            request.setRetryPolicy(new DefaultRetryPolicy(5000, 10, 1));
-            queue.add(request);
+            doRequest(json);
         } catch (Exception e) {
-            Log.e(TAG, "Failed to post record", e);
+            onError("Failed to post record", e);
         }
 
 
@@ -103,7 +99,34 @@ public class Recorder {
         try {
             FileUtils.writeLines(localStorageFile, singleton(tsv), true);
         } catch (Exception e) {
-            Log.d(TAG, "Failed to write record", e);
+            onError("Failed to write record", e);
+        }
+    }
+
+    public void doRequest(JSONObject json) {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, json,
+                r -> Log.d(TAG, String.format("OK: %s", r)),
+                e -> {
+                    onError(String.format("%s: %s", e, url), e);
+
+                    // force retry (cause Volley won't on network errors)
+                    doRequest(json);
+                });
+
+
+        request.setShouldCache(false);
+        request.setRetryPolicy(new DefaultRetryPolicy(5000, 0, 0));
+        queue.add(request);
+    }
+
+
+    public void onError(String message, Exception e) {
+        Log.e(TAG, message, e);
+
+        try (PrintWriter out = new PrintWriter(new FileWriter(localStorageFile, true), false)) {
+            e.printStackTrace(out);
+        } catch (Exception ioError) {
+            Log.e(TAG, "Failed to write error", ioError);
         }
     }
 
