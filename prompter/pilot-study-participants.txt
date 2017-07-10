@@ -1,17 +1,17 @@
 1 Haoping
 2 Phil
 3 Jing
-4 Chantal	15D167F33F0
+4 Chantal	BAD CHINESE
 5 Ntene
 6 Louey
 7 Sebastian
 8 Jessie
-9 William	15D1CA6808C
+9 William	SKIPPED ONE KEYBOARD
 10 Bart
 11 Paul
 12 Harvey
 13 Wenqi
 14 Carina
 15 Jan
-16 Han
-17 Wang
+16 Han	(replace 4 Chantal)
+17 Wang (replace 9 William)
