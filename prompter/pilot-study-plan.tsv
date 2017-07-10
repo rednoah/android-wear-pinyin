@@ -13,3 +13,5 @@
 13	StandardQwerty	GrowingFinals	PinyinSyllables
 14	GrowingFinals	PinyinSyllables	StandardQwerty
 15	PinyinSyllables	StandardQwerty	GrowingFinals
+16	GrowingFinals	StandardQwerty	PinyinSyllables
+17	PinyinSyllables	StandardQwerty	GrowingFinals
