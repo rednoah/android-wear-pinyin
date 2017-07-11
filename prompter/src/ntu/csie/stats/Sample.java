@@ -7,26 +7,16 @@ import java.time.Instant;
 import java.util.List;
 import java.util.LongSummaryStatistics;
 import java.util.Set;
-import java.util.function.Function;
-
-import org.apache.commons.text.similarity.LevenshteinDetailedDistance;
-import org.apache.commons.text.similarity.LevenshteinResults;
 
 import ntu.csie.prompter.KeyboardLayout;
 import ntu.csie.prompter.Record;
 
 public class Sample {
 
-	public static final Function<String, String> CASE_INSENSITIVE = String::toLowerCase;
-	public static final Function<String, String> EXACT = Function.identity();
-
-	private Function<String, String> normalization;
-
 	private String inputString;
 	private List<Record> records;
 
-	public Sample(Function<String, String> normalization, String inputString, List<Record> records) {
-		this.normalization = normalization;
+	public Sample(String inputString, List<Record> records) {
 		this.inputString = inputString;
 		this.records = records;
 	}
@@ -67,11 +57,11 @@ public class Sample {
 		return Duration.between(t1, t2);
 	}
 
-	public double getWPM() {
-		double w = getCommitString().length() - 1;
+	public double getHanziPerMinute() {
+		double c = getCommitString().length();
 		double t = getDuration().toMillis() / 1000d;
 
-		return (w / t) * 60 * (1d / 5d);
+		return (c / t) * 60d;
 	}
 
 	public double getKSPC() {
@@ -79,19 +69,28 @@ public class Sample {
 	}
 
 	public CharacterErrorStatistics getCharacterErrorStatistics() {
-		String s1 = normalization.apply(getInputString());
-		String s2 = normalization.apply(getCommitString());
+		double incorrectNotFixed = 0;
+		double correct = getPinyinInputCount() + getHanziSelectionCount();
 
-		LevenshteinResults editDistance = new LevenshteinDetailedDistance().apply(s1, s2);
-
-		double incorrectNotFixed = editDistance.getDistance();
-		double correct = s2.length() - editDistance.getSubstituteCount() - editDistance.getDeleteCount();
-
-		// each DELETE will always delete one character
-		double fixes = records.stream().filter(Record::isDelete).count();
+		// each DELETE may delete a Chinese character, but may also just delete the last Latin letter in the composition buffer
+		double fixes = getDeleteCount();
 		double incorrectFixed = fixes;
 
 		return new CharacterErrorStatistics(correct, fixes, incorrectFixed, incorrectNotFixed);
+	}
+
+	public long getPinyinInputCount() {
+		records.stream().filter(Record::isPinyinPart).forEach(System.out::println);
+
+		return records.stream().filter(Record::isPinyinPart).count();
+	}
+
+	public long getHanziSelectionCount() {
+		return records.stream().filter(Record::isHanziSelection).count();
+	}
+
+	public long getDeleteCount() {
+		return records.stream().filter(Record::isDelete).count();
 	}
 
 	public boolean isValidSample() {
@@ -105,7 +104,7 @@ public class Sample {
 		sb.append(getCommitString()).append('\n');
 		sb.append("----------------------------------------").append('\n');
 		sb.append(records.stream().map(r -> r.key).collect(toList())).append('\n');
-		sb.append(String.format("%s: %.01f WPM %.01f KSPC %s [T: %.01fs]", getKeyboard(), getWPM(), getKSPC(), getCharacterErrorStatistics(), getDuration().toMillis() / 1000d)).append('\n');
+		sb.append(String.format("%s: %.01f WPM %.01f KSPC %s [T: %.01fs]", getKeyboard(), getHanziPerMinute(), getKSPC(), getCharacterErrorStatistics(), getDuration().toMillis() / 1000d)).append('\n');
 		return sb.toString();
 	}
 

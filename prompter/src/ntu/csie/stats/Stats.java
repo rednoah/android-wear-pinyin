@@ -20,7 +20,7 @@ public class Stats {
 
 	enum Study {
 
-		MAIN, OOV;
+		PILOT;
 
 		public List<String> getPhraseSet() throws IOException {
 			return Files.readAllLines(Paths.get(name().toLowerCase() + "-study-phrase-set.txt"), UTF_8);
@@ -31,21 +31,7 @@ public class Stats {
 		}
 
 		public int getPhraseLimit() {
-			switch (this) {
-			case MAIN:
-				return 20;
-			default:
-				return 5;
-			}
-		}
-
-		public boolean isCaseSensitive() {
-			switch (this) {
-			case MAIN:
-				return false;
-			default:
-				return true;
-			}
+			return 25;
 		}
 
 		public List<Sample> getSamples() throws Exception {
@@ -59,7 +45,7 @@ public class Stats {
 				Iterator<String> phrase = phraseSet.iterator();
 
 				return StreamEx.of(sessionRecords).groupRuns((r1, r2) -> r1.phrase == r2.phrase).map(phraseRecords -> {
-					Sample sample = new Sample(isCaseSensitive() ? Sample.EXACT : Sample.CASE_INSENSITIVE, phrase.next(), phraseRecords);
+					Sample sample = new Sample(phrase.next(), phraseRecords);
 					return sample;
 				});
 			}).toList();
@@ -79,7 +65,7 @@ public class Stats {
 			for (Sample s : ks) {
 				CharacterErrorStatistics err = s.getCharacterErrorStatistics();
 
-				String line = StreamEx.of(s.getSession(), s.getKeyboard(), s.getWPM(), s.getKSPC(), err.getTotalErrorRate(), err.getCorrectedErrorRate(), err.getNotCorrectedErrorRate(), s.getCommitString()).joining("\t");
+				String line = StreamEx.of(s.getSession(), s.getKeyboard(), s.getHanziPerMinute(), s.getKSPC(), err.getTotalErrorRate(), err.getCorrectedErrorRate(), err.getNotCorrectedErrorRate(), s.getCommitString()).joining("\t");
 				System.out.println(line);
 			}
 		});
@@ -95,7 +81,7 @@ public class Stats {
 					user.stream().skip(i * blockSize).limit(blockSize).forEach(block::add);
 				}
 
-				DoubleStatistics wpm = stats(block, Sample::getWPM);
+				DoubleStatistics wpm = stats(block, Sample::getHanziPerMinute);
 				DoubleStatistics kspc = stats(block, Sample::getKSPC);
 				DoubleStatistics ter = stats(block, s -> s.getCharacterErrorStatistics().getTotalErrorRate() * 100);
 
@@ -109,7 +95,7 @@ public class Stats {
 		for (KeyboardLayout k : getKeyboards(samples)) {
 			List<Sample> samplesByKeyboard = StreamEx.of(samples).filter(Sample::isValidSample).filter(s -> k == s.getKeyboard()).toList();
 
-			DoubleStatistics wpm = stats(samplesByKeyboard, Sample::getWPM);
+			DoubleStatistics wpm = stats(samplesByKeyboard, Sample::getHanziPerMinute);
 			DoubleStatistics kspc = stats(samplesByKeyboard, Sample::getKSPC);
 			DoubleStatistics ter = stats(samplesByKeyboard, s -> s.getCharacterErrorStatistics().getTotalErrorRate() * 100);
 

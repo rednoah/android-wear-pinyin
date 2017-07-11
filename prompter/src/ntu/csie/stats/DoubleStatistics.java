@@ -45,7 +45,7 @@ public class DoubleStatistics extends DoubleSummaryStatistics {
 
 	@Override
 	public String toString() {
-		return String.format("%.02f (%.02f)", getAverage(), getStandardDeviation());
+		return String.format("%.02f (SD = %.02f)", getAverage(), getStandardDeviation());
 	}
 
 }

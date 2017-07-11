@@ -68,6 +68,14 @@ public class Record implements Comparable<Record> {
 		return Symbols.BACKSPACE.equals(key);
 	}
 
+	public boolean isPinyinPart() {
+		return isInputKey() && PINYIN.matcher(key).matches();
+	}
+
+	public boolean isHanziSelection() {
+		return isInputKey() && key.chars().allMatch(Character::isIdeographic);
+	}
+
 	@Override
 	public int compareTo(Record o) {
 		return Long.compare(this.number, o.number);
@@ -84,5 +92,6 @@ public class Record implements Comparable<Record> {
 	}
 
 	public static final Pattern TAB = Pattern.compile("\\t");
+	public static final Pattern PINYIN = Pattern.compile("[a-z']+", Pattern.CASE_INSENSITIVE);
 
 }
