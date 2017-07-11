@@ -60,14 +60,20 @@ public class Sample {
 		return Duration.between(t1, t2);
 	}
 
-	public double getHanziPerMinute() {
+	/**
+	 * Chinese Characters Per Minute
+	 */
+	public double getCCPM() {
 		double c = getCommitString().length();
 		double t = getDuration().toMillis() / 1000d;
 
 		return (c / t) * 60d;
 	}
 
-	public double getKSPC() {
+	/**
+	 * Keystrokes per Chinese Character
+	 */
+	public double getKSPCC() {
 		return (double) records.stream().filter(Record::isInputKey).count() / (double) getCommitString().length();
 	}
 
@@ -110,7 +116,7 @@ public class Sample {
 		sb.append(getCommitString()).append('\n');
 		sb.append("----------------------------------------").append('\n');
 		sb.append(records.stream().map(r -> r.key).collect(toList())).append('\n');
-		sb.append(String.format("%s: %.01f WPM %.01f KSPC %s [T: %.01fs]", getKeyboard(), getHanziPerMinute(), getKSPC(), getCharacterErrorStatistics(), getDuration().toMillis() / 1000d)).append('\n');
+		sb.append(String.format("%s: %.01f CCPM %.01f KSPCC %s [T: %.01fs]", getKeyboard(), getCCPM(), getKSPCC(), getCharacterErrorStatistics(), getDuration().toMillis() / 1000d)).append('\n');
 		return sb.toString();
 	}
 

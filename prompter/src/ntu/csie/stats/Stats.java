@@ -65,7 +65,7 @@ public class Stats {
 			for (Sample s : ks) {
 				CharacterErrorStatistics err = s.getCharacterErrorStatistics();
 
-				String line = StreamEx.of(s.getSession(), s.getKeyboard(), s.getHanziPerMinute(), s.getKSPC(), err.getTotalErrorRate(), err.getCorrectedErrorRate(), err.getNotCorrectedErrorRate(), s.getCommitString()).joining("\t");
+				String line = StreamEx.of(s.getSession(), s.getKeyboard(), s.getCCPM(), s.getKSPCC(), err.getTotalErrorRate(), err.getCorrectedErrorRate(), err.getNotCorrectedErrorRate(), s.getCommitString()).joining("\t");
 				System.out.println(line);
 			}
 		});
@@ -81,8 +81,8 @@ public class Stats {
 					user.stream().skip(i * blockSize).limit(blockSize).forEach(block::add);
 				}
 
-				DoubleStatistics wpm = stats(block, Sample::getHanziPerMinute);
-				DoubleStatistics kspc = stats(block, Sample::getKSPC);
+				DoubleStatistics wpm = stats(block, Sample::getCCPM);
+				DoubleStatistics kspc = stats(block, Sample::getKSPCC);
 				DoubleStatistics ter = stats(block, s -> s.getCharacterErrorStatistics().getTotalErrorRate() * 100);
 				DoubleStatistics uba = stats(block, s -> s.getCharacterErrorStatistics().getUtilisedBandwidth() * 100);
 
@@ -96,8 +96,8 @@ public class Stats {
 		for (KeyboardLayout k : getKeyboards(samples)) {
 			List<Sample> samplesByKeyboard = StreamEx.of(samples).filter(Sample::isValidSample).filter(s -> k == s.getKeyboard()).toList();
 
-			DoubleStatistics wpm = stats(samplesByKeyboard, Sample::getHanziPerMinute);
-			DoubleStatistics kspc = stats(samplesByKeyboard, Sample::getKSPC);
+			DoubleStatistics wpm = stats(samplesByKeyboard, Sample::getCCPM);
+			DoubleStatistics kspc = stats(samplesByKeyboard, Sample::getKSPCC);
 			DoubleStatistics ter = stats(samplesByKeyboard, s -> s.getCharacterErrorStatistics().getTotalErrorRate() * 100);
 			DoubleStatistics uba = stats(samplesByKeyboard, s -> s.getCharacterErrorStatistics().getUtilisedBandwidth() * 100);
 
@@ -158,9 +158,9 @@ public class Stats {
 			stats.statsForEachKeyboard(samples);
 			System.out.println();
 
-			// System.out.println("## Stats for each Block");
-			// stats.statsForEachBlock(samples, 5, 5);
-			// System.out.println();
+			System.out.println("## Stats for each Block");
+			stats.statsForEachBlock(samples, 5, 5);
+			System.out.println();
 
 			System.out.println("## Total");
 			stats.statsTotal(samples);

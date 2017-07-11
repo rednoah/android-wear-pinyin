@@ -17,7 +17,7 @@ public class Tests {
 		Sample s = new Sample("過的開心麼", getTestRecord());
 
 		assertEquals(24037, s.getDuration().toMillis(), 0.0);
-		assertEquals(12.48, s.getHanziPerMinute(), 0.01);
+		assertEquals(12.48, s.getCCPM(), 0.01);
 
 		assertEquals(12, s.getPinyinInputCount(), 0.0);
 		assertEquals(3, s.getHanziSelectionCount(), 0.0);
