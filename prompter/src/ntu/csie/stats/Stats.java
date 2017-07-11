@@ -148,17 +148,17 @@ public class Stats {
 			// stats.print(samples);
 			// System.out.println();
 
-			System.out.println("## Stats for each User");
-			stats.statsForEachUser(samples);
-			System.out.println();
+			// System.out.println("## Stats for each User");
+			// stats.statsForEachUser(samples);
+			// System.out.println();
 
-			System.out.println("## Stats for each Keyboard");
-			stats.statsForEachKeyboard(samples);
-			System.out.println();
+			// System.out.println("## Stats for each Keyboard");
+			// stats.statsForEachKeyboard(samples);
+			// System.out.println();
 
-			System.out.println("## Stats for each Block");
-			stats.statsForEachBlock(samples, s.getPhraseLimit() / 5, 5);
-			System.out.println();
+			// System.out.println("## Stats for each Block");
+			// stats.statsForEachBlock(samples, s.getPhraseLimit() / 5, 5);
+			// System.out.println();
 
 			System.out.println("## Total");
 			stats.statsTotal(samples);
