@@ -1,6 +1,5 @@
 package ntu.csie.stats;
 
-import static java.util.Arrays.*;
 import static java.util.stream.Collectors.*;
 import static org.junit.Assert.*;
 
@@ -30,17 +29,9 @@ public class Tests {
 		assertEquals(0.714, s.getCharacterErrorStatistics().getUtilisedBandwidth(), 0.001);
 	}
 
-	@Test
-	public void cer() {
-		Record r1 = Record.parse("0	1	15BD9D15C50	LG Watch Sport	KeyDialQwertyZigZag	0	th quix	th quix");
-		Record r2 = Record.parse("1	2	15BD9D15C50	LG Watch Sport	KeyDialQwertyZigZag	0	⌫	th qui");
-		Record r3 = Record.parse("2	3	15BD9D15C50	LG Watch Sport	KeyDialQwertyZigZag	0	ck brpown	th quick brpown");
+	
+	
 
-		CharacterErrorStatistics s = new Sample("the quick brown", asList(r1, r2, r3)).getCharacterErrorStatistics();
-		assertEquals("[MSD: 13.33, KSPC: 1.13, Cerr: 5.88, NCerr: 11.76, Terr: 17.65, Ceff: 1.00, Waste: 22.22", s.toString());
-	}
-	
-	
 	public static List<Record> getTestRecord() {
 		return Stream.of("1499255634691	62	15D1297BBD1	LG Watch Style	PinyinSyllables	3	g	g",
 				"1499255638379	63	15D1297BBD1	LG Watch Style	PinyinSyllables	3	uo'	guo'",

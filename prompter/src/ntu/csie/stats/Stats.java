@@ -84,8 +84,9 @@ public class Stats {
 				DoubleStatistics wpm = stats(block, Sample::getHanziPerMinute);
 				DoubleStatistics kspc = stats(block, Sample::getKSPC);
 				DoubleStatistics ter = stats(block, s -> s.getCharacterErrorStatistics().getTotalErrorRate() * 100);
+				DoubleStatistics uba = stats(block, s -> s.getCharacterErrorStatistics().getUtilisedBandwidth() * 100);
 
-				String line = StreamEx.of(k + " Block " + (i + 1), wpm, kspc, ter).joining("\t");
+				String line = StreamEx.of(k + " Block " + (i + 1), wpm, kspc, ter, uba).joining("\t");
 				System.out.println(line);
 			}
 		}
@@ -98,8 +99,9 @@ public class Stats {
 			DoubleStatistics wpm = stats(samplesByKeyboard, Sample::getHanziPerMinute);
 			DoubleStatistics kspc = stats(samplesByKeyboard, Sample::getKSPC);
 			DoubleStatistics ter = stats(samplesByKeyboard, s -> s.getCharacterErrorStatistics().getTotalErrorRate() * 100);
+			DoubleStatistics uba = stats(samplesByKeyboard, s -> s.getCharacterErrorStatistics().getUtilisedBandwidth() * 100);
 
-			String line = StreamEx.of(k, wpm, kspc, ter).joining("\t");
+			String line = StreamEx.of(k, wpm, kspc, ter, uba).joining("\t");
 			System.out.println(line);
 		}
 	}
@@ -148,16 +150,16 @@ public class Stats {
 			// stats.print(samples);
 			// System.out.println();
 
-			// System.out.println("## Stats for each User");
-			// stats.statsForEachUser(samples);
-			// System.out.println();
+			System.out.println("## Stats for each User");
+			stats.statsForEachUser(samples);
+			System.out.println();
 
-			// System.out.println("## Stats for each Keyboard");
-			// stats.statsForEachKeyboard(samples);
-			// System.out.println();
+			System.out.println("## Stats for each Keyboard");
+			stats.statsForEachKeyboard(samples);
+			System.out.println();
 
 			// System.out.println("## Stats for each Block");
-			// stats.statsForEachBlock(samples, s.getPhraseLimit() / 5, 5);
+			// stats.statsForEachBlock(samples, 5, 5);
 			// System.out.println();
 
 			System.out.println("## Total");

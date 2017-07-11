@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.LongSummaryStatistics;
 import java.util.Set;
 
+import org.apache.commons.text.similarity.LevenshteinDetailedDistance;
+import org.apache.commons.text.similarity.LevenshteinResults;
+
 import ntu.csie.prompter.KeyboardLayout;
 import ntu.csie.prompter.Record;
 
@@ -69,7 +72,12 @@ public class Sample {
 	}
 
 	public CharacterErrorStatistics getCharacterErrorStatistics() {
-		double incorrectNotFixed = 0;
+		String s1 = getInputString();
+		String s2 = getCommitString();
+
+		LevenshteinResults editDistance = new LevenshteinDetailedDistance().apply(s1, s2);
+
+		double incorrectNotFixed = editDistance.getDistance();
 		double correct = getPinyinInputCount() + getHanziSelectionCount();
 
 		// each DELETE may delete a Chinese character, but may also just delete the last Latin letter in the composition buffer
@@ -80,8 +88,6 @@ public class Sample {
 	}
 
 	public long getPinyinInputCount() {
-		records.stream().filter(Record::isPinyinPart).forEach(System.out::println);
-
 		return records.stream().filter(Record::isPinyinPart).count();
 	}
 
