@@ -48,7 +48,7 @@ public class CharacterErrorStatistics {
 
 	@Override
 	public String toString() {
-		return String.format("[MSD: %.02f, Cerr: %.02f, NCerr: %.02f, Terr: %.02f, Ceff: %.02f, Waste: %.02f]", getMinimumStringDistanceErrorRate() * 100, getCorrectedErrorRate() * 100, getNotCorrectedErrorRate() * 100, getTotalErrorRate() * 100, getCorrectionEfficiency(), getWastedBandwidth() * 100);
+		return String.format("[MSD: %.02f, Cerr: %.02f, NCerr: %.02f, Terr: %.02f, Ceff: %.02f, UBand: %.02f]", getMinimumStringDistanceErrorRate() * 100, getCorrectedErrorRate() * 100, getNotCorrectedErrorRate() * 100, getTotalErrorRate() * 100, getCorrectionEfficiency(), getUtilisedBandwidth() * 100);
 	}
 
 }
