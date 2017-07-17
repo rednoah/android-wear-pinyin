@@ -338,6 +338,14 @@ public abstract class AbstractKeyboardLayout extends BoxInsetLayout {
     }
 
 
+    public void setText(String s) {
+        buffer = s;
+
+        markComposingStart();
+        markHighlightStart();
+    }
+
+
     public static class State {
         public final String buffer;
         public final int composingStart;

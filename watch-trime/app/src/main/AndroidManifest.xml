@@ -57,18 +57,32 @@
         </activity>
 
 
-        <activity
-            android:name=".RimeTest"
+        <service
+            android:name=".ime.GrowingFinalsIME"
             android:icon="@mipmap/ic_launcher"
-            android:label="RimeTest"
-            android:taskAffinity=".rime">
+            android:label="隆鍵拼音輸入法"
+            android:permission="android.permission.BIND_INPUT_METHOD">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.view.InputMethod" />
             </intent-filter>
-        </activity>
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/method" />
+        </service>
+
+
+        <service
+            android:name=".ime.PinyinSyllablesIME"
+            android:icon="@mipmap/ic_launcher"
+            android:label="雙音節拼音輸入法"
+            android:permission="android.permission.BIND_INPUT_METHOD">
+            <intent-filter>
+                <action android:name="android.view.InputMethod" />
+            </intent-filter>
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/method" />
+        </service>
 
 
     </application>
