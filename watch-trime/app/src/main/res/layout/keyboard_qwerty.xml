@@ -802,7 +802,6 @@
                 android:gravity="right"
                 android:paddingRight="10dp"
                 android:text="⌫"
-                android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/key_fg"
                 android:textSize="@dimen/button_control_font_size" />
@@ -815,7 +814,6 @@
                 android:gravity="left"
                 android:paddingLeft="10dp"
                 android:text="⌨"
-                android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/key_fg"
                 android:textSize="@dimen/button_control_font_size" />
