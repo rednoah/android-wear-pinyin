@@ -5,6 +5,7 @@ import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,16 +15,17 @@ import android.widget.Button;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import java.util.List;
-
 import com.osfans.trime.model.Final;
 import com.osfans.trime.model.Initial;
 import com.osfans.trime.model.Pinyin;
+import com.osfans.trime.model.Punctuation;
+
+import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Lists.partition;
-import static java.util.Arrays.copyOf;
 import static com.osfans.trime.model.Punctuation.APOSTROPHE;
+import static java.util.Arrays.copyOf;
 
 public class PinZhuYinSwipeKey extends AbstractPredictiveKeyboardLayout {
 
@@ -44,21 +46,6 @@ public class PinZhuYinSwipeKey extends AbstractPredictiveKeyboardLayout {
 
         Button submit = (Button) findViewById(R.id.submit);
         submit.setOnClickListener(b -> submit());
-
-        setInitial(getTable());
-    }
-
-
-    @Override
-    public void onEditorClick(View view, MotionEvent event) {
-        setInitial(getTable());
-        markHighlightStart();
-    }
-
-
-    @Override
-    public void clear() {
-        super.clear();
 
         setInitial(getTable());
     }
@@ -132,7 +119,6 @@ public class PinZhuYinSwipeKey extends AbstractPredictiveKeyboardLayout {
     public void setInitial(ViewGroup table) {
         table.removeAllViews();
 
-
         for (List<Initial[]> groups : partition(newArrayList(Initial.getPhoneticGroups()), MAX_COLUMNS)) {
             TableRow row = new TableRow(table.getContext());
             row.setGravity(Gravity.CENTER);
@@ -158,8 +144,6 @@ public class PinZhuYinSwipeKey extends AbstractPredictiveKeyboardLayout {
 
 
     public void setFinal(ViewGroup table, Initial initial) {
-
-
         table.removeAllViews();
 
         Final[] finals = Final.getPhoneticGroups(initial);
@@ -199,20 +183,38 @@ public class PinZhuYinSwipeKey extends AbstractPredictiveKeyboardLayout {
                 }
             });
         });
-
-
     }
 
 
-    private void appendStart(String s) {
+    @Override
+    public void onEditorClick(View view, MotionEvent event) {
+        setInitial();
         markHighlightStart();
-        keyPressed(s, InputType.ENTER_LETTER);
     }
 
 
-    private void appendCommit(String s) {
-        keyPressed(s + APOSTROPHE, InputType.ENTER_LETTER);
-        markHighlightStart();
+    @Override
+    public void clear() {
+        super.clear();
+
+        setInitial();
+    }
+
+    @Override
+    public void enterSuggestion(String text) {
+        super.enterSuggestion(text);
+
+        setInitial();
+    }
+
+
+    public void setInitial() {
+        setInitial(getTable());
+    }
+
+
+    public void setFinal(Initial initial) {
+        setFinal(getTable(), initial);
     }
 
 
@@ -222,16 +224,45 @@ public class PinZhuYinSwipeKey extends AbstractPredictiveKeyboardLayout {
         if (t instanceof Initial) {
             Initial i = (Initial) t;
 
-            appendStart(i.getPinyin());
-            setFinal(getTable(), i);
+            markHighlightStart();
+            keyPressed(i.toString().toLowerCase(), InputType.ENTER_LETTER);
+
+            setFinal(i);
+            return;
+        } else if (t instanceof Pinyin) {
+            Pinyin yin = (Pinyin) t;
+
+            keyPressed(yin.getFinal().toString().toLowerCase() + APOSTROPHE, InputType.ENTER_LETTER);
+            markHighlightStart();
+
+            setInitial();
+            return;
+        } else if (t instanceof Punctuation) {
+            Punctuation p = (Punctuation) t;
+
+            keyPressed(p.toString(), InputType.ENTER_LETTER);
+            markHighlightStart();
+
+            setInitial();
             return;
         }
+    }
 
-        if (t instanceof Pinyin) {
-            Pinyin p = (Pinyin) t;
-            appendCommit(p.hasFinal() ? p.getFinal().getPinyin() : ""); // FIXME: ZHUYIN SUPPORT
-            setInitial(getTable());
-            return;
+    @Override
+    public void popHistory() {
+        super.popHistory();
+
+        String s = getHighlightBuffer();
+        if (s.isEmpty()) {
+            setInitial();
+        } else {
+            try {
+                Initial i = Initial.valueOf(s.toUpperCase());
+                setFinal(i);
+            } catch (Exception e) {
+                Log.d("PinyinSyllables", "Bad buffer: " + s, e);
+                setInitial();
+            }
         }
     }
 
