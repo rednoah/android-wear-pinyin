@@ -34,25 +34,13 @@
         <activity
             android:name=".MainActivity"
             android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
+            android:label="Pinyin Prototypes (DEMO)"
             android:taskAffinity=".main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-
-        <activity
-            android:name=".UserStudyActivity"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name_study"
-            android:taskAffinity=".study">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
