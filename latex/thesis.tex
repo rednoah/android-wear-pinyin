@@ -1,0 +1,57 @@
+\documentclass[openany]{ntuthesis}
+
+\usepackage{times}
+\usepackage{verbatim}
+\usepackage{color}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{hyperref}
+
+
+% Using the tex-text mapping for ligatures etc.
+\defaultfontfeatures{Mapping=tex-text}
+
+% Set the default fonts
+\setmainfont{Times New Roman}
+\setCJKmainfont{BiauKai}
+
+% Your information goes here
+\input{macro}
+\input{ntuvars}
+
+\begin{document}
+
+\frontmatter
+
+\makecover
+
+\makecertification
+
+\input{acknowledgements}
+\input{abstract}
+
+\tableofcontents
+\listoffigures
+% \listoftables
+
+\mainmatter
+
+% Your thesis goes here
+\input{sections/1_introduction}
+\input{sections/2_relatedwork}
+\input{sections/3_design}
+\input{sections/4_evaluation}
+\input{sections/5_conclusion}
+
+\appendix
+
+\backmatter
+
+\addcontentsline{toc}{chapter}{\bibname}
+\bibliographystyle{abbrv}
+
+% Your bibliography goes here
+\bibliography{reference_}
+
+\end{document}

@@ -1,0 +1,24 @@
+\chapter{Related Work}
+\label{c:related}
+
+
+% direct references
+% 1. small screen text-entry
+% 2. feature phone text-entry
+% 3. menu- or gesture-driven text-entry
+
+% peripheral references
+% 1. handwriting or gesture modalitiy
+%    - forgetfulness
+%    - writing is slow
+%    - difficult for small form factors
+% 2. voice modality
+%    - uncomfortable in quiet environments
+%    - unreliable in loud environments
+%    - becomes complicated in certain Chinese language context
+
+Text entry on small touch screen devices is a well explored topic \cite{Chen:2014:STE:2642918.2647354}\cite{Oney:2013:ZDQ:2470654.2481387}\cite{Shao:2016:SSK:2935334.2935336}\cite{Yi:2017:CRK:3025453.3025454}, but input methods for more complex writing systems with more than 26 Latin characters \cite{Lunde:2008:CIP:1525605} such as Chinese used by more than 1 billion native speakers are rarely studied.
+
+Before the advent and widespread use of touchscreen phones, Liu et al have compared the performance of handwriting recognition (15 CCPM), a standard QWERTY keyboard (14 CCPM) and a static 2-stage consonant + vowel keyboard (9 CCPM) \cite{Liu:2009:IUP:1613858.1613928} for Chinese character input on a PDA with a stylus and explored Chinese text entry using a rotary input with RotaTxt (6 CCPM) \cite{Liu:2008:RCP:1409240.1409265}. The low input speed of these early works can partially be explained by the lack of smart Pinyin-to-Chinese-Character conversion engines that could run on the limited hardware of the time.
+
+More recently, inspired by ShapeWriter \cite{Zhai:2003:SWS:642611.642630}, Liu et al \cite{Liu:2012:PPM:2371574.2371614} improve upon the standard QWERTY keyboard for Chinese input on smartphones by adding a pie menu to each initial key to allow users to write a complete Pinyin syllable with one key press directly followed by multiple swipe motions to select the final letter sequence from the pie menu before lifting the finger to commit the Pinyin syllable closing the pie menu. Unfortunately, the prototype only achieved 25 CCPM with the pie menu augmented keyboard compared to 30 CCPM achieved with the standard QWERTY baseline.
