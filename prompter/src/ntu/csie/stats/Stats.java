@@ -96,10 +96,10 @@ public class Stats {
 		for (KeyboardLayout k : getKeyboards(samples)) {
 			List<Sample> samplesByKeyboard = StreamEx.of(samples).filter(Sample::isValidSample).filter(s -> k == s.getKeyboard()).toList();
 
-			DoubleStatistics wpm = stats(samplesByKeyboard, Sample::getCCPM);
-			DoubleStatistics kspc = stats(samplesByKeyboard, Sample::getKSPCC);
-			DoubleStatistics ter = stats(samplesByKeyboard, s -> s.getCharacterErrorStatistics().getTotalErrorRate() * 100);
-			DoubleStatistics uba = stats(samplesByKeyboard, s -> s.getCharacterErrorStatistics().getUtilisedBandwidth() * 100);
+			DoubleStatistics wpm = statsMeanByUser(samplesByKeyboard, Sample::getCCPM);
+			DoubleStatistics kspc = statsMeanByUser(samplesByKeyboard, Sample::getKSPCC);
+			DoubleStatistics ter = statsMeanByUser(samplesByKeyboard, s -> s.getCharacterErrorStatistics().getTotalErrorRate() * 100);
+			DoubleStatistics uba = statsMeanByUser(samplesByKeyboard, s -> s.getCharacterErrorStatistics().getUtilisedBandwidth() * 100);
 
 			String line = StreamEx.of(k, wpm, kspc, ter, uba).joining("\t");
 			System.out.println(line);
@@ -112,12 +112,30 @@ public class Stats {
 		int i = 1;
 		for (List<Sample> userSamples : samplesByUser) {
 			System.out.format("### User %d (%s)%n", i++, userSamples.get(0).getSession());
-			statsForEachKeyboard(userSamples);
+
+			for (KeyboardLayout k : getKeyboards(userSamples)) {
+				List<Sample> samplesByKeyboard = StreamEx.of(userSamples).filter(Sample::isValidSample).filter(s -> k == s.getKeyboard()).toList();
+
+				DoubleStatistics wpm = stats(samplesByKeyboard, Sample::getCCPM);
+				DoubleStatistics kspc = stats(samplesByKeyboard, Sample::getKSPCC);
+				DoubleStatistics ter = stats(samplesByKeyboard, s -> s.getCharacterErrorStatistics().getTotalErrorRate() * 100);
+				DoubleStatistics uba = stats(samplesByKeyboard, s -> s.getCharacterErrorStatistics().getUtilisedBandwidth() * 100);
+
+				String line = StreamEx.of(k, wpm, kspc, ter, uba).joining("\t");
+				System.out.println(line);
+			}
 		}
 	}
 
 	public DoubleStatistics stats(List<Sample> samples, Function<Sample, Double> metric) {
 		return samples.stream().mapToDouble(s -> metric.apply(s)).collect(DoubleStatistics::new, DoubleStatistics::accept, DoubleStatistics::combine);
+	}
+
+	public DoubleStatistics statsMeanByUser(List<Sample> samples, Function<Sample, Double> metric) {
+		return samples.stream().collect(groupingBy(Sample::getSession, toList())).values().stream().mapToDouble(samplesByUser -> {
+			DoubleStatistics stats = samplesByUser.stream().mapToDouble(s -> metric.apply(s)).collect(DoubleStatistics::new, DoubleStatistics::accept, DoubleStatistics::combine);
+			return stats.getMean();
+		}).collect(DoubleStatistics::new, DoubleStatistics::accept, DoubleStatistics::combine);
 	}
 
 	public void wpmForEachUser(List<Sample> samples) {

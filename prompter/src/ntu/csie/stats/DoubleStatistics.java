@@ -2,50 +2,33 @@ package ntu.csie.stats;
 
 import java.util.DoubleSummaryStatistics;
 
+import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
+
 public class DoubleStatistics extends DoubleSummaryStatistics {
 
-	private double sumOfSquare = 0.0d;
-	private double sumOfSquareCompensation; // Low order bits of sum
-	private double simpleSumOfSquare; // Used to compute right sum for non-finite inputs
+	public final SummaryStatistics stats = new SummaryStatistics();
 
 	@Override
 	public void accept(double value) {
 		super.accept(value);
-		double squareValue = value * value;
-		simpleSumOfSquare += squareValue;
-		sumOfSquareWithCompensation(squareValue);
+		stats.addValue(value);
 	}
 
 	public DoubleStatistics combine(DoubleStatistics other) {
-		super.combine(other);
-		simpleSumOfSquare += other.simpleSumOfSquare;
-		sumOfSquareWithCompensation(other.sumOfSquare);
-		sumOfSquareWithCompensation(other.sumOfSquareCompensation);
-		return this;
+		throw new UnsupportedOperationException();
 	}
 
-	private void sumOfSquareWithCompensation(double value) {
-		double tmp = value - sumOfSquareCompensation;
-		double velvel = sumOfSquare + tmp; // Little wolf of rounding error
-		sumOfSquareCompensation = (velvel - sumOfSquare) - tmp;
-		sumOfSquare = velvel;
+	public double getMean() {
+		return stats.getMean();
 	}
 
-	public double getSumOfSquare() {
-		double tmp = sumOfSquare + sumOfSquareCompensation;
-		if (Double.isNaN(tmp) && Double.isInfinite(simpleSumOfSquare)) {
-			return simpleSumOfSquare;
-		}
-		return tmp;
-	}
-
-	public final double getStandardDeviation() {
-		return getCount() > 0 ? Math.sqrt((getSumOfSquare() / getCount()) - Math.pow(getAverage(), 2)) : 0.0d;
+	public double getStandardDeviation() {
+		return stats.getStandardDeviation();
 	}
 
 	@Override
 	public String toString() {
-		return String.format("%.02f (%.02f)", getAverage(), getStandardDeviation());
+		return String.format("%.02f (%.02f)", getMean(), getStandardDeviation());
 	}
 
 }
