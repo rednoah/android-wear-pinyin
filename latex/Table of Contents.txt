@@ -1,0 +1,21 @@
+口試委員會審定書 ........................... ii
+Abstract ................................ iii
+1 Introduction ............................ 1
+2 Related Work ............................ 3
+3 Three Pinyin Input Methods .............. 4
+3.1 Growing Finals ........................ 4
+3.2 Pinyin Syllables....................... 5
+3.3 Standard QWERTY ....................... 5
+3.4 Common Features ....................... 8
+4 Evaluation .............................. 9
+4.1 Participants .......................... 9
+4.2 Procedure ............................ 10
+4.3 Results .............................. 11
+4.4 Text Entry Performance ............... 11
+4.5 Error Rate ........................... 12
+4.6 Keystrokes per Chinese Character ..... 13
+4.7 Utilized Bandwidth ................... 13
+4.8 User Preference ...................... 14
+5 Limitation and Future Work ............. 16
+6 Conclusion ............................. 17
+Bibliography ............................. 18
