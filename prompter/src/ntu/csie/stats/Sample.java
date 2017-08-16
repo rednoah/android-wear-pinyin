@@ -133,6 +133,10 @@ public class Sample {
 		return d / getInputString().length();
 	}
 
+	public double getMillisPerKeystroke() {
+		return getDuration().toMillis() / records.stream().filter(r -> r.isPinyinPart() || r.isHanziSelection()).count();
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
