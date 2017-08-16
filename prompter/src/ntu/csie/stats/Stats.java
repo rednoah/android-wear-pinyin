@@ -100,8 +100,10 @@ public class Stats {
 			DoubleStatistics kspc = statsMeanByUser(samplesByKeyboard, Sample::getKSPCC);
 			DoubleStatistics ter = statsMeanByUser(samplesByKeyboard, s -> s.getCharacterErrorStatistics().getTotalErrorRate() * 100);
 			DoubleStatistics uba = statsMeanByUser(samplesByKeyboard, s -> s.getCharacterErrorStatistics().getUtilisedBandwidth() * 100);
+			DoubleStatistics hsd = statsMeanByUser(samplesByKeyboard, s -> s.getCharacterSelectionDurationPerCharacter());
+			DoubleStatistics hsc = statsMeanByUser(samplesByKeyboard, s -> s.getCharacterSelectionCountPerCharacter());
 
-			String line = StreamEx.of(k, wpm, kspc, ter, uba).joining("\t");
+			String line = StreamEx.of(k, wpm, kspc, ter, uba, hsd, hsc).joining("\t");
 			System.out.println(line);
 		}
 	}

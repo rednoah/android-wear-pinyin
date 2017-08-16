@@ -109,6 +109,30 @@ public class Sample {
 		return getCommitString().length() > getInputString().length() / 2;
 	}
 
+	public double getCharacterSelectionDurationPerCharacter() {
+		double d = 0;
+
+		for (int i = 0; i < records.size(); i++) {
+			if (i > 0 && records.get(i).isHanziSelection()) {
+				d += records.get(i).getTimestamp() - records.get(i - 1).getTimestamp();
+			}
+		}
+
+		return d / getInputString().length();
+	}
+
+	public double getCharacterSelectionCountPerCharacter() {
+		double d = 0;
+
+		for (int i = 0; i < records.size(); i++) {
+			if (records.get(i).isHanziSelection()) {
+				d += 1;
+			}
+		}
+
+		return d / getInputString().length();
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

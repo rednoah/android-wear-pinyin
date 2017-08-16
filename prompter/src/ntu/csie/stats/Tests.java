@@ -17,12 +17,14 @@ public class Tests {
 		Sample s = new Sample("過的開心麼", getTestRecord());
 
 		assertEquals(24037, s.getDuration().toMillis(), 0.0);
+		assertEquals(945, s.getCharacterSelectionDurationPerCharacter(), 0.0);
+		assertEquals(0.6, s.getCharacterSelectionCountPerCharacter(), 0.0);
 		assertEquals(12.48, s.getCCPM(), 0.01);
 
 		assertEquals(12, s.getPinyinInputCount(), 0.0);
 		assertEquals(3, s.getHanziSelectionCount(), 0.0);
 		assertEquals(3, s.getDeleteCount(), 0.0);
-		
+
 		// 3 out of 18 key strokes
 		assertEquals(0.166, s.getCharacterErrorStatistics().getTotalErrorRate(), 0.001);
 		assertEquals(0.285, s.getCharacterErrorStatistics().getWastedBandwidth(), 0.001);
