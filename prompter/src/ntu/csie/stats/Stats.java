@@ -130,6 +130,21 @@ public class Stats {
 		}
 	}
 
+	public void statsForEachUserAnova(List<Sample> samples, Function<Sample, Double> metric) {
+		List<List<Sample>> samplesByUser = StreamEx.of(samples).filter(Sample::isValidSample).groupRuns((s1, s2) -> s1.getSession().equals(s2.getSession())).toList();
+
+		for (List<Sample> userSamples : samplesByUser) {
+			for (KeyboardLayout k : getKeyboards(userSamples)) {
+				List<Sample> samplesByKeyboard = StreamEx.of(userSamples).filter(Sample::isValidSample).filter(s -> k == s.getKeyboard()).toList();
+
+				DoubleStatistics wpm = stats(samplesByKeyboard, metric);
+				System.out.print(wpm.getAverage());
+				System.out.print("\t");
+			}
+			System.out.println();
+		}
+	}
+
 	public DoubleStatistics stats(List<Sample> samples, Function<Sample, Double> metric) {
 		return samples.stream().mapToDouble(s -> metric.apply(s)).collect(DoubleStatistics::new, DoubleStatistics::accept, DoubleStatistics::combine);
 	}
@@ -186,6 +201,19 @@ public class Stats {
 			System.out.println("## Total");
 			stats.statsTotal(samples);
 			System.out.println();
+
+			System.out.println("## ANOVA (CCPM)");
+			stats.statsForEachUserAnova(samples, Sample::getCCPM);
+			System.out.println();
+
+			System.out.println("## ANOVA (TER)");
+			stats.statsForEachUserAnova(samples, d -> d.getCharacterErrorStatistics().getTotalErrorRate());
+			System.out.println();
+
+			System.out.println("## ANOVA (KSPCC)");
+			stats.statsForEachUserAnova(samples, Sample::getKSPCC);
+			System.out.println();
+
 		}
 
 	}
