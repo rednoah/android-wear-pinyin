@@ -137,6 +137,16 @@ public class Sample {
 		return getDuration().toMillis() / records.stream().filter(r -> r.isPinyinPart() || r.isHanziSelection()).count();
 	}
 
+	public double getPinyinAbbreviationRatio() {
+		for (int i = 0; i < records.size(); i++) {
+			if (i > 0 && records.get(i).isHanziSelection()) {
+				// TODO how to compute effective pinyin input sequence?
+			}
+		}
+
+		return 0;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
