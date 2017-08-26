@@ -32,6 +32,6 @@ Pinyin Syllables IME is a 2-stage keyboard that combines an initial and a final 
 We implement the standard QWERTY keyboard with support for Chinese character entry in addition to our two novel input methods to serve as a baseline for comparison. This keyboard design is used by almost all native speakers from China and language students from abroad that type Chinese characters on a computer or smartphone and thus very familiar to most user.
 
 
-## User Study
+## Evaluation
 
 Growing Finals outperforms the standard QWERTY baseline in terms of Accuracy and overall Satisfaction. Pinyin Syllables does well considering the significantly higher learning curve. After 20 minutes of using each keyboard, 6 participants preferred Growing Finals, 2 Pinyin Syllables and 4 the traditional QWERTY keyboard. Statistical analysis shows no significant difference in text entry performance between our 2 novel keyboards and the QWERTY baseline, but does show a significant improvement in terms of Total Error Rate and Keystrokes per Chinese Character.
