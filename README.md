@@ -5,6 +5,7 @@
 1. Connect your Android Wear device and make sure that `adb devices` shows only this one device. The `LG Smart Watch Style` is recommended. Layouts may not correctly scale on smaller or larger devices. Only `armv7` devices are supported due to `librime` native code.
 2. Copy the language model files in `/sdcard/rime` by calling [deploy.sh](https://github.com/rednoah/android-wear-pinyin/blob/master/watch-trime/sdcard/deploy.sh) and [reset.sh](https://github.com/rednoah/android-wear-pinyin/blob/master/watch-trime/sdcard/reset.sh). The `reset.sh` script can also be used to reset the keyboard memory after each user study.
 3. Open `watch-trime` with Android Studio and run the project.
+4. The new keyboards can be tested via the `Pinyin Prototypes (DEMO)` demo app or by enabling the new keyboards in the Android Wear system settings.
 
 
 ## Abstract
