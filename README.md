@@ -1,5 +1,7 @@
 # Pinyin Aware: Adaptive Chinese Input Methods for Smartwatches
 
+![Poster](Poster.png)
+
 ## Setup Instructions
 
 1. Connect your Android Wear device and make sure that `adb devices` shows only this one device. The `LG Smart Watch Style` is recommended. Layouts may not correctly scale on smaller or larger devices. Only `armv7` devices are supported due to `librime` native code.
