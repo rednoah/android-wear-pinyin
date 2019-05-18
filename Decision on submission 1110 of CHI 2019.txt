@@ -1,0 +1,60 @@
+Dear Reinhard Pointner:
+
+We are sorry to tell you that we are not able to include your submission, 1110, Pinyin Aware: Adaptive Chinese Input Methods for Smartwatches, in the CHI 2019 program. 
+
+We had a large number of submissions this year and had to make tough decisions. Please note that in some cases we had to make difficult decisions despite favourable reviews simply due to not being able to accommodate a demo in the program due to the specific constraints, such as space, topics, and resource limitations.
+
+We appreciate your participation in the community and look forward to future submissions of your work. 
+
+Sincerely,
+
+Sarah Clinch, Ian Oakley, and Julie Williamson
+CHI 2019 Demonstrations Chairs
+
+Comments:
+----------------------------------------------------------------
+
+reviewer 1 review
+score 3/5
+
+  Overall Rating
+
+    3 - Neutral: Overall I would not argue for accepting or rejecting this submission
+
+  Expertise
+
+    Knowledgeable
+
+  The Review
+
+    The author presents Growing Finals and Pinyin Syllables, two novel adaptive
+    keyboards for Mandarin Chinese. These are well motived and presented, and the
+    author provides preliminary results on their performance. That being said, I
+    believe the work to be better suited to other formats other than a demonstration,
+    particularly as only attendees with understanding of Mandarin Chinese could fully
+    benefit from the experience.
+
+----------------------------------------------------------------
+
+reviewer 2 review
+score 4/5
+
+  Overall Rating
+
+    4 - Possibly Accept: I would argue for accepting this submission
+
+  Expertise
+
+    Knowledgeable
+
+  The Review
+
+    Two pinyin text entry methods for smartwatches based on leveraging the structure
+    of pinyin input to optimize the keys that are available to select. A study
+    compares performance with a standard qwerty layout and suggests both speed and
+    errors may be reduced - probably due to the short training time. I'm not an expert
+    in Chinese text input, so I'm not sure about the novelty of these prototypes.
+    Assuming they are novel, they seem useful and will make a fair demo - quick and
+    easy to show.
+
+----------------------------------------------------------------
