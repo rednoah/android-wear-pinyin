@@ -1,0 +1,316 @@
+CHI 2018 Papers
+
+Reviews of submission #3603: "Pinyin Aware: Adaptive Chinese Input
+Methods for Smartwatches"
+
+------------------------ Submission 3603, Review 4 ------------------------
+
+Reviewer:           AC
+
+Expertise
+
+   2  (Passing Knowledge)
+
+Recommendation
+
+    . . . Between possibly reject and neutral; 2.5 
+
+Award Nomination
+
+   If accepted, this paper would not be among the top 20% of papers presented at CHI
+
+1AC: The Meta-Review
+
+   The paper introduces two novel input methods (Growing Finals and Pinyin
+   Syllables) for writing Chinese on circular smartwatches. An experiment
+   compares the performance of the two techniques against a standard QWERTY
+   keyboard. Although the results do not show any advantage of the two
+   techniques in terms of typing speed, the two techniques reduced errors
+   and received positive feedback from users. 
+
+   The reviewers identify several strengths in this work. According to R1,
+   the paper presents "two clever ideas to improve Mandarin Chinese text
+   entry on smartwatches." R3 praises the authors for trying to "improve
+   text for non-Latin languages" as those are "rarely studied." R2 finds
+   that the paper is "well written and easy to follow," while the study is
+   "well designed, described, and executed." Despite all these positive
+   comments, all the reviewers have very similar concerns and do not argue
+   for accepting the paper. In particular, the reviewers point out that
+   important details about the implementation of the  adaptive algorithms
+   and the keyboards are missing (R1, R2, R3). They further question the
+   efficiency of the proposed designs (R1, R2, R3), while they also point to
+   limitations of the experiment and the data analysis (R1, R2, R3). The
+   main problems, as identified by the reviewers, can be summarized as
+   follows:
+
+   1. Implementation Details. The lack of details about the design and
+   implementation of the proposed techniques is the most critical concern of
+   all reviewers. R1 asks several questions about how the adaptive
+   algorithms and the two keyboard techniques work. In the same line, R3
+   does not fully understand the keyboards' behavior as demonstrated in the
+   paper and the videos. The reviewer asks for additional information about
+   how "Growing Finals enlarges the ambiguous keys" and "how Pinyin
+   Syllables arranges the layout." Western readers may have an even harder
+   time to underhand the techniques. Personally, I could not figure out how
+   the techniques work, neither understand the underlying designs
+   principles. The authors may need additional space to adequately describe
+   the techniques but also to justify their design choices and explain why
+   and how their solutions optimize typing performance. Without enough
+   detail, "the keyboard adapting algorithms seems to be arbitrary" (R3).
+
+   2. Effectiveness of Proposed Designs. R2 is concerned about the fact that
+   the size and position of the keys changes dynamically, which may hurt
+   users' familiarity with the keyboard over time. The reviewer suspects
+   that this dynamic behavior may increase "visual search" and might be the
+   reason for the lower typing speed of the two proposed keyboards.    
+
+   3. User Study and Data Analysis. All the reviewers express their
+   disappointment about the typing speed of the proposed techniques. R1
+   suggests that a longer study over several days might be a better choice.
+   This would allow the authors to reduce the effect of familiarity of
+   participants with the techniques but also to investigate the techniques'
+   learning curve. R2 is curious about the high error of the techniques in
+   comparison with existing techniques. R3 finds that the control condition
+   (QWERTY) was not optimally designed. In addition, R3 is skeptical about
+   the authors' conclusions based on participants' subjective feedback. 
+     
+   Although the chances for accepting the submission are low, the authors
+   can submit a rebuttal to address any misunderstandings. Overall, this
+   work looks very promising, but it may not be ready for publication. A
+   longer paper that clearly explains the techniques and includes the
+   results of a longer study might be a good direction for the next steps of
+   this work.
+
+Rebuttal response
+
+   (blank)
+
+
+------------------------ Submission 3603, Review 2 ------------------------
+
+Reviewer:           2AC
+
+Expertise
+
+   3  (Knowledgeable)
+
+Recommendation
+
+    . . . Between possibly reject and neutral; 2.5 
+
+Award Nomination
+
+   (blank)
+
+Review
+
+   Presents two new types of adaptive keyboards for Chinese input on
+   smartwatches. Both designs change the keyboard layout dynamically based
+   on user input and the resulting number of possible letters, which in turn
+   creates larger keys that can potentially increase text entry speed and
+   accuracy.
+
+   Overall, this paper is well written and easy to follow. The study is well
+   designed, described, and executed. The study result is also clearly
+   presented. However, the techniques in their current state do not deliver
+   the level of promise I expect from CHI with the primary reason being the
+   lack of insight into exactly how the techniques work and whether they
+   could even beat QWERTY.
+
+   One issue I found in both techniques is that dynamically changing the
+   size and location of the keyboard keys may make it difficult for the
+   users to gain familiarity with the keyboard layout over time. For
+   example, the enlarged keys of the Growing Finals technique do not always
+   occupy the exact same region, which could make it difficult for the users
+   to remember/predict the key region, thus may slow the users down.
+   Additionally, Pinyin Syllables shift the position of the keys based on
+   users’ input. This again could impact the efficiency of the technique
+   as the users may need to spend extra time on visual search. Table 1
+   clearly shows that Pinyin Syllables’ lowest keystrokes per Chinese
+   character do not translate to improved text entry speed. Another issue is
+   that the error rates for both techniques are quite high in compassion to
+   the existing techniques (e.g., 5.67% for DualKey) but no insight is
+   provided to help understand the reason why.
+
+   My overall feeling is that this work has a great potential, but it
+   requires further investigation to ensure the aforementioned issues can be
+   well addressed. As in its current state, the work is premature to warrant
+   publication at this year’s CHI.
+
+Rebuttal response
+
+   (blank)
+
+
+------------------------ Submission 3603, Review 1 ------------------------
+
+
+Expertise
+
+   4  (Expert )
+
+Recommendation
+
+    . . . Between possibly reject and neutral; 2.5 
+
+Award Nomination
+
+   If accepted, this paper would not be among the top 20% of papers presented at CHI
+
+Review
+
+   Paper introduces 2 novel adaptive keyboards, Growing Finals and Pinyin
+   Syllables, for typing Mandarin Chinese using the Hanyu Pinyin System on
+   circular smartwatch devices. A 15-participant user study reveals input
+   speeds of around 19.4 CCPM for Growing Finals and 18.5 CCPM for Pinyin
+   Syllables. Performance of 2 novel keyboards is compared with a baseline
+   keyboard, Standard QWERTY. 
+
+   Generally speaking, this paper presents two clever ideas to improve
+   Mandarin Chinese text entry on smartwatches. Both of the keyboards
+   exploit special and intrinsic characteristics of the Hanyu Pinyin system.
+   Considering the limited screen size, enlarging possible next letter key
+   by removing impossible letters could reduce the input error rate.
+   However, there are still many issues that need to be addressed to make it
+   a meaningful paper for CHI. Below is a list of issues.
+
+   1. Missing Implementation details 
+   	- For Growing Finals keyboard, I wonder how you determine each possible
+   letter’s area after entering the initial letter? For example, in figure
+   2, “u” appears differently in 2) and 3). I am confused why there are
+   still some areas in grey. Would it be better to take fully advantage of
+   the screen size to make each key larger? And what is your division
+   algorithm behind this?  Do you have any data or study to support your
+   algorithm?
+   	- Similar issue in Pinyin Syllables keyboard. It is still unclear to me
+   how to display all possible finals for the current input state. Although
+   authors have mentioned in the paper that “finals with similar sounds
+   are grouped by color and placed near corresponding QWERT keys if
+   possible”, many implementation details are still missing in the paper. 
+   	- For Pinyin Syllables keyboard, I am also curious about the
+   corresponding percentage of different numbers of possible buttons (2 ~
+   24) in the second stage. If for most cases, there are too many possible
+   buttons in the second stage (e.g. figure 3), then this keyboard would be
+   less useful since it is hard for users to remember too many different
+   layouts. 
+
+   2. Evaluation
+   	- Although I understand such a short period of time puts unfamiliar
+   novel input methods at a distinct disadvantage, I am still disappointed
+   seeing the text entry speed comparison results. Maybe a study with
+   several days (e.g. [1]) is necessary to prove the effectiveness of the
+   input methods.
+   	-  I am also interested in the learning curve of two novel input
+   methods. Besides conducting a study with several days, it is also common
+   to divide testing sentences into several blocks and demonstrate the
+   performance in different blocks (e.g. [2]). 
+   	- Missing statistical analysis of subjective feedback section.
+
+   [1] Aakar Gupta and Ravin Balakrishnan. 2016. DualKey: Miniature Screen
+   Text Entry via Finger Identification. In Proceedings of the 2016 CHI
+   Conference on Human Factors in Computing Systems (CHI '16). ACM, New
+   York, NY, USA, 59-70. DOI: https://doi.org/10.1145/2858036.2858052
+   [2] Chun Yu, Ke Sun, Mingyuan Zhong, Xincheng Li, Peijun Zhao, and
+   Yuanchun Shi. 2016. One-Dimensional Handwriting: Inputting Letters and
+   Words on Smart Glasses. In Proceedings of the 2016 CHI Conference on
+   Human Factors in Computing Systems (CHI '16). ACM, New York, NY, USA,
+   71-82. DOI: https://doi.org/10.1145/2858036.2858542
+
+Rebuttal response
+
+   (blank)
+
+
+------------------------ Submission 3603, Review 3 ------------------------
+
+
+Expertise
+
+   4  (Expert )
+
+Recommendation
+
+   Possibly Reject: The submission is weak and probably shouldn't be accepted, but there is some chance it should get in; 2.0 
+
+Award Nomination
+
+   If accepted, this paper would not be among the top 20% of papers presented at CHI
+
+Review
+
+   This paper proposed two software keyboards for typing Mandarin Chinese on
+   small devices, and compared them with the standard QWERTY keyboard. The
+   two keyboards adapt dynamically based on the current input and the
+   Chinese language model. The viability of these text-entry techniques is
+   demonstrated with a controlled user study. Results showed no improvement
+   in text entry rate, but most participants preferred one of the two
+   keyboards due to reduced error rates and more efficient input mechanics.
+
+   It is laudable that the authors want to improve text entry for non-Latin
+   languages, not only because they are rarely studied but also because of
+   the particularity of these language models. This paper reveals two useful
+   intrinsic characteristics of the Pinyin romanization system: first, the
+   Mandarin Chinese language model is so small that except the first letter
+   in a Pinyin syllable, only 9 unique Latin characters is possible; second,
+   each Pinyin syllable is a combination of an initial sound and a final
+   sound. The two proposed keyboards were based on these characteristic.
+
+   Unfortunately, there are a few critical issues in both technical
+   implementations and the user study.
+
+   1. Technical implementations
+   First, the explanation of the two input methods is far from sufficient.
+   In order to optimize the user experience, it is important to know how
+   Growing Finals enlarges the ambiguous keys, and how Pinyin Syllables
+   arranges the layout. However, this paper gives no description of these
+   algorithms.
+
+   Second, the keyboard adapting algorithms seem to be arbitrary. I tried to
+   understand the two keyboards from inputting examples and the video, but I
+   found some strange behavior of them. For example, in Figure 2 (3), the
+   key group ‘u’ do not include the useless ’o’ and ‘k’, but
+   robs ’t’ from the small key group ‘e’. At a moment in the video,
+   the final sound ‘i’ is at the place of ‘r’, which is far from
+   “preserving the general QWERTY layout”.
+
+   Third, the baseline - the standard QWERTY is a bad design. The paper
+   mentions that this keyboard is used on smartphones by most Chinese. It is
+   erroneous. Almost all the text entry methods on smartphones involve
+   statistical decoding against the fat finger problem. Because the two
+   proposed keyboards leverage language model, it would be a fair comparison
+   to implement a simple Bayesian algorithm in the baseline. A previous work
+   has shown that a Bayesian algorithm achieves satisfactory levels of text
+   input on tiny QWERTY keyboards (Yi, et al. “Is it too small?:
+   Investigating the performances and preferences of users when typing on
+   tiny QWERTY keyboards”).
+
+   2. The user study
+   First, the proposed keyboards do not improve text entry rate. In fact, I
+   am afraid that the baseline may be significantly better - though one-way
+   ANOVA does not show a statistically significant difference, there is a
+   tendency (p = .08) that the standard QWERTY is faster. Actually, a
+   repeated measures ANOVA is needed in a within study, which may lead to a
+   significant difference.
+
+   Second, the paper draws a few conclusions in Subjective Feedback, such as
+   one keyboard leads in terms of perceived speed or perceived accuracy. But
+   there is no statistical analysis to support them.
+
+   Besides these two main points, there are several minor issues that are
+   unclear or must be corrected:
+
+   - The link of open-source implementation reveals information of the
+   authors including their university. For a successful submission, the
+   authors should submit a package of the project and declare it in the
+   paper.
+   - No error bar in Figure 5.
+   - In figure 5, the Y-axis should begin at zero.
+   - How long was the training time? Were the three keyboards easy to learn?
+   - How long was the rest time between two blocks? Did it cause fatigue?
+
+Rebuttal response
+
+   (blank)
+
+
+
