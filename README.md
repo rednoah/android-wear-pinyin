@@ -22,21 +22,21 @@ We have designed and implemented 3 Chinese keyboards for circular smartwatches. 
 
 
 ### Growing Finals Pinyin
-![GrowingFinals](https://raw.githubusercontent.com/rednoah/dual-swipe-pinyin/master/screenshots/GrowingFinals.gif "GrowingFinals")
+![GrowingFinals](screenshots/GrowingFinals.gif "GrowingFinals")
 
 Growing Finals IME exploits an intrinsic characteristic of the Pinyin romanization system: out the 26 letters of the Latin alphabet, 23 can appear as the first letter in a Pinyin syllable, while the remaining 0 to 4 Latin letters of any Pinyin syllable are composed from only 9 unique Latin characters. After the first letter, entering the remaining letters of any Pinyin syllable requires no more than 6 unique keys in any input state. We present a full QWERTY keyboard in the initial state and - depending on the input - adapt and enlarge possible next keys while preserving the general QWERTY layout. This allows for significantly larger keys after entering the initial letter for each syllable and thus improved input speed and accuracy.
 
 
 
 ### Pinyin Syllables
-![PinyinSyllables](https://raw.githubusercontent.com/rednoah/dual-swipe-pinyin/master/screenshots/PinyinSyllables.gif "PinyinSyllables")
+![PinyinSyllables](screenshots/PinyinSyllables.gif "PinyinSyllables")
 
 Pinyin Syllables IME is a 2-stage keyboard that combines an initial and a final sound to produce a Pinyin syllable. The Pinyin language model defines 26 initial sounds and between 2 and 24 (M = 15.4) possible final sounds for different initials. The initial stage presents a pseudo-QWERTY keyboard where u, i, and v are replaced with sh, zh, and ch. Depending on the input, the keyboard will adapt and display all possible finals. Assisting visual search, similar finals are grouped by color and placed near corresponding QWERTY keys. The second stage may contain between 2 and 24 buttons allowing for significantly larger buttons in most cases with the added benefit that a single key press that completes the pinyin syllable may correspond to more than one Latin letter.
 
 
 
 ### Standard Qwerty
-![StandardQwerty](https://raw.githubusercontent.com/rednoah/dual-swipe-pinyin/master/screenshots/StandardQwerty.gif "StandardQwerty")
+![StandardQwerty](screenshots/StandardQwerty.gif "StandardQwerty")
 
 We implement the standard QWERTY keyboard with support for Chinese character entry in addition to our two novel input methods to serve as a baseline for comparison. This keyboard design is used by almost all native speakers from China and language students from abroad that type Chinese characters on a computer or smartphone and thus very familiar to most user.
 
