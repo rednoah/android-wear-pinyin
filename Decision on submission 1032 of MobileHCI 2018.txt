@@ -1,0 +1,299 @@
+Dear Reinhard Pointner -
+
+last week we informed you that we regret to inform you that your submission 
+
+  1032 - Pinyin Aware: Adaptive Chinese Input Methods for Smartwatches
+
+for the MobileHCI 2018 conference has not been accepted. 
+
+The reviews are now available in precision conference and are also enclosing them within this email. We hope that you find the reviews helpful for your future research work. 
+
+Sincerely,
+
+Susanne Boll and Alexandra Weilenmann
+Program Chairs MobileHCI 2018
+
+----------------------------------------------------------------
+
+coordinator (1AC) review
+score 2/5
+
+  Overall
+
+    Weak reject
+
+  Inspiration
+
+    Some insipiring elements
+
+  The Review
+
+    (blank)
+
+  Expertise
+
+    Expert
+
+  The Meta Review
+
+    The authors developed two new adaptive keyboards based on the Hanyu Pinyin system
+    to enable the entry of Chinese text on tiny screens. They compared the new
+    keyboard with the standard Qwerty on a smartwatch in a short-term within-subjects
+    study involving 15 participants. Statistical analysis failed to find a significant
+    effect of technique on entry speed. However, the new techniques yielded a
+    significantly lower error rate and keystrokes per character. Subjective analysis
+    also did not reveal a definite preference towards one technique.
+
+    The paper is interesting and relevant. Personally, I believe much more research is
+    needed to address text entry with languages other than English. Hence, I
+    appreciate the work. However, there are two major issues with the work that
+    refrains me and the reviewers from recommending “accept”.
+
+    First, the results fail to establish superiority of the proposed approaches
+    compared to the baseline, both in terms of entry speed and user preference [R4,
+    R3], most likely due to participants’ preexisted familiarity with the Qwerty
+    layout.
+
+    Second, the first issue could have been addressed by collecting more data through
+    a longitudinal study [R1, R2, R4], which is common practice in the evaluation of
+    adaptive keyboards that dynamically changes layouts. Further, since both new
+    techniques are developed based on the Hanyu Pinyin system, the authors should have
+    used a between-subjects design to eliminate the possibility of skill transfer. It
+    is possible that the data was contaminated due to this.
+
+    In addition, R3 questions the novelty of the techniques and points out a potential
+    error in data analysis.
+
+    The paper is also missing some relevant work [see R2 and R3’s comments]. Further,
+    this paper https://doi.org/10.1007/978-3-319-39516-6_24 reviews and compares
+    several smartwatch text entry techniques.
+
+    Moving forward, I suggest the authors address the above issues, and resubmit their
+    work to another conference. I would like to see this work published in the future.
+
+----------------------------------------------------------------
+
+committee member (2AC) review
+score 2/5
+
+  Overall
+
+    Weak reject
+
+  Inspiration
+
+    Many insipring elements
+
+  The Review
+
+    In this paper, the authors investigate two new input techniques for chinese
+    characters, all based on pinyin.
+
+    Compared to standard QWERTY, the two new techniques leverage unique features of
+    the pinyin transliteration system:
+    - for growing finals, they enlarge the size of most likely chosen keys
+    - for pinyin syllabes, their technique will simply suggest a list of likely
+    possibility to finish the current syllabes.
+
+    These two techniques are compared to a QWERTY baseline in an experiment.
+
+    Overall, the paper is easy to read, and I do appreciate the rationale here. The
+    related work focuses on previous pinyin techniques and the experiment does not
+    seem to have strong flaws.
+
+    There is an issue though: sadly, the results seem to suggest that overall, the
+    QWERTY method is still significantly faster, despite a slightly higher error rate.
+    One would expect both new techniques to be more efficient, but I would assume this
+    is likely due to prior knowledge (QWERTY method is currently a de facto standard
+    on most mobile devices). I see encouraging results in this paper, but I also
+    believe that the study could have been done in a way where the two techniques
+    could have at outperformed or at least reached similar speed.
+
+    Many text entry papers do rely on running multiple long sessions across the span
+    of multiple weeks, to get participants used to new layouts/techniques. Another
+    solution would be to test with people not familiar with pinyin at all, be it non
+    chinese speakers or less tech savy people (e.g. many adults over 45+ are not used
+    to the QWERTY pinyin input method), or run the study for a longer time.
+
+    Before that improvement is done, I cannot argue for accepting this paper.
+
+  Expertise
+
+    Knowledgeable
+
+----------------------------------------------------------------
+
+reviewer 1 review
+score 2/5
+
+  Overall
+
+    Weak reject
+
+  Inspiration
+
+    Some insipiring elements
+
+  The Review
+
+    Contribution 
+    This paper proposed 2 novel adaptive keyboard layouts for Chinese text entry on
+    smartwatches and evaluated the performances on three metrics comparing with the
+    baseline standard QWERTY keyboard. This paper gives a clever and effective
+    solution to solve the limited operation space problem of smartwatches. I think
+    once users are accustomed to the input mode, the input efficiency of smartwatches
+    will be greatly improved.
+
+    Problems
+    Sec 3.2: “An analysis of the language model reveals that for each of the 26
+    initial sounds, there are between 2 and 24 (M = 15.4, SD = 5.6) possible final
+    sounds”. I believe a citation should be given.
+    Some abbreviations and concepts in the paper lack of necessary explanations and
+    citations, such as M, SD (Sec 3.2), F, p (Sec 4.3.1), Holm-Bonferroni correction
+    (Sec 4.3.2), P13 (Sec 4.3.4) .
+    There are only 375 test samples for each layout, the experimental results of Table
+    1 are inadequate and not rigorous enough.
+    The calculation method of Figure 5 is not defined, and the degree of Satisfaction
+    is lack of clear explanation. Please give a reasonable mathematical formula.
+    Obviously, the adaptive keyboard will bring visual search problem. Users need to
+    re-recognize the keyboard when input new key, which leads to a long time pause and
+    will interrupt input, such problem is particularly evident in Pinyin Syllables. I
+    wonder if there is a better solution to this problem.
+
+  Expertise
+
+    Expert
+
+----------------------------------------------------------------
+
+reviewer 2 review
+score 2/5
+
+  Overall
+
+    Weak reject
+
+  Inspiration
+
+    Some insipiring elements
+
+  The Review
+
+    This paper introduces two novel Chinese adaptive keyboards for smartwatches. Using
+    an opensource Chinese character prediction engine, these two keyboards show a
+    limited number of possible subsequent letters, providing a better user experience
+    on small watch screen. The authors conduct a user study with 15 participants. The
+    two keyboards do not achieve significant better text entry speed. However, they
+    reduce error rates and receive preference from participants.
+
+    The authors mentioned the limitation of the user study that "each participant was
+    only able to use each keyboard for about 20 minutes". A longer user study with
+    multiple sessions (across multiple days) may help to better understand the
+    performance of Growing Finals and Pinyin Syllables, and their learning curves.
+
+    Growing Finals exploits an intrinsic characteristic of Pinyin: the first letter
+    has 23 possibilities, while the rest letters only have 9 or fewer possibilities.
+    The limited number of possibilities really helps to enlarge the area for each key.
+    The authors do a good job in citing PinyinPie, which uses this intrinsic
+    characteristic to optimize soft keyboard. The authors also mention, in further
+    research, "entering the remaining letters of any Pinyin syllable requires no more
+    than 6 unique possible next letters". Please cite this research as well. Pinyin
+    Syllables further exploits this characteristic by predicting all possible rest
+    letters combination. I suggest the authors to cite previous work that facilitates
+    this characteristic as well.
+
+    The authors may clarify that, in the baseline QWERTY keyboard, can user just type
+    the first letter of each Chinese character and see predictions? From figures and
+    videos, I notice users type all letters of each Chinese character. For many
+    Chinese words, typing the first letter of each Chinese character is enough to
+    predict the final word. It may increase typing speed significantly.
+
+    I really appreciate that the authors decide to opensource their code so that other
+    developers and researchers can build upon it and potentially do a comparison with
+    other input methods. However, I suggest the authors create a separate repository
+    using an anonymous account on Github. The Github link in the paper makes it
+    possible to trace back to an author and the author's institute.
+
+  Expertise
+
+    Knowledgeable
+
+----------------------------------------------------------------
+
+reviewer 3 review
+score 2/5
+
+  Overall
+
+    Weak reject
+
+  Inspiration
+
+    Uninspiring
+
+  The Review
+
+    In this submission, the authors designed and evaluated three software keyboards,
+    i.e. Standard QWERTY, Growing Finals, and Pinyin Syllabus, to enter Chinese
+    characters on smart watches. Among them, the Growth Finals design uses the
+    regularity of character-level prefixes in pinyin syllabus to reduce the number of
+    choices and enlarge the size of the next possible characters dynamically. The idea
+    to use a character-level prefix model to input text input has been explored by
+    MacKenzie et al (LetterWise [ref1]) for 12-key keypads, by Liu et al (PinyinPie
+    [4]), and by Apple (in iOS keyboards for English and Pinyin, Apple iOS keyboards
+    only adjusts the “virtual hitting region” rather than the visual border after each
+    keystroke). The Pinyin Syllabus design is essentially an “initial + final”
+    (ShuangPin) layout available in many commercial Pinyin input methods and research
+    prototypes (e.g. Liu et al [5]).
+
+    The novelty of this submission primarily lies in the implementation and evaluation
+    of common optimized Pinyin layouts on a new platform (i.e. smart watches) rather
+    than inventing new techniques for Pinyin input. However, there are two major
+    concerns regarding the evaluation session:
+
+    * Negative outcome. Both the Growing Finals technique and  the Pinyin Syllabus
+    were slower than the baseline QWERTY. While negative results could still be
+    valuable and inspirational if the authors go deeper in data analysis and reveal
+    some interesting insights. Unfortunately, the data analysis in this submission is
+    pretty shallow and the authors didn’t go beyond comparing some common metrics
+    across these three techniques. In retrospect, this result is not surprising -  all
+    the new designs focused on reducing the syllabus entry time of Pinyin, but the
+    real bottleneck of pinyin input is the choice reaction time [ref2], which was not
+    improved at all in the proposed systems. In addition, a dynamic layout which
+    changes after each keystroke may lead to increased choice-reaction time because it
+    will be harder for the experienced users to  memorize key-stroke patterns or
+    transfer their existing skills in QWERTY input.
+
+
+    * Incorrect Data Analysis. As reported by the authors, they used a one factor
+    (three levels) within-subjects design with 15 participants. As such, the degrees-
+    of-freedom in the follow-up analysis should be F(2, 14) rather than F(2, 42) - the
+    authors may have treated their experimental design as a between-subjects design in
+    data analysis (pp4).  When reporting the results of pairwise comparisons, the
+    authors should report both the p value and the DoF.
+
+
+    Considering that 1) Chinese input in Pinyin is a well established research
+    direction for over 30 years and 2) a short paper in MobileHCI has limited pages to
+    report research findings, the writing in the current draft should be significantly
+    tightened to focus on truly novel ideas. For example, a major portion of the
+    contents in pp2 can be reduced by citing related work. At the same time, some
+    unique design details, such as how the location and sizes of the growing finals
+    should be included to justify the current design.
+
+    In summary, given the limited novelty in proposed new techniques and flaws in the
+    current experimental analysis, I believe this submission does not include
+    sufficient contributions to the research community at this moment and I argue for
+    rejecting it.
+
+
+    [Ref1] MacKenzie S. et al, LetterWise: Prefix-based Disambiguation for Mobile Text
+    Input, UIST 2001.
+    [Ref2] Wang, J. et al, Chinese Input with Keyboard and Eye-tracking: an Anatomical
+    Study, CHI 2001.
+
+  Expertise
+
+    Expert
+
+----------------------------------------------------------------
